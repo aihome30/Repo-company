@@ -1,3 +1,4 @@
+import AICustomerService from '@/components/AICustomerService';
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import Navbar from '@/components/Navbar';
@@ -73,7 +74,8 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased">
         <Navbar />
-        <main>{children}</main>
+        <main>{children}
+        <AICustomerService /></main>
         <Footer />
       </body>
     </html>
