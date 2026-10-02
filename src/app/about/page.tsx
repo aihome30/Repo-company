@@ -88,7 +88,7 @@ export default function AboutPage() {
           <p className="text-blue-100 mb-6">
             Let's discuss how we can help you achieve your digital goals.
           </p>
-          <Link href="/contact" className="btn bg-white text-blue-600 hover:bg-blue-50">
+          <Link href="/contact" className="btn bg-slate-950 text-white text-blue-600 hover:bg-blue-50">
             Start Your Journey
           </Link>
         </div>

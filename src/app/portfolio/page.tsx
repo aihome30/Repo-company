@@ -92,7 +92,7 @@ export default function PortfolioPage() {
           <p className="text-blue-100 mb-6">
             Let's work together to build something amazing.
           </p>
-          <Link href="/contact" className="btn bg-white text-blue-600 hover:bg-blue-50">
+          <Link href="/contact" className="btn bg-slate-950 text-white text-blue-600 hover:bg-blue-50">
             Start Your Project
           </Link>
         </div>

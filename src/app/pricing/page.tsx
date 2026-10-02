@@ -94,7 +94,7 @@ export default function PricingPage() {
                 a: "Absolutely! You can upgrade at any time with prorated pricing."
               },
             ].map((faq, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-lg">
+              <div key={idx} className="bg-slate-950 text-white p-6 rounded-lg">
                 <h4 className="font-bold text-gray-900 mb-2">{faq.q}</h4>
                 <p className="text-muted">{faq.a}</p>
               </div>
