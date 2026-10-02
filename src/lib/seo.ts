@@ -22,7 +22,7 @@ export function generateSEOMetadata(props: SEOProps): Metadata {
       description: props.description,
       url: url.toString(),
       type: props.ogType || 'website',
-      siteName: 'PT. Rizki AI',
+      siteName: 'wspend',
       images: props.ogImage
         ? [{ url: props.ogImage, width: 1200, height: 630 }]
         : undefined,

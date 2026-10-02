@@ -2,7 +2,7 @@ export function generateOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'PT. Rizki AI',
+    name: 'wspend',
     url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
     logo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/logo.png`,
     description: 'Professional web development and digital solutions for startups, UMKMs, and enterprises',
@@ -12,14 +12,14 @@ export function generateOrganizationSchema() {
       addressCountry: 'ID',
     },
     sameAs: [
-      'https://twitter.com/pt-rizki-ai',
-      'https://linkedin.com/company/pt-rizki-ai',
-      'https://github.com/pt-rizki-ai',
+      'https://twitter.com/pt-wspend',
+      'https://linkedin.com/company/pt-wspend',
+      'https://github.com/pt-wspend',
     ],
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Support',
-      email: 'hello@pt-rizki-ai.com',
+      email: 'hello@pt-wspend.com',
       telephone: '+62-812-3456-7890',
     },
   };
@@ -59,7 +59,7 @@ export function generateServiceSchema(service: {
     }),
     provider: {
       '@type': 'Organization',
-      name: 'PT. Rizki AI',
+      name: 'wspend',
     },
   };
 }

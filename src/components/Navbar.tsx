@@ -19,9 +19,9 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800 text-white">
       <div className="container flex justify-between items-center py-4">
         <Link href="/" className="flex items-center gap-3 group">
-          <img src="/logo.svg" alt="PT. Rizki AI Logo" className="w-10 h-10 rounded-xl shadow-lg transition-transform group-hover:scale-105" />
+          <img src="/logo.svg" alt="wspend Logo" className="w-10 h-10 rounded-xl shadow-lg transition-transform group-hover:scale-105" />
           <div className="flex flex-col">
-            <span className="text-xl font-extrabold tracking-tight text-white group-hover:text-blue-400 transition-colors">PT. Rizki AI</span>
+            <span className="text-xl font-extrabold tracking-tight text-white group-hover:text-blue-400 transition-colors">wspend</span>
             <span className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Intelligence & Tech</span>
           </div>
         </Link>

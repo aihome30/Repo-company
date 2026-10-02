@@ -46,7 +46,7 @@ export default function PrivacyPage() {
             <div>
               <h2 className="heading-sm mb-3">5. Contact Us</h2>
               <p className="text-muted">
-                If you have questions about our privacy practices, please contact us at hello@pt-rizki-ai.com
+                If you have questions about our privacy practices, please contact us at hello@pt-wspend.com
               </p>
             </div>
           </div>

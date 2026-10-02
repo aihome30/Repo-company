@@ -13,7 +13,7 @@ export function generateContactEmailToAdmin(data: {
   message: string;
 }): EmailTemplate {
   return {
-    to: 'hello@pt-rizki-ai.com',
+    to: 'hello@pt-wspend.com',
     subject: `New Lead: ${data.name} - ${data.service}`,
     html: `
       <h2>New Contact Form Submission</h2>
@@ -25,7 +25,7 @@ export function generateContactEmailToAdmin(data: {
       <p><strong>Message:</strong></p>
       <p>${escapeHtml(data.message).replace(/\n/g, '<br>')}</p>
       <hr>
-      <p><em>This lead came from pt-rizki-ai.com contact form</em></p>
+      <p><em>This lead came from pt-wspend.com contact form</em></p>
     `,
   };
 }
@@ -33,12 +33,12 @@ export function generateContactEmailToAdmin(data: {
 export function generateContactEmailToUser(email: string, name: string): EmailTemplate {
   return {
     to: email,
-    subject: 'Thank you for contacting PT. Rizki AI',
+    subject: 'Thank you for contacting wspend',
     html: `
       <p>Hi ${escapeHtml(name)},</p>
-      <p>Thank you for reaching out to PT. Rizki AI! We've received your message and will get back to you within 24 hours.</p>
-      <p>In the meantime, feel free to explore our services and portfolio at <a href="https://pt-rizki-ai.com">pt-rizki-ai.com</a></p>
-      <p>Best regards,<br>The PT. Rizki AI Team</p>
+      <p>Thank you for reaching out to wspend! We've received your message and will get back to you within 24 hours.</p>
+      <p>In the meantime, feel free to explore our services and portfolio at <a href="https://pt-wspend.com">pt-wspend.com</a></p>
+      <p>Best regards,<br>The wspend Team</p>
     `,
   };
 }

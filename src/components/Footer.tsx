@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div>
-            <h3 className="text-xl font-bold text-blue-400 mb-4">Rizki AI</h3>
+            <h3 className="text-xl font-bold text-blue-400 mb-4">wspend</h3>
             <p className="text-gray-400">
               Professional web development and digital solutions for your business.
             </p>
@@ -79,7 +79,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400">
-            &copy; {currentYear} PT. Rizki AI. All rights reserved.
+            &copy; {currentYear} wspend. All rights reserved.
           </p>
           <div className="flex gap-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-400 hover:text-white transition">

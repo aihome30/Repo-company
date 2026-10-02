@@ -9,8 +9,8 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
   ),
   title: {
-    default: 'PT. Rizki AI - Web Development & Digital Solutions',
-    template: '%s | PT. Rizki AI',
+    default: 'wspend - Web Development & Digital Solutions',
+    template: '%s | wspend',
   },
   description:
     'Professional web development, backend services, and DevOps solutions for startups, UMKMs, and enterprises in Indonesia.',
@@ -24,20 +24,20 @@ export const metadata: Metadata = {
     'backend development',
     'DevOps',
   ],
-  authors: [{ name: 'PT. Rizki AI' }],
-  creator: 'PT. Rizki AI',
+  authors: [{ name: 'wspend' }],
+  creator: 'wspend',
   openGraph: {
     type: 'website',
     locale: 'id_ID',
     url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
-    title: 'PT. Rizki AI - Web Development & Digital Solutions',
+    title: 'wspend - Web Development & Digital Solutions',
     description:
       'Professional web development, backend services, and DevOps solutions.',
-    siteName: 'PT. Rizki AI',
+    siteName: 'wspend',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PT. Rizki AI',
+    title: 'wspend',
     description: 'Professional web development & digital solutions',
   },
   robots: {

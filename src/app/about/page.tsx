@@ -6,7 +6,7 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="section bg-blue-600 text-white">
         <div className="container max-w-3xl">
-          <h1 className="heading-md text-white mb-6">About PT. Rizki AI</h1>
+          <h1 className="heading-md text-white mb-6">About wspend</h1>
           <p className="text-xl text-blue-100">
             We're a team of passionate developers and designers dedicated to helping businesses
             succeed through technology and innovation.
@@ -19,7 +19,7 @@ export default function AboutPage() {
         <div className="container max-w-3xl">
           <h2 className="heading-md mb-6">Our Story</h2>
           <p className="text-muted mb-4">
-            PT. Rizki AI was founded with a simple mission: to make world-class web development
+            wspend was founded with a simple mission: to make world-class web development
             and digital solutions accessible to businesses of all sizes.
           </p>
           <p className="text-muted mb-4">

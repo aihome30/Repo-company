@@ -28,10 +28,10 @@ export default function ContactPage() {
                 <h3 className="heading-sm mb-2">Email</h3>
                 <p className="text-muted">
                   <a
-                    href="mailto:hello@pt-rizki-ai.com"
+                    href="mailto:hello@pt-wspend.com"
                     className="text-blue-600 hover:text-blue-800"
                   >
-                    hello@pt-rizki-ai.com
+                    hello@pt-wspend.com
                   </a>
                 </p>
               </div>
