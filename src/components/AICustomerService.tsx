@@ -13,8 +13,8 @@ export default function AICustomerService() {
   const [messages, setMessages] = useState<Message[]>([
     { 
       role: 'assistant', 
-      content: 'Halo kak! 👋 Selamat datang di wspend. Saya Asisten AI siap bantu jelaskan produk & layanan kami. Ada yang bisa dibantu hari ini?',
-      suggestions: ['Mau lihat daftar harga paket', 'Apa saja layanan wspend?', 'Cara konsultasi gratis']
+      content: 'Halo kak! 👋 Selamat datang di wspend. Mau cari tahu info seputar layanan atau harga pembuatan web kami?',
+      suggestions: ['Daftar Harga Paket', 'Layanan wspend', 'Konsultasi Gratis']
     }
   ]);
   const [input, setInput] = useState('');
@@ -35,9 +35,10 @@ export default function AICustomerService() {
     setLoading(true);
 
     setTimeout(() => {
-      const lower = userMsg.toLowerCase();
+      const lower = userMsg.toLowerCase().trim();
       
-      const forbidden = ['coding', 'python', 'javascript', 'html', 'css', 'resep', 'cuaca', 'politik', 'buatkan game', 'tulis kode', 'program', 'nyanyi', 'matematika'];
+      // Guardrails against coding / unrelated topics
+      const forbidden = ['coding', 'python', 'javascript', 'html', 'css', 'resep', 'cuaca', 'politik', 'buatkan game', 'tulis kode', 'program', 'nyanyi', 'matematika', 'fisika'];
       if (forbidden.some(word => lower.includes(word))) {
         setMessages((prev: Message[]) => [...prev, {
           role: 'assistant',
@@ -51,26 +52,54 @@ export default function AICustomerService() {
       let reply = "";
       let nextSuggestions = ['Lihat Harga Paket', 'Layanan wspend', 'Hubungi Tim Kami'];
 
-      if (lower.includes('harga') || lower.includes('biaya') || lower.includes('paket') || lower.includes('starter') || lower.includes('pro')) {
-        reply = `Tentu kak! wspend punya 3 pilihan paket terbaik yang sangat ramah untuk UMKM & Startup di Indonesia:\n\n1️⃣ **Starter UMKM (Rp 2.5 Juta)**\n• Cocok untuk landing page & profil bisnis\n• SEO dasar & Google Maps setup\n\n2️⃣ **Startup Pro (Rp 7.5 Juta)**\n• Multi-page website & Backend API\n• Database integration & Security\n\n3️⃣ **Enterprise / Custom (Rp 15 Juta+)**\n• Sistem skala besar & AI Agent integration\n\nMau pilih paket yang mana nih kak?`;
+      if (['hai', 'hallo', 'halo', 'pagi', 'siang', 'sore', 'malam', 'permisi', 'p'].some(greeting => lower === greeting || lower.startsWith(greeting))) {
+        reply = `Halo juga kak! 😊 Ada yang bisa saya bantu seputar layanan pembuatan website atau sistem digital di wspend?`;
+        nextSuggestions = ['Daftar Harga Paket', 'Layanan wspend', 'Cara Order'];
+      } else if (lower.includes('harga') || lower.includes('biaya') || lower.includes('paket') || lower.includes('starter') || lower.includes('pro')) {
+        reply = `Tentu kak! wspend punya 3 pilihan paket terbaik yang sangat ramah untuk UMKM & Startup di Indonesia:
+
+1️⃣ **Starter UMKM (Rp 2.5 Juta)**
+• Landing page & profil bisnis
+• SEO dasar & Google Maps setup
+
+2️⃣ **Startup Pro (Rp 7.5 Juta)**
+• Multi-page website & Backend API
+• Database integration & Security
+
+3️⃣ **Enterprise / Custom (Rp 15 Juta+)**
+• Sistem skala besar & AI Agent integration
+
+Mau pilih paket yang mana nih kak?`;
         nextSuggestions = ['Pilih Starter UMKM', 'Pilih Startup Pro', 'Konsultasi Custom'];
       } else if (lower.includes('layanan') || lower.includes('jasa') || lower.includes('produk') || lower.includes('buat website') || lower.includes('bikin')) {
-        reply = `Kami siap bantu percepat bisnis kakak dengan layanan profesional:\n\n🌐 **Pembuatan Website & Landing Page** (Mulai Rp 2.5 Juta)\n⚙️ **Pengembangan Sistem & API** (Mulai Rp 5 Juta)\n🤖 **Automasi & AI Agent Bisnis** (Mulai Rp 7.5 Juta)\n🚀 **DevOps & Cloud Deployment** (Mulai Rp 4 Juta)\n\nAda layanan yang menarik perhatian kakak?`;
+        reply = `Kami siap bantu percepat bisnis kakak dengan layanan profesional:
+
+🌐 **Pembuatan Website & Landing Page** (Mulai Rp 2.5 Juta)
+⚙️ **Pengembangan Sistem & API** (Mulai Rp 5 Juta)
+🤖 **Automasi & AI Agent Bisnis** (Mulai Rp 7.5 Juta)
+🚀 **DevOps & Cloud Deployment** (Mulai Rp 4 Juta)
+
+Ada layanan yang menarik perhatian kakak?`;
         nextSuggestions = ['Berapa estimasi waktu?', 'Cara order layanan', 'Lihat Harga Paket'];
       } else if (lower.includes('konsultasi') || lower.includes('kontak') || lower.includes('hubungi') || lower.includes('order') || lower.includes('cara')) {
         reply = `Gampang banget kak! Kakak bisa langsung klik menu **Contact** di atas untuk mengisi formulir konsultasi gratis, atau ceritakan kebutuhan proyek kakak di sini nanti saya sampaikan langsung ke tim expert kami! 😊`;
         nextSuggestions = ['Lihat Layanan', 'Cek Daftar Harga'];
       } else if (lower.includes('wspend') || lower.includes('siapa') || lower.includes('tentang') || lower.includes('keunggulan')) {
-        reply = `**wspend** adalah software house & digital agency terdepan di Indonesia! 🚀 Keunggulan kami:\n• Harga transparan & ramah di kantong\n• Pengerjaan cepat & tepat\n• Didukung teknologi modern & AI Agents\n\nAda yang ingin didiskusikan mengenai proyek kakak?`;
+        reply = `**wspend** adalah software house & digital agency terdepan di Indonesia! 🚀 Keunggulan kami:
+• Harga transparan & ramah di kantong
+• Pengerjaan cepat & tepat
+• Didukung teknologi modern & AI Agents
+
+Ada yang ingin didiskusikan mengenai proyek kakak?`;
         nextSuggestions = ['Lihat Harga Paket', 'Layanan wspend', 'Hubungi Tim Kami'];
       } else {
-        reply = `Menarik sekali kak! Untuk kebutuhan tersebut, wspend siap membantu mewujudkannya dengan standar kualitas tinggi dan harga bersahabat. Mau saya tunjukkan rincian harga atau layanan kami?`;
+        reply = `Baik kak, untuk informasi tersebut atau pemesanan layanan wspend, kakak bisa langsung cek menu Layanan dan Harga kami, atau langsung konsultasi gratis dengan tim kami. Ada detail lain yang ingin ditanyakan?`;
         nextSuggestions = ['Lihat Daftar Harga', 'Layanan wspend', 'Konsultasi Gratis'];
       }
 
       setMessages((prev: Message[]) => [...prev, { role: 'assistant', content: reply, suggestions: nextSuggestions }]);
       setLoading(false);
-    }, 600);
+    }, 500);
   };
 
   return (
@@ -166,7 +195,7 @@ export default function AICustomerService() {
               type="text"
               value={input}
               onChange={e => setInput(e.target.value)}
-              placeholder="Ketik pertanyaan atau pilih tombol di atas..."
+              placeholder="Ketik pesan atau pilih tombol di atas..."
               className="flex-1 px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500"
             />
             <button
