@@ -66,7 +66,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200">
+        <div className="md:hidden bg-slate-950/95 backdrop-blur-2xl border-t border-slate-800">
           <div className="container py-4 flex flex-col gap-4">
             {navLinks.map((link) => (
               <Link
