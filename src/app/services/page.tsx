@@ -29,10 +29,10 @@ export default function ServicesPage() {
                 <p className="text-muted mb-4">{service.description}</p>
 
                 <div className="mb-6">
-                  <h4 className="font-bold text-gray-900 mb-2">Key Features:</h4>
+                  <h4 className="font-bold text-slate-100 mb-2">Key Features:</h4>
                   <ul className="space-y-1">
                     {service.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center text-gray-700">
+                      <li key={idx} className="flex items-center text-slate-300">
                         <span className="text-blue-600 mr-2">✓</span>
                         {feature}
                       </li>

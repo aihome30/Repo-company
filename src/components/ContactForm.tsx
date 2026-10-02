@@ -61,7 +61,7 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Name */}
         <div>
-          <label className="block text-gray-700 font-medium mb-2">
+          <label className="block text-slate-300 font-medium mb-2">
             Name *
           </label>
           <input
@@ -77,7 +77,7 @@ export default function ContactForm() {
 
         {/* Email */}
         <div>
-          <label className="block text-gray-700 font-medium mb-2">
+          <label className="block text-slate-300 font-medium mb-2">
             Email *
           </label>
           <input
@@ -95,7 +95,7 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Phone */}
         <div>
-          <label className="block text-gray-700 font-medium mb-2">Phone</label>
+          <label className="block text-slate-300 font-medium mb-2">Phone</label>
           <input
             type="tel"
             {...register('phone')}
@@ -106,7 +106,7 @@ export default function ContactForm() {
 
         {/* Company */}
         <div>
-          <label className="block text-gray-700 font-medium mb-2">
+          <label className="block text-slate-300 font-medium mb-2">
             Company
           </label>
           <input
@@ -120,7 +120,7 @@ export default function ContactForm() {
 
       {/* Service */}
       <div>
-        <label className="block text-gray-700 font-medium mb-2">
+        <label className="block text-slate-300 font-medium mb-2">
           Service Interest *
         </label>
         <select
@@ -140,7 +140,7 @@ export default function ContactForm() {
 
       {/* Message */}
       <div>
-        <label className="block text-gray-700 font-medium mb-2">
+        <label className="block text-slate-300 font-medium mb-2">
           Message *
         </label>
         <textarea

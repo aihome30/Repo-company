@@ -11,7 +11,7 @@ export default function CTA() {
           Get in touch with our team to discuss your requirements and receive a
           personalized proposal.
         </p>
-        <Link href="/contact" className="btn bg-white text-blue-600 hover:bg-blue-50 text-lg">
+        <Link href="/contact" className="btn bg-slate-900 border border-slate-800 text-blue-600 hover:bg-blue-50 text-lg">
           Contact Us Today
         </Link>
       </div>

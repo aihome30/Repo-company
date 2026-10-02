@@ -42,14 +42,14 @@ export default function PricingPage() {
                   <span className="text-5xl font-bold text-blue-600">
                     ${pkg.price.toLocaleString()}
                   </span>
-                  <span className="text-gray-600 ml-2">per {pkg.period}</span>
+                  <span className="text-slate-400 ml-2">per {pkg.period}</span>
                 </div>
 
                 <ul className="space-y-3 mb-8">
                   {pkg.features.map((feature, fIdx) => (
                     <li key={fIdx} className="flex items-start">
                       <span className="text-blue-600 mr-3 font-bold">✓</span>
-                      <span className="text-gray-700">{feature}</span>
+                      <span className="text-slate-300">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -59,7 +59,7 @@ export default function PricingPage() {
                   className={`btn w-full text-center ${
                     idx === 1
                       ? 'btn-primary'
-                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                      : 'bg-gray-100 text-slate-100 hover:bg-gray-200'
                   }`}
                 >
                   Get Started
@@ -95,7 +95,7 @@ export default function PricingPage() {
               },
             ].map((faq, idx) => (
               <div key={idx} className="bg-slate-950 text-white p-6 rounded-lg">
-                <h4 className="font-bold text-gray-900 mb-2">{faq.q}</h4>
+                <h4 className="font-bold text-slate-100 mb-2">{faq.q}</h4>
                 <p className="text-muted">{faq.a}</p>
               </div>
             ))}
