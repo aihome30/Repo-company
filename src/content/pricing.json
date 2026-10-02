@@ -1,50 +1,43 @@
 {
   "packages": [
     {
-      "id": "starter",
-      "name": "Starter",
-      "price": 3000,
-      "period": "project",
-      "description": "Perfect for startups and small businesses",
+      "name": "Starter UMKM",
+      "price": "Rp 2.500.000",
+      "period": "one-time",
+      "description": "Cocok untuk UMKM, profil bisnis, dan landing page cepat dengan SEO dasar.",
       "features": [
-        "5-8 page website",
-        "Responsive design",
-        "Basic SEO",
-        "Contact form",
-        "1 month support",
-        "Mobile optimized"
+        "Responsive Landing Page",
+        "Domain & Hosting Setup",
+        "SEO Dasar & Google Maps",
+        "Form Kontak WhatsApp",
+        "Revisi 2 Kali"
       ]
     },
     {
-      "id": "professional",
-      "name": "Professional",
-      "price": 8000,
-      "period": "project",
-      "description": "Great for growing businesses",
+      "name": "Startup Pro",
+      "price": "Rp 7.500.000",
+      "period": "one-time",
+      "description": "Solusi lengkap untuk startup & perusahaan berkembang dengan fitur kustom.",
       "features": [
-        "Web application",
-        "API integration",
-        "Advanced SEO",
-        "E-commerce ready",
-        "3 months support",
-        "Analytics setup",
-        "Performance optimization"
+        "Multi-page Company Profile",
+        "Custom Backend API",
+        "Database Integration",
+        "Advanced Security & SSL",
+        "Analytics Dashboard",
+        "Dukungan Prioritas 1 Bulan"
       ]
     },
     {
-      "id": "enterprise",
-      "name": "Enterprise",
-      "price": 30000,
+      "name": "Enterprise / Custom",
+      "price": "Rp 15.000.000+",
       "period": "project",
-      "description": "Complete digital transformation",
+      "description": "Sistem skala besar, microservices, AI agents, dan infrastruktur cloud penuh.",
       "features": [
-        "Custom platform",
-        "Unlimited integrations",
-        "24/7 support",
-        "Dedicated team",
-        "12 months support",
-        "Infrastructure management",
-        "Compliance & security"
+        "Full-stack Custom App",
+        "AI Agent Integration",
+        "Kubernetes & DevOps Setup",
+        "Load Testing & Security Audit",
+        "Garansi & Maintenance 6 Bulan"
       ]
     }
   ]
