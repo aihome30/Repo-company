@@ -1,0 +1,13 @@
+{
+  "buildCommand": "npm run build",
+  "installCommand": "npm ci",
+  "deploymentType": "npm",
+  "env": {
+    "NEXT_PUBLIC_SITE_URL": "@site_url"
+  },
+  "regions": ["sin1"],
+  "projectSettings": {
+    "sourceFilesOutsideRootDirectory": false,
+    "buildCommand": "npm run build"
+  }
+}
