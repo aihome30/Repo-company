@@ -2,43 +2,20 @@
 
 import { useState, useRef, useEffect } from 'react';
 
-const KNOWLEDGE_BASE = [
-  {
-    keywords: ['harga', 'biaya', 'paket', 'starter', 'pro', 'enterprise', 'murah', 'tarif'],
-    answer: `wspend menyediakan 3 paket utama yang ramah untuk UMKM & Startup di Indonesia:
-1. **Starter UMKM (Rp 2.5 Juta):** Cocok untuk landing page, profil bisnis, dan SEO dasar.
-2. **Startup Pro (Rp 7.5 Juta):** Solusi lengkap multi-page, backend API, & database.
-3. **Enterprise / Custom (Rp 15 Juta+):** Sistem skala besar, AI agents, & DevOps penuh.`
-  },
-  {
-    keywords: ['layanan', 'jasa', 'produk', 'buat website', 'bikin web', 'api', 'devops', 'ai agent', 'solusi'],
-    answer: `Layanan unggulan wspend meliputi:
-- **Pembuatan Website & Landing Page** (Mulai Rp 2.5 Juta)
-- **Pengembangan Sistem & API Backend** (Mulai Rp 5 Juta)
-- **Automasi & AI Agent Bisnis** (Mulai Rp 7.5 Juta)
-- **DevOps & Cloud Deployment** (Mulai Rp 4 Juta)`
-  },
-  {
-    keywords: ['kontak', 'hubungi', 'whatsapp', 'email', 'pesan', 'order', 'pesan jasa', 'konsultasi'],
-    answer: `Anda dapat langsung berkonsultasi secara gratis dengan tim kami melalui menu **Contact** di atas, atau mengirimkan detail kebutuhan proyek Anda ke email kami.`
-  },
-  {
-    keywords: ['wspend', 'siapa', 'perusahaan', 'tentang', 'about'],
-    answer: `**wspend** adalah agensi digital & software house profesional di Indonesia yang berfokus pada pengembangan web berkecepatan tinggi, integrasi API, dan automasi AI untuk mengakselerasi bisnis Anda.`
-  }
-];
-
-const SUGGESTIONS = [
-  "Berapa harga paket?",
-  "Apa saja layanan wspend?",
-  "Bagaimana cara konsultasi?",
-  "Apa keunggulan wspend?"
-];
+interface Message {
+  role: 'assistant' | 'user';
+  content: string;
+  suggestions?: string[];
+}
 
 export default function AICustomerService() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Halo! 👋 Selamat datang di wspend. Saya Asisten AI produk kami. Ada yang ingin Anda ketahui seputar layanan atau harga kami?' }
+  const [messages, setMessages] = useState<Message[]>([
+    { 
+      role: 'assistant', 
+      content: 'Halo kak! 👋 Selamat datang di wspend. Saya Asisten AI siap bantu jelaskan produk & layanan kami. Ada yang bisa dibantu hari ini?',
+      suggestions: ['Mau lihat daftar harga paket', 'Apa saja layanan wspend?', 'Cara konsultasi gratis']
+    }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -53,43 +30,47 @@ export default function AICustomerService() {
     if (!query.trim() || loading) return;
 
     const userMsg = query.trim();
-    setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
+    setMessages((prev: Message[]) => [...prev, { role: 'user', content: userMsg }]);
     if (!textToSend) setInput('');
     setLoading(true);
 
     setTimeout(() => {
       const lower = userMsg.toLowerCase();
       
-      const forbidden = ['coding', 'python', 'javascript', 'html', 'css', 'resep', 'cuaca', 'politik', 'buatkan game', 'tulis kode', 'program', 'nyanyi'];
+      const forbidden = ['coding', 'python', 'javascript', 'html', 'css', 'resep', 'cuaca', 'politik', 'buatkan game', 'tulis kode', 'program', 'nyanyi', 'matematika'];
       if (forbidden.some(word => lower.includes(word))) {
-        setMessages(prev => [...prev, {
+        setMessages((prev: Message[]) => [...prev, {
           role: 'assistant',
-          content: 'Maaf 🙏 Saya adalah Asisten AI wspend yang khusus membantu menjelaskan produk, layanan, dan informasi seputar wspend saja. Saya tidak dapat menulis kode atau membahas hal di luar produk kami.'
+          content: 'Wah, kalau itu di luar keahlian saya kak! 😅 Saya khusus bertugas sebagai Asisten Produk wspend untuk membantu menjelaskan layanan, harga, dan solusi digital kami. Ada info produk wspend yang ingin kakak tanyakan?',
+          suggestions: ['Lihat Harga Paket', 'Layanan wspend', 'Hubungi Tim Kami']
         }]);
         setLoading(false);
         return;
       }
 
-      let reply = "Terima kasih atas pertanyaannya! wspend berfokus menyediakan solusi pembuatan website, sistem API, dan AI Agent untuk bisnis Anda. Ada hal spesifik tentang produk kami yang ingin Anda tanyakan?";
+      let reply = "";
+      let nextSuggestions = ['Lihat Harga Paket', 'Layanan wspend', 'Hubungi Tim Kami'];
 
-      for (const kb of KNOWLEDGE_BASE) {
-        if (kb.keywords.some(kw => lower.includes(kw))) {
-          reply = kb.answer;
-          break;
-        }
+      if (lower.includes('harga') || lower.includes('biaya') || lower.includes('paket') || lower.includes('starter') || lower.includes('pro')) {
+        reply = `Tentu kak! wspend punya 3 pilihan paket terbaik yang sangat ramah untuk UMKM & Startup di Indonesia:\n\n1️⃣ **Starter UMKM (Rp 2.5 Juta)**\n• Cocok untuk landing page & profil bisnis\n• SEO dasar & Google Maps setup\n\n2️⃣ **Startup Pro (Rp 7.5 Juta)**\n• Multi-page website & Backend API\n• Database integration & Security\n\n3️⃣ **Enterprise / Custom (Rp 15 Juta+)**\n• Sistem skala besar & AI Agent integration\n\nMau pilih paket yang mana nih kak?`;
+        nextSuggestions = ['Pilih Starter UMKM', 'Pilih Startup Pro', 'Konsultasi Custom'];
+      } else if (lower.includes('layanan') || lower.includes('jasa') || lower.includes('produk') || lower.includes('buat website') || lower.includes('bikin')) {
+        reply = `Kami siap bantu percepat bisnis kakak dengan layanan profesional:\n\n🌐 **Pembuatan Website & Landing Page** (Mulai Rp 2.5 Juta)\n⚙️ **Pengembangan Sistem & API** (Mulai Rp 5 Juta)\n🤖 **Automasi & AI Agent Bisnis** (Mulai Rp 7.5 Juta)\n🚀 **DevOps & Cloud Deployment** (Mulai Rp 4 Juta)\n\nAda layanan yang menarik perhatian kakak?`;
+        nextSuggestions = ['Berapa estimasi waktu?', 'Cara order layanan', 'Lihat Harga Paket'];
+      } else if (lower.includes('konsultasi') || lower.includes('kontak') || lower.includes('hubungi') || lower.includes('order') || lower.includes('cara')) {
+        reply = `Gampang banget kak! Kakak bisa langsung klik menu **Contact** di atas untuk mengisi formulir konsultasi gratis, atau ceritakan kebutuhan proyek kakak di sini nanti saya sampaikan langsung ke tim expert kami! 😊`;
+        nextSuggestions = ['Lihat Layanan', 'Cek Daftar Harga'];
+      } else if (lower.includes('wspend') || lower.includes('siapa') || lower.includes('tentang') || lower.includes('keunggulan')) {
+        reply = `**wspend** adalah software house & digital agency terdepan di Indonesia! 🚀 Keunggulan kami:\n• Harga transparan & ramah di kantong\n• Pengerjaan cepat & tepat\n• Didukung teknologi modern & AI Agents\n\nAda yang ingin didiskusikan mengenai proyek kakak?`;
+        nextSuggestions = ['Lihat Harga Paket', 'Layanan wspend', 'Hubungi Tim Kami'];
+      } else {
+        reply = `Menarik sekali kak! Untuk kebutuhan tersebut, wspend siap membantu mewujudkannya dengan standar kualitas tinggi dan harga bersahabat. Mau saya tunjukkan rincian harga atau layanan kami?`;
+        nextSuggestions = ['Lihat Daftar Harga', 'Layanan wspend', 'Konsultasi Gratis'];
       }
 
-      if (lower.includes('keunggulan') || lower.includes('kenapa')) {
-        reply = `Keunggulan wspend:
-1. Harga transparan & ramah UMKM Indonesia
-2. Pengerjaan cepat & tepat
-3. Didukung teknologi modern & AI agents
-4. Bergaransi & berfokus pada hasil bisnis.`;
-      }
-
-      setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
+      setMessages((prev: Message[]) => [...prev, { role: 'assistant', content: reply, suggestions: nextSuggestions }]);
       setLoading(false);
-    }, 500);
+    }, 600);
   };
 
   return (
@@ -97,7 +78,7 @@ export default function AICustomerService() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-3 px-6 py-3.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-2xl transition-all duration-300 hover:scale-105 font-bold border border-blue-400/30 animate-bounce hover:animate-none"
+          className="flex items-center gap-3 px-6 py-3.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white shadow-2xl transition-all duration-300 hover:scale-105 font-bold border border-blue-400/40 animate-bounce hover:animate-none"
           aria-label="Chat with AI Assistant"
         >
           <span className="relative flex h-3 w-3">
@@ -109,15 +90,17 @@ export default function AICustomerService() {
       )}
 
       {isOpen && (
-        <div className="w-85 sm:w-96 h-[540px] bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden backdrop-blur-2xl">
-          <div className="p-4 bg-slate-950 border-b border-slate-800 flex justify-between items-center">
+        <div className="w-[350px] sm:w-[380px] h-[580px] bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden backdrop-blur-2xl">
+          <div className="p-4 bg-gradient-to-r from-slate-950 to-slate-900 border-b border-slate-800 flex justify-between items-center">
             <div className="flex items-center gap-3">
               <div className="relative">
                 <div className="w-3.5 h-3.5 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20"></div>
               </div>
               <div>
-                <h4 className="font-bold text-white text-sm">Asisten Produk wspend</h4>
-                <p className="text-[11px] text-slate-400">Interaktif • Tanya apa saja soal produk</p>
+                <h4 className="font-bold text-white text-sm flex items-center gap-1.5">
+                  Asisten Produk wspend <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 font-normal">AI</span>
+                </h4>
+                <p className="text-[11px] text-slate-400">Online • Siap membantu dengan ramah</p>
               </div>
             </div>
             <button
@@ -128,46 +111,48 @@ export default function AICustomerService() {
             </button>
           </div>
 
-          <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-950/60">
+          <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-950/70">
             {messages.map((m, idx) => (
-              <div
-                key={idx}
-                className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[88%] p-3.5 rounded-2xl text-sm leading-relaxed whitespace-pre-line ${
-                    m.role === 'user'
-                      ? 'bg-blue-600 text-white rounded-br-none shadow-lg'
-                      : 'bg-slate-800 border border-slate-700/80 text-slate-200 rounded-bl-none shadow-md'
-                  }`}
-                >
-                  {m.content}
+              <div key={idx} className="space-y-2">
+                <div className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div
+                    className={`max-w-[88%] p-3.5 rounded-2xl text-sm leading-relaxed whitespace-pre-line ${
+                      m.role === 'user'
+                        ? 'bg-blue-600 text-white rounded-br-none shadow-lg'
+                        : 'bg-slate-800/90 border border-slate-700/80 text-slate-200 rounded-bl-none shadow-md'
+                    }`}
+                  >
+                    {m.content}
+                  </div>
                 </div>
+
+                {m.suggestions && m.suggestions.length > 0 && m.role === 'assistant' && (
+                  <div className="flex flex-wrap gap-1.5 pl-1">
+                    {m.suggestions.map((sug, sIdx) => (
+                      <button
+                        key={sIdx}
+                        onClick={() => handleSend(sug)}
+                        className="px-3 py-1.5 rounded-xl bg-blue-600/10 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs font-medium transition-all hover:scale-105"
+                      >
+                        ✨ {sug}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
+
             {loading && (
               <div className="flex justify-start">
                 <div className="p-3 rounded-2xl bg-slate-800 border border-slate-700 text-slate-400 text-sm flex items-center gap-2">
                   <span className="inline-block w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
                   <span className="inline-block w-2 h-2 rounded-full bg-blue-400 animate-pulse [animation-delay:0.2s]"></span>
                   <span className="inline-block w-2 h-2 rounded-full bg-blue-400 animate-pulse [animation-delay:0.4s]"></span>
-                  Asisten sedang mengetik...
+                  Asisten sedang merespons...
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
-          </div>
-
-          <div className="px-3 py-2 bg-slate-900 border-t border-slate-800 flex gap-1.5 overflow-x-auto no-scrollbar">
-            {SUGGESTIONS.map((sug, sIdx) => (
-              <button
-                key={sIdx}
-                onClick={() => handleSend(sug)}
-                className="whitespace-nowrap px-3 py-1 rounded-full bg-slate-800 hover:bg-blue-600/30 hover:border-blue-500 border border-slate-700 text-xs text-slate-300 transition-colors"
-              >
-                {sug}
-              </button>
-            ))}
           </div>
 
           <form
@@ -181,7 +166,7 @@ export default function AICustomerService() {
               type="text"
               value={input}
               onChange={e => setInput(e.target.value)}
-              placeholder="Tanya seputar produk wspend..."
+              placeholder="Ketik pertanyaan atau pilih tombol di atas..."
               className="flex-1 px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500"
             />
             <button
