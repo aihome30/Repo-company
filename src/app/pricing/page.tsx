@@ -59,7 +59,7 @@ export default function PricingPage() {
                   className={`btn w-full text-center ${
                     idx === 1
                       ? 'btn-primary'
-                      : 'bg-gray-100 text-slate-100 hover:bg-gray-200'
+                      : 'bg-slate-900 text-slate-100 hover:bg-gray-200'
                   }`}
                 >
                   Get Started

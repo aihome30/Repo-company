@@ -65,7 +65,7 @@ export default function PortfolioPage() {
             {caseStudies.map((study) => (
               <div
                 key={study.id}
-                className="bg-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition cursor-pointer"
+                className="bg-slate-900 rounded-lg overflow-hidden hover:shadow-lg transition cursor-pointer"
               >
                 <div className="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-lg font-bold">
                   {study.image}
