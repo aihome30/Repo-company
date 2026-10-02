@@ -5,12 +5,12 @@ import servicesData from '@/content/services.json';
 
 export default function ServicesPage() {
   return (
-    <div>
+    <div className="min-h-screen bg-slate-950 text-white">
       {/* Hero */}
-      <section className="section bg-blue-50">
+      <section className="section bg-slate-900 border-b border-slate-800">
         <div className="container">
           <h1 className="heading-md mb-4">Our Services</h1>
-          <p className="text-xl text-muted max-w-2xl">
+          <p className="text-xl text-slate-400 max-w-2xl">
             Comprehensive digital solutions for businesses of all sizes.
           </p>
         </div>
@@ -23,10 +23,10 @@ export default function ServicesPage() {
             {servicesData.map((service) => (
               <div
                 key={service.id}
-                className="p-8 border border-gray-200 rounded-lg hover:shadow-lg transition"
+                className="p-8 border border-slate-800 rounded-lg hover:shadow-lg transition"
               >
                 <h2 className="heading-sm mb-3">{service.title}</h2>
-                <p className="text-muted mb-4">{service.description}</p>
+                <p className="text-slate-400 mb-4">{service.description}</p>
 
                 <div className="mb-6">
                   <h4 className="font-bold text-slate-100 mb-2">Key Features:</h4>

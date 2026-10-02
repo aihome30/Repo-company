@@ -2,12 +2,12 @@ import ContactForm from '@/components/ContactForm';
 
 export default function ContactPage() {
   return (
-    <div>
+    <div className="min-h-screen bg-slate-950 text-white">
       {/* Hero */}
-      <section className="section bg-blue-50">
+      <section className="section bg-slate-900 border-b border-slate-800">
         <div className="container">
           <h1 className="heading-md mb-4">Get in Touch</h1>
-          <p className="text-xl text-muted max-w-2xl">
+          <p className="text-xl text-slate-400 max-w-2xl">
             Have a project in mind? Let's talk about how we can help.
           </p>
         </div>
@@ -26,7 +26,7 @@ export default function ContactPage() {
             <div className="space-y-8">
               <div>
                 <h3 className="heading-sm mb-2">Email</h3>
-                <p className="text-muted">
+                <p className="text-slate-400">
                   <a
                     href="mailto:hello@pt-wspend.com"
                     className="text-blue-600 hover:text-blue-800"
@@ -38,7 +38,7 @@ export default function ContactPage() {
 
               <div>
                 <h3 className="heading-sm mb-2">Phone</h3>
-                <p className="text-muted">
+                <p className="text-slate-400">
                   <a
                     href="tel:+6281234567890"
                     className="text-blue-600 hover:text-blue-800"
@@ -50,7 +50,7 @@ export default function ContactPage() {
 
               <div>
                 <h3 className="heading-sm mb-2">Office Hours</h3>
-                <p className="text-muted">
+                <p className="text-slate-400">
                   Monday - Friday<br />
                   09:00 AM - 18:00 WIB
                 </p>

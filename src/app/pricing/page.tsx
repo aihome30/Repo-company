@@ -7,10 +7,10 @@ export default function PricingPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="section bg-blue-50">
+      <section className="section bg-slate-900 border-b border-slate-800">
         <div className="container">
           <h1 className="heading-md text-center mb-4">Our Pricing</h1>
-          <p className="text-xl text-muted text-center max-w-2xl mx-auto">
+          <p className="text-xl text-slate-400 text-center max-w-2xl mx-auto">
             Flexible packages tailored to your business needs. All prices are for project-based work.
           </p>
         </div>
@@ -25,8 +25,8 @@ export default function PricingPage() {
                 key={pkg.id}
                 className={`rounded-lg border-2 p-8 transition ${
                   idx === 1
-                    ? 'border-blue-600 bg-blue-50 shadow-lg scale-105'
-                    : 'border-gray-200 hover:border-blue-600'
+                    ? 'border-blue-600 bg-slate-900 border-b border-slate-800 shadow-lg scale-105'
+                    : 'border-slate-800 hover:border-blue-600'
                 }`}
               >
                 {idx === 1 && (
@@ -36,7 +36,7 @@ export default function PricingPage() {
                 )}
 
                 <h3 className="heading-sm mb-2">{pkg.name}</h3>
-                <p className="text-muted mb-4 text-sm">{pkg.description}</p>
+                <p className="text-slate-400 mb-4 text-sm">{pkg.description}</p>
 
                 <div className="mb-6">
                   <span className="text-5xl font-bold text-blue-600">
@@ -71,7 +71,7 @@ export default function PricingPage() {
       </section>
 
       {/* FAQ */}
-      <section className="section bg-blue-50">
+      <section className="section bg-slate-900 border-b border-slate-800">
         <div className="container max-w-3xl">
           <h2 className="heading-md text-center mb-12">Frequently Asked Questions</h2>
 
@@ -96,7 +96,7 @@ export default function PricingPage() {
             ].map((faq, idx) => (
               <div key={idx} className="bg-slate-950 text-white p-6 rounded-lg">
                 <h4 className="font-bold text-slate-100 mb-2">{faq.q}</h4>
-                <p className="text-muted">{faq.a}</p>
+                <p className="text-slate-400">{faq.a}</p>
               </div>
             ))}
           </div>

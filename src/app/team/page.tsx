@@ -4,12 +4,12 @@ import teamData from '@/content/team.json';
 
 export default function TeamPage() {
   return (
-    <div>
+    <div className="min-h-screen bg-slate-950 text-white">
       {/* Hero */}
-      <section className="section bg-blue-50">
+      <section className="section bg-slate-900 border-b border-slate-800">
         <div className="container">
           <h1 className="heading-md mb-4">Meet Our Team</h1>
-          <p className="text-xl text-muted max-w-2xl">
+          <p className="text-xl text-slate-400 max-w-2xl">
             Experienced professionals dedicated to building excellent digital solutions.
           </p>
         </div>
@@ -29,7 +29,7 @@ export default function TeamPage() {
                 </div>
                 <h3 className="heading-sm mb-1">{member.name}</h3>
                 <p className="text-blue-600 font-medium mb-2">{member.role}</p>
-                <p className="text-muted text-sm mb-4">{member.bio}</p>
+                <p className="text-slate-400 text-sm mb-4">{member.bio}</p>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {member.expertise.map((skill, idx) => (
                     <span key={idx} className="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded text-xs font-medium">
@@ -44,24 +44,24 @@ export default function TeamPage() {
       </section>
 
       {/* Values */}
-      <section className="section bg-blue-50">
+      <section className="section bg-slate-900 border-b border-slate-800">
         <div className="container max-w-3xl">
           <h2 className="heading-md text-center mb-12">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="text-4xl mb-3">🎯</div>
               <h3 className="heading-sm mb-2">Excellence</h3>
-              <p className="text-muted">We deliver high-quality solutions that exceed expectations.</p>
+              <p className="text-slate-400">We deliver high-quality solutions that exceed expectations.</p>
             </div>
             <div className="text-center">
               <div className="text-4xl mb-3">🤝</div>
               <h3 className="heading-sm mb-2">Partnership</h3>
-              <p className="text-muted">We work as an extension of your team for long-term success.</p>
+              <p className="text-slate-400">We work as an extension of your team for long-term success.</p>
             </div>
             <div className="text-center">
               <div className="text-4xl mb-3">🚀</div>
               <h3 className="heading-sm mb-2">Innovation</h3>
-              <p className="text-muted">We stay ahead with the latest technologies and approaches.</p>
+              <p className="text-slate-400">We stay ahead with the latest technologies and approaches.</p>
             </div>
           </div>
         </div>

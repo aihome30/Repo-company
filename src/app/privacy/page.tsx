@@ -1,10 +1,10 @@
 export default function PrivacyPage() {
   return (
-    <div>
-      <section className="section bg-blue-50">
+    <div className="min-h-screen bg-slate-950 text-white">
+      <section className="section bg-slate-900 border-b border-slate-800">
         <div className="container max-w-3xl">
           <h1 className="heading-md mb-4">Privacy Policy</h1>
-          <p className="text-muted">Last updated: October 2, 2026</p>
+          <p className="text-slate-400">Last updated: October 2, 2026</p>
         </div>
       </section>
 
@@ -13,7 +13,7 @@ export default function PrivacyPage() {
           <div className="space-y-8">
             <div>
               <h2 className="heading-sm mb-3">1. Information We Collect</h2>
-              <p className="text-muted">
+              <p className="text-slate-400">
                 We collect information you voluntarily provide through our contact form, including name, email,
                 phone number, company, and message content.
               </p>
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
 
             <div>
               <h2 className="heading-sm mb-3">2. How We Use Your Information</h2>
-              <p className="text-muted">
+              <p className="text-slate-400">
                 We use the information you provide to respond to your inquiries, provide services, and improve
                 our website experience.
               </p>
@@ -29,7 +29,7 @@ export default function PrivacyPage() {
 
             <div>
               <h2 className="heading-sm mb-3">3. Data Security</h2>
-              <p className="text-muted">
+              <p className="text-slate-400">
                 We implement appropriate technical and organizational measures to protect your personal data
                 against unauthorized access, alteration, disclosure, or destruction.
               </p>
@@ -37,7 +37,7 @@ export default function PrivacyPage() {
 
             <div>
               <h2 className="heading-sm mb-3">4. GDPR Compliance</h2>
-              <p className="text-muted">
+              <p className="text-slate-400">
                 If you are located in the EU, you have the right to request access to, correction of, or
                 deletion of your personal data.
               </p>
@@ -45,7 +45,7 @@ export default function PrivacyPage() {
 
             <div>
               <h2 className="heading-sm mb-3">5. Contact Us</h2>
-              <p className="text-muted">
+              <p className="text-slate-400">
                 If you have questions about our privacy practices, please contact us at hello@pt-wspend.com
               </p>
             </div>

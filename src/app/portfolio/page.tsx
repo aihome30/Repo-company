@@ -49,10 +49,10 @@ export default function PortfolioPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="section bg-blue-50">
+      <section className="section bg-slate-900 border-b border-slate-800">
         <div className="container">
           <h1 className="heading-md mb-4">Our Portfolio</h1>
-          <p className="text-xl text-muted max-w-2xl">
+          <p className="text-xl text-slate-400 max-w-2xl">
             Check out some of our recent projects and case studies.
           </p>
         </div>
@@ -75,7 +75,7 @@ export default function PortfolioPage() {
                     {study.category}
                   </span>
                   <h3 className="heading-sm mb-2">{study.title}</h3>
-                  <p className="text-muted">{study.description}</p>
+                  <p className="text-slate-400">{study.description}</p>
                 </div>
               </div>
             ))}
@@ -92,7 +92,7 @@ export default function PortfolioPage() {
           <p className="text-blue-100 mb-6">
             Let's work together to build something amazing.
           </p>
-          <Link href="/contact" className="btn bg-slate-950 text-white text-blue-600 hover:bg-blue-50">
+          <Link href="/contact" className="btn bg-slate-950 text-white text-blue-600 hover:bg-slate-900 border-b border-slate-800">
             Start Your Project
           </Link>
         </div>
