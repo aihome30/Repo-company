@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { generateOrganizationSchema } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
     template: '%s | PT. Rizki AI',
   },
   description:
-    'Professional web development, backend services, and DevOps solutions for startups, UMKMs, and enterprises.',
+    'Professional web development, backend services, and DevOps solutions for startups, UMKMs, and enterprises in Indonesia.',
   keywords: [
     'web development',
     'software development',
@@ -20,6 +21,8 @@ export const metadata: Metadata = {
     'startup',
     'UMKM',
     'Indonesia',
+    'backend development',
+    'DevOps',
   ],
   authors: [{ name: 'PT. Rizki AI' }],
   creator: 'PT. Rizki AI',
@@ -40,6 +43,16 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-site-verification',
   },
 };
 
@@ -48,9 +61,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const schema = generateOrganizationSchema();
+
   return (
-    <html lang="id">
-      <body className="font-sans">
+    <html lang="id" className="scroll-smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      </head>
+      <body className="font-sans antialiased">
         <Navbar />
         <main>{children}</main>
         <Footer />
