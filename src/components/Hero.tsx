@@ -8,7 +8,7 @@ export default function Hero() {
       <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container relative z-10 max-w-5xl mx-auto text-center px-4">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-sm font-medium mb-8 backdrop-blur-xl shadow-[0_0_20px_rgba(6,182,212,0.15)] animate-pulse">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-sm font-medium mb-8 backdrop-blur-xl shadow-[0_0_20px_rgba(6,182,212,0.15)] ">
           <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
           Creative Tech & Modern UI/UX 2026 — Glassmorphism 2.0
         </div>
@@ -27,16 +27,16 @@ export default function Hero() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
             href="/contact"
-            className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold shadow-lg shadow-cyan-600/30 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] active:scale-95 group flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold shadow-lg shadow-cyan-600/30 transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] active:scale-95 group flex items-center justify-center gap-2"
           >
             Mulai Konsultasi Gratis
-            <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 transition-transform duration-500 ease-in-out group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </Link>
           <Link
             href="/services"
-            className="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-800/60 hover:bg-slate-700/60 text-slate-200 border border-slate-700 hover:border-slate-600 font-semibold backdrop-blur-md transition-all duration-300 hover:scale-105 active:scale-95 flex justify-center"
+            className="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-800/60 hover:bg-slate-700/60 text-slate-200 border border-slate-700 hover:border-slate-600 font-semibold backdrop-blur-md transition-all duration-500 ease-in-out hover:scale-105 active:scale-95 flex justify-center"
           >
             Jelajahi Layanan
           </Link>
@@ -52,7 +52,7 @@ export default function Hero() {
           ].map((stat) => (
             <div
               key={stat.label}
-              className="p-4 sm:p-5 rounded-2xl bg-slate-900/40 border border-slate-800 backdrop-blur-md hover:border-cyan-500/30 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)] transition-all duration-300 cursor-default"
+              className="p-4 sm:p-5 rounded-2xl bg-slate-900/40 border border-slate-800 backdrop-blur-md hover:border-cyan-500/30 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)] transition-all duration-500 ease-in-out cursor-default"
             >
               <div className={`text-3xl font-bold ${stat.color} mb-1`}>{stat.value}</div>
               <div className="text-sm text-slate-400">{stat.label}</div>
