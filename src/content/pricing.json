@@ -1,0 +1,51 @@
+{
+  "packages": [
+    {
+      "id": "starter",
+      "name": "Starter",
+      "price": 3000,
+      "period": "project",
+      "description": "Perfect for startups and small businesses",
+      "features": [
+        "5-8 page website",
+        "Responsive design",
+        "Basic SEO",
+        "Contact form",
+        "1 month support",
+        "Mobile optimized"
+      ]
+    },
+    {
+      "id": "professional",
+      "name": "Professional",
+      "price": 8000,
+      "period": "project",
+      "description": "Great for growing businesses",
+      "features": [
+        "Web application",
+        "API integration",
+        "Advanced SEO",
+        "E-commerce ready",
+        "3 months support",
+        "Analytics setup",
+        "Performance optimization"
+      ]
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise",
+      "price": 30000,
+      "period": "project",
+      "description": "Complete digital transformation",
+      "features": [
+        "Custom platform",
+        "Unlimited integrations",
+        "24/7 support",
+        "Dedicated team",
+        "12 months support",
+        "Infrastructure management",
+        "Compliance & security"
+      ]
+    }
+  ]
+}

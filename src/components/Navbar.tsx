@@ -6,6 +6,15 @@ import { useState } from 'react';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const navLinks = [
+    { href: '/', label: 'Home' },
+    { href: '/services', label: 'Services' },
+    { href: '/portfolio', label: 'Portfolio' },
+    { href: '/pricing', label: 'Pricing' },
+    { href: '/team', label: 'Team' },
+    { href: '/about', label: 'About' },
+  ];
+
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200">
       <div className="container flex justify-between items-center py-4">
@@ -14,16 +23,16 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex gap-8">
-          <Link href="/" className="text-gray-700 hover:text-blue-600 transition">
-            Home
-          </Link>
-          <Link href="/services" className="text-gray-700 hover:text-blue-600 transition">
-            Services
-          </Link>
-          <Link href="/portfolio" className="text-gray-700 hover:text-blue-600 transition">
-            Portfolio
-          </Link>
+        <div className="hidden md:flex gap-8 items-center">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-gray-700 hover:text-blue-600 transition font-medium"
+            >
+              {link.label}
+            </Link>
+          ))}
           <Link href="/contact" className="btn btn-primary">
             Contact
           </Link>
@@ -55,15 +64,16 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-white border-t border-gray-200">
           <div className="container py-4 flex flex-col gap-4">
-            <Link href="/" className="text-gray-700 hover:text-blue-600">
-              Home
-            </Link>
-            <Link href="/services" className="text-gray-700 hover:text-blue-600">
-              Services
-            </Link>
-            <Link href="/portfolio" className="text-gray-700 hover:text-blue-600">
-              Portfolio
-            </Link>
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-gray-700 hover:text-blue-600 font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
             <Link href="/contact" className="btn btn-primary">
               Contact
             </Link>

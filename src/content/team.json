@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "name": "Rizki Alfian",
+    "role": "CEO & Founder",
+    "bio": "15+ years in software development and digital transformation.",
+    "expertise": [
+      "Leadership",
+      "Architecture",
+      "Strategy"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Ahmad Dev",
+    "role": "Lead Backend Engineer",
+    "bio": "Expert in Node.js, Python, and scalable architecture.",
+    "expertise": [
+      "Backend",
+      "DevOps",
+      "Databases"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Sarah Frontend",
+    "role": "Lead Frontend Engineer",
+    "bio": "Specialist in React, Next.js, and modern UX design.",
+    "expertise": [
+      "Frontend",
+      "UX",
+      "Performance"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Budi Mobile",
+    "role": "Mobile Developer",
+    "bio": "iOS and Android development with 8+ years experience.",
+    "expertise": [
+      "React Native",
+      "iOS",
+      "Android"
+    ]
+  }
+]
