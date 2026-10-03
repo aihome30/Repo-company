@@ -1,100 +1,57 @@
-import Link from 'next/link';
+'use client';
 
-const caseStudies = [
-  {
-    id: 1,
-    title: 'E-Commerce Platform for Fashion Startup',
-    description: 'Built a complete e-commerce platform with inventory management.',
-    category: 'E-commerce',
-    image: 'Case Study 1',
-  },
-  {
-    id: 2,
-    title: 'SaaS Dashboard for Analytics',
-    description: 'Developed a real-time analytics dashboard for B2B clients.',
-    category: 'Web App',
-    image: 'Case Study 2',
-  },
-  {
-    id: 3,
-    title: 'Mobile App for Logistics',
-    description: 'Cross-platform mobile app for tracking deliveries.',
-    category: 'Mobile',
-    image: 'Case Study 3',
-  },
-  {
-    id: 4,
-    title: 'API Microservices Architecture',
-    description: 'Designed scalable microservices for enterprise client.',
-    category: 'Backend',
-    image: 'Case Study 4',
-  },
-  {
-    id: 5,
-    title: 'Cloud Migration Project',
-    description: 'Migrated on-premise infrastructure to cloud with zero downtime.',
-    category: 'DevOps',
-    image: 'Case Study 5',
-  },
-  {
-    id: 6,
-    title: 'Website Redesign & Performance',
-    description: 'Improved website performance from 45 to 95 Lighthouse score.',
-    category: 'Web Dev',
-    image: 'Case Study 6',
-  },
-];
+import portfolioData from '@/content/portfolio.json';
+import Link from 'next/link';
 
 export default function PortfolioPage() {
   return (
-    <div>
+    <div className="min-h-screen bg-slate-950 text-white">
       {/* Hero */}
-      <section className="section bg-slate-900 border-b border-slate-800">
-        <div className="container">
-          <h1 className="heading-md mb-4">Our Portfolio</h1>
-          <p className="text-xl text-slate-400 max-w-2xl">
-            Check out some of our recent projects and case studies.
+      <section className="section bg-slate-900 border-b border-slate-800 py-20">
+        <div className="container max-w-4xl mx-auto text-center px-4">
+          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">Portofolio & Founder</h1>
+          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+            Dipimpin oleh Software Engineering lulusan Telkom University dengan pengalaman mendalam di bidang Clean Architecture dan Scalable System Design.
           </p>
         </div>
       </section>
 
-      {/* Case Studies Grid */}
-      <section className="section">
-        <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {caseStudies.map((study) => (
+      {/* Portfolio Grid */}
+      <section className="section py-20">
+        <div className="container max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {portfolioData.map((item, idx) => (
               <div
-                key={study.id}
-                className="bg-slate-900 rounded-lg overflow-hidden hover:shadow-lg transition cursor-pointer"
+                key={idx}
+                className="p-8 rounded-3xl bg-slate-900 border border-slate-800 flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] hover:border-blue-500/50 shadow-xl"
               >
-                <div className="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-lg font-bold">
-                  {study.image}
+                <div>
+                  <div className="text-xs font-semibold px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 inline-block mb-4">
+                    {item.role}
+                  </div>
+                  <h3 className="text-2xl font-bold mb-3 text-white">{item.title}</h3>
+                  <p className="text-slate-300 leading-relaxed mb-6">{item.description}</p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-8">
+                    {item.tech.map((t, tIdx) => (
+                      <span key={tIdx} className="px-3 py-1 bg-slate-800 border border-slate-700 text-xs text-slate-300 rounded-lg">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <div className="p-6">
-                  <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded text-sm font-medium mb-3">
-                    {study.category}
-                  </span>
-                  <h3 className="heading-sm mb-2">{study.title}</h3>
-                  <p className="text-slate-400">{study.description}</p>
-                </div>
+
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-blue-400 font-semibold hover:text-blue-300 transition-colors"
+                >
+                  Kunjungi Website &rarr;
+                </a>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="section bg-blue-600 text-white">
-        <div className="container max-w-2xl mx-auto text-center">
-          <h2 className="heading-md text-white mb-4">
-            Your Next Success Story?
-          </h2>
-          <p className="text-blue-100 mb-6">
-            Let's work together to build something amazing.
-          </p>
-          <Link href="/contact" className="btn bg-slate-950 text-white text-blue-600 hover:bg-slate-900 border-b border-slate-800">
-            Start Your Project
-          </Link>
         </div>
       </section>
     </div>

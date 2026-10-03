@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Muhammad Rizki Alfian - Founder & Lead Fullstack Architect",
+    "role": "Software Engineering Graduate from Telkom University",
+    "description": "Fullstack Developer focusing on clean architecture, high performance, and scalable system design. Experienced in Node.js, Vue.js, React, Next.js, and REST APIs to build modern, efficient, and maintainable applications.",
+    "tech": [
+      "Node.js",
+      "Vue.js",
+      "React",
+      "Next.js",
+      "REST API",
+      "Clean Architecture"
+    ],
+    "link": "https://muhammadrizkialfian.my.id/"
+  },
+  {
+    "title": "wspend Enterprise AI & Cloud Platform",
+    "role": "Lead Architect",
+    "description": "Platform digital agency & software house untuk UMKM dan Startup dengan integrasi AI Customer Service, automated deployment, dan cloud infrastructure berkecepatan tinggi.",
+    "tech": [
+      "Next.js 14",
+      "TailwindCSS",
+      "Node.js",
+      "Vercel",
+      "AI Agents"
+    ],
+    "link": "https://pt-rizki-ai-website.vercel.app"
+  }
+]
