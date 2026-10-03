@@ -13,8 +13,8 @@ export default function AICustomerService() {
   const [messages, setMessages] = useState<Message[]>([
     { 
       role: 'assistant', 
-      content: 'Halo kak! 👋 Selamat datang di wspend. Ada yang ingin didiskusikan seputar pembuatan website atau sistem digital untuk bisnis kakak?',
-      suggestions: ['Daftar Harga Paket', 'Layanan wspend', 'Portofolio Founder', 'Konsultasi Gratis']
+      content: 'Halo kak! 👋 Selamat datang di wspend. Saya Asisten AI siap membantu menjelaskan produk, layanan, harga, hingga portofolio kami. Ada yang ingin ditanyakan?',
+      suggestions: ['Daftar Harga Paket', 'Layanan wspend', 'Estimasi Waktu & Garansi', 'Portofolio Founder']
     }
   ]);
   const [input, setInput] = useState('');
@@ -37,11 +37,12 @@ export default function AICustomerService() {
     setTimeout(() => {
       const lower = userMsg.toLowerCase().trim();
       
+      // Guardrails against coding / unrelated topics
       const forbidden = ['coding', 'python', 'javascript', 'html', 'css', 'resep', 'cuaca', 'politik', 'buatkan game', 'tulis kode', 'program', 'nyanyi', 'matematika', 'fisika', 'film', 'sepak bola'];
       if (forbidden.some(word => lower.includes(word))) {
         setMessages((prev: Message[]) => [...prev, {
           role: 'assistant',
-          content: 'Wah, kalau itu di luar topik wspend kak! 😅 Saya bertugas khusus membantu menjelaskan produk, harga, dan layanan digital kami. Ada hal seputar wspend yang ingin ditanyakan?',
+          content: 'Wah, kalau itu di luar topik wspend kak! 😅 Saya bertugas khusus sebagai Asisten Produk wspend untuk membantu menjelaskan layanan, harga, dan solusi digital kami. Ada hal seputar wspend yang ingin ditanyakan?',
           suggestions: ['Lihat Harga Paket', 'Layanan wspend', 'Hubungi Tim Kami']
         }]);
         setLoading(false);
@@ -51,10 +52,10 @@ export default function AICustomerService() {
       let reply = "";
       let nextSuggestions = ['Lihat Harga Paket', 'Layanan wspend', 'Hubungi Tim Kami'];
 
-      if (['hai', 'hallo', 'halo', 'pagi', 'siang', 'sore', 'malam', 'permisi', 'assalamu'].some(g => lower === g || lower.startsWith(g + ' ')) || lower === 'p') {
+      if (['hai', 'hallo', 'halo', 'pagi', 'siang', 'sore', 'malam', 'permisi', 'assalamu'].some(g => lower.includes(g)) && lower.length < 15) {
         reply = `Halo juga kak! 😊 Senang bisa ngobrol dengan kakak. Ada yang bisa saya bantu terkait kebutuhan website atau aplikasi untuk bisnis kakak?`;
         nextSuggestions = ['Daftar Harga Paket', 'Layanan wspend', 'Portofolio Founder'];
-      } else if (lower.includes('harga') || lower.includes('biaya') || lower.includes('paket') || lower.includes('starter') || lower.includes('pro') || lower.includes('murah')) {
+      } else if (lower.includes('harga') || lower.includes('biaya') || lower.includes('paket') || lower.includes('starter') || lower.includes('pro') || lower.includes('murah') || lower.includes('tarif')) {
         reply = `wspend menyediakan 3 pilihan paket transparan yang dirancang khusus untuk UMKM & Startup di Indonesia:
 
 1️⃣ **Starter UMKM (Rp 2.5 Juta)**
@@ -80,6 +81,14 @@ Kakak tertarik dengan paket yang mana?`;
 
 Silakan pilih layanan yang ingin kakak ketahui lebih lanjut!`;
         nextSuggestions = ['Berapa estimasi waktu pengerjaan?', 'Cara order layanan', 'Cek Daftar Harga'];
+      } else if (lower.includes('waktu') || lower.includes('lama') || lower.includes('pengerjaan') || lower.includes('estimasi') || lower.includes('garansi') || lower.includes('support')) {
+        reply = `⏱️ **Estimasi Pengerjaan & Garansi wspend:**
+• Website / Landing Page: 3 - 7 hari kerja
+• Startup Pro / Sistem API: 14 - 30 hari kerja
+• Enterprise / AI Agent: Disesuaikan dengan skala proyek
+
+Semua paket sudah termasuk garansi bug fixing dan support teknis pasca rilis! 😊`;
+        nextSuggestions = ['Lihat Harga Paket', 'Layanan wspend', 'Konsultasi Gratis'];
       } else if (lower.includes('portofolio') || lower.includes('founder') || lower.includes('rizki') || lower.includes('telkom')) {
         reply = `wspend dipimpin oleh **Muhammad Rizki Alfian**, seorang Fullstack Developer lulusan Software Engineering Telkom University yang berpengalaman dalam Clean Architecture dan Scalable System Design. Cek menu Portfolio untuk melihat detailnya ya kak!`;
         nextSuggestions = ['Lihat Harga Paket', 'Layanan wspend', 'Konsultasi Gratis'];
@@ -131,7 +140,7 @@ Ada proyek yang ingin kakak diskusikan?`;
                 <h4 className="font-bold text-white text-sm flex items-center gap-1.5">
                   Asisten Produk wspend <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 font-normal">AI</span>
                 </h4>
-                <p className="text-[11px] text-slate-400">Online • Siap membantu dengan ramah</p>
+                <p className="text-[11px] text-slate-400">Online • Fully Trained & Smart</p>
               </div>
             </div>
             <button
