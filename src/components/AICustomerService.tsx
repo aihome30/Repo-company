@@ -51,7 +51,7 @@ export default function AICustomerService() {
       let reply = "";
       let nextSuggestions = ['Lihat Harga Paket', 'Layanan wspend', 'Hubungi Tim Kami'];
 
-      if (['hai', 'hallo', 'halo', 'pagi', 'siang', 'sore', 'malam', 'permisi', 'p', 'assalamu'].some(g => lower.includes(g))) {
+      if (['hai', 'hallo', 'halo', 'pagi', 'siang', 'sore', 'malam', 'permisi', 'assalamu'].some(g => lower === g || lower.startsWith(g + ' ')) || lower === 'p') {
         reply = `Halo juga kak! 😊 Senang bisa ngobrol dengan kakak. Ada yang bisa saya bantu terkait kebutuhan website atau aplikasi untuk bisnis kakak?`;
         nextSuggestions = ['Daftar Harga Paket', 'Layanan wspend', 'Portofolio Founder'];
       } else if (lower.includes('harga') || lower.includes('biaya') || lower.includes('paket') || lower.includes('starter') || lower.includes('pro') || lower.includes('murah')) {
