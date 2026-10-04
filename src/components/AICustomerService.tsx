@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface Message {
   role: 'assistant' | 'user';
@@ -26,8 +26,9 @@ export default function AICustomerService() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSend = (text: string = input) => {
-    if (!text.trim()) return;
+  const handleSend = useCallback((text: string) => {
+    if (!text || text.trim() === '') return;
+    
     setMessages(prev => [...prev, { role: 'user', content: text }]);
     setInput('');
 
@@ -37,14 +38,14 @@ export default function AICustomerService() {
         content: 'Menarik! Mari kita buat rencananya. Boleh share WhatsApp atau email agar tim kita bisa segera follow-up?' 
       }]);
     }, 600);
-  };
+  }, []);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 right-6 z-[9999]">
       {!isOpen ? (
         <button 
           onClick={() => setIsOpen(true)}
-          className="group flex items-center bg-slate-950 border border-slate-800 p-3 rounded-2xl shadow-2xl hover:border-cyan-500 transition-all"
+          className="group flex items-center bg-slate-950 border border-slate-800 p-3 rounded-2xl shadow-2xl hover:border-cyan-500 transition-all cursor-pointer"
         >
           <span className="text-xl mr-3">⚡</span>
           <span className="text-slate-200 text-sm font-medium mr-3">Tanya AI</span>
@@ -68,7 +69,7 @@ export default function AICustomerService() {
             {messages.length === 1 && (
               <div className="grid grid-cols-2 gap-2 mt-4">
                 {iceBreakers.map((b, i) => (
-                  <button key={i} onClick={() => handleSend(b)} className="text-[11px] bg-slate-900 border border-slate-800 text-slate-400 p-3 rounded-xl hover:border-cyan-500 hover:text-cyan-400 transition">
+                  <button key={i} onClick={() => handleSend(b)} className="text-[11px] bg-slate-900 border border-slate-800 text-slate-400 p-3 rounded-xl hover:border-cyan-500 hover:text-cyan-400 transition cursor-pointer">
                     {b}
                   </button>
                 ))}
@@ -77,16 +78,16 @@ export default function AICustomerService() {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-4 border-t border-slate-900">
+          <div className="p-4 border-t border-slate-900 bg-slate-950">
             <div className="relative flex items-center">
               <input 
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                onKeyDown={(e) => e.key === 'Enter' && handleSend(input)}
                 placeholder="Tulis pesan..."
                 className="w-full bg-slate-900 border border-slate-800 rounded-full pl-5 pr-12 py-3 text-[13px] text-white focus:outline-none focus:ring-1 focus:ring-cyan-500/50 transition"
               />
-              <button onClick={() => handleSend()} className="absolute right-2 p-1.5 bg-cyan-500 rounded-full hover:bg-cyan-400 transition">
+              <button onClick={() => handleSend(input)} className="absolute right-2 p-1.5 bg-cyan-500 rounded-full hover:bg-cyan-400 transition cursor-pointer">
                 <span className="text-[10px] text-slate-950 font-bold">➤</span>
               </button>
             </div>
