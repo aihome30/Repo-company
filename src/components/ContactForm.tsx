@@ -31,130 +31,130 @@ export default function ContactForm() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit form');
+        throw new Error('Gagal mengirim pesan. Silakan coba lagi.');
       }
 
       setSuccess(true);
       reset();
       setTimeout(() => setSuccess(false), 5000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(err instanceof Error ? err.message : 'Terjadi kesalahan');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
+    <form onSubmit={handleSubmit(onSubmit)} className="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-xl space-y-6">
       {success && (
-        <div className="p-4 bg-green-100 text-green-700 rounded-lg">
-          Thank you! Your message has been sent. We'll get back to you soon.
+        <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl text-sm font-medium animate-in fade-in">
+          ✨ Terima kasih! Pesan Anda telah terkirim. Tim kami akan segera menghubungi Anda.
         </div>
       )}
 
       {error && (
-        <div className="p-4 bg-red-100 text-red-700 rounded-lg">
+        <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-2xl text-sm font-medium">
           {error}
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {/* Name */}
         <div>
-          <label className="block text-slate-300 font-medium mb-2">
-            Name *
+          <label className="block text-xs uppercase tracking-wider text-slate-400 font-semibold mb-2">
+            Nama Lengkap *
           </label>
           <input
             type="text"
             {...register('name')}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
-            placeholder="Your name"
+            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
+            placeholder="Cth: Rizki Alfian"
           />
           {errors.name && (
-            <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>
+            <p className="text-rose-400 text-xs mt-1.5">{errors.name.message}</p>
           )}
         </div>
 
         {/* Email */}
         <div>
-          <label className="block text-slate-300 font-medium mb-2">
-            Email *
+          <label className="block text-xs uppercase tracking-wider text-slate-400 font-semibold mb-2">
+            Alamat Email *
           </label>
           <input
             type="email"
             {...register('email')}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
-            placeholder="your@email.com"
+            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
+            placeholder="Cth: rizki@company.com"
           />
           {errors.email && (
-            <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
+            <p className="text-rose-400 text-xs mt-1.5">{errors.email.message}</p>
           )}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {/* Phone */}
         <div>
-          <label className="block text-slate-300 font-medium mb-2">Phone</label>
+          <label className="block text-xs uppercase tracking-wider text-slate-400 font-semibold mb-2">Nomor Telepon / WhatsApp</label>
           <input
             type="tel"
             {...register('phone')}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
-            placeholder="+62 XXX XXXX XXXX"
+            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
+            placeholder="+62 812 XXXX XXXX"
           />
         </div>
 
         {/* Company */}
         <div>
-          <label className="block text-slate-300 font-medium mb-2">
-            Company
+          <label className="block text-xs uppercase tracking-wider text-slate-400 font-semibold mb-2">
+            Nama Perusahaan / Startup
           </label>
           <input
             type="text"
             {...register('company')}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
-            placeholder="Your company"
+            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
+            placeholder="PT. Indo Jaya Gram"
           />
         </div>
       </div>
 
       {/* Service */}
       <div>
-        <label className="block text-slate-300 font-medium mb-2">
-          Service Interest *
+        <label className="block text-xs uppercase tracking-wider text-slate-400 font-semibold mb-2">
+          Layanan yang Minati *
         </label>
         <select
           {...register('service')}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
+          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
         >
-          <option value="">Select a service</option>
-          <option value="web-dev">Web Development</option>
-          <option value="backend">Backend Services</option>
-          <option value="devops">DevOps</option>
-          <option value="other">Other</option>
+          <option value="" className="bg-slate-950 text-slate-500">Pilih jenis layanan...</option>
+          <option value="web-dev" className="bg-slate-950">Custom Web & SaaS Development</option>
+          <option value="backend" className="bg-slate-950">Backend & Payment Gateway</option>
+          <option value="devops" className="bg-slate-950">DevOps & Datacenter Monitoring</option>
+          <option value="other" className="bg-slate-950">Autonomous AI Agents</option>
         </select>
         {errors.service && (
-          <p className="text-red-600 text-sm mt-1">{errors.service.message}</p>
+          <p className="text-rose-400 text-xs mt-1.5">{errors.service.message}</p>
         )}
       </div>
 
       {/* Message */}
       <div>
-        <label className="block text-slate-300 font-medium mb-2">
-          Message *
+        <label className="block text-xs uppercase tracking-wider text-slate-400 font-semibold mb-2">
+          Detail Proyek / Kebutuhan *
         </label>
         <textarea
           {...register('message')}
-          rows={5}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
-          placeholder="Tell us about your project..."
+          rows={4}
+          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
+          placeholder="Ceritakan sedikit tentang proyek atau target bisnis Anda..."
         />
         {errors.message && (
-          <p className="text-red-600 text-sm mt-1">{errors.message.message}</p>
+          <p className="text-rose-400 text-xs mt-1.5">{errors.message.message}</p>
         )}
       </div>
 
-      {/* Hidden captcha field for validation */}
+      {/* Hidden captcha */}
       <input
         type="hidden"
         {...register('h-captcha-response')}
@@ -165,9 +165,9 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={loading}
-        className="btn btn-primary w-full"
+        className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-sm rounded-xl hover:opacity-95 transition shadow-lg shadow-cyan-500/20 disabled:opacity-50"
       >
-        {loading ? 'Sending...' : 'Send Message'}
+        {loading ? 'Mengirim Pesan...' : 'Kirim Pesan Konsultasi →'}
       </button>
     </form>
   );
