@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface Message {
   role: 'assistant' | 'user';
@@ -10,75 +10,85 @@ interface Message {
 export default function AICustomerService() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'Halo! Saya AI Konsultan Indo Jaya Gram. Ada yang ingin kita bangun atau otomasi hari ini?' }
+    { role: 'assistant', content: 'Halo! Selamat datang di PT. Indo Jaya Gram. Ada proyek atau ide digital apa yang ingin kita diskusikan hari ini?' }
   ]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const iceBreakers = [
-    'Bikin website agency',
-    'Automasi AI Enterprise',
-    'Integrasi Payment Gateway',
-    'Setup Cloud Datacenter'
+    'Konsultasi pembuatan website',
+    'Automasi sistem & AI',
+    'Integrasi pembayaran',
+    'Infrastruktur & Cloud'
   ];
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const getAssistantResponse = (userText: string) => {
-    const text = userText.toLowerCase();
-    if (text.includes('website')) return 'Web modern dengan performa tinggi? Siap, kami ahli di Next.js & AI-integration. Mari kita rencanakan. Boleh saya tahu email/WA Anda?';
-    if (text.includes('ai') || text.includes('otomasi')) return 'Otomasi AI adalah spesialisasi kami. Kami bisa buat sistem agen AI yang bekerja 24/7. Ada detail khusus yang ingin ditanyakan?';
-    if (text.includes('payment')) return 'Integrasi Payment Gateway (Xendit/Midtrans) akan kami buat aman & seamless. Mari kita bahas integrasinya lebih detail.';
-    return 'Terima kasih informasinya. Apakah ada detail lain, atau boleh saya minta kontak (email/WA) agar tim kami bisa mengirimkan draf rencana proyeknya?';
-  };
-
-  const handleSend = useCallback((text: string) => {
-    if (!text || text.trim() === '') return;
+  const handleSend = (text: string) => {
+    if (!text || !text.trim()) return;
     
-    setMessages(prev => [...prev, { role: 'user', content: text }]);
+    const userText = text.trim();
+    setMessages(prev => [...prev, { role: 'user', content: userText }]);
     setInput('');
 
+    // Natural, flowing conversational response simulation
     setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: getAssistantResponse(text)
-      }]);
-    }, 600);
-  }, []);
+      let reply = "Menarik sekali! Kami di Indo Jaya Gram siap membantu mewujudkannya. Boleh tahu nama atau kontak WhatsApp Anda agar tim konsultan kami bisa langsung merumuskan draf solusinya?";
+      
+      const lower = userText.toLowerCase();
+      if (lower.includes('website') || lower.includes('web')) {
+        reply = "Pembuatan web berstandar tinggi adalah keahlian utama kami. Apakah ada referensi desain atau fitur khusus yang Anda inginkan?";
+      } else if (lower.includes('ai') || lower.includes('otomasi')) {
+        reply = "Automasi cerdas berbasis AI sangat efektif untuk efisiensi operasional. Kira-kira proses apa yang ingin di-otomasi?";
+      } else if (lower.includes('bayar') || lower.includes('payment')) {
+        reply = "Untuk sistem pembayaran, kami berpengalaman integrasi Xendit dan Midtrans dengan keamanan tinggi. Ada kebutuhan spesifik?";
+      }
+
+      setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
+    }, 700);
+  };
 
   return (
     <div className="fixed bottom-6 right-6 z-[9999]">
       {!isOpen ? (
         <button 
           onClick={() => setIsOpen(true)}
-          className="group flex items-center bg-slate-950 border border-slate-800 p-3 rounded-2xl shadow-2xl hover:border-cyan-500 transition-all cursor-pointer"
+          className="group flex items-center bg-slate-950 border border-slate-800 p-3.5 rounded-2xl shadow-2xl hover:border-cyan-500 transition-all cursor-pointer"
         >
-          <span className="text-xl mr-3">⚡</span>
-          <span className="text-slate-200 text-sm font-medium mr-3">Tanya AI</span>
-          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
+          <span className="text-xl mr-2.5">💬</span>
+          <span className="text-slate-200 text-sm font-medium mr-2.5">Konsultasi AI</span>
+          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
         </button>
       ) : (
-        <div className="w-[360px] h-[550px] bg-slate-950 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
-          <div className="p-5 border-b border-slate-900 flex justify-between items-center bg-slate-900/50">
-            <h3 className="text-sm font-semibold text-white tracking-wide">Konsultasi Indo Jaya</h3>
+        <div className="w-[360px] h-[520px] bg-slate-950 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+          <div className="p-4 border-b border-slate-900 flex justify-between items-center bg-slate-900/40">
+            <div className="flex items-center space-x-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span className="text-xs font-semibold text-white tracking-wide">Konsultan AI Indo Jaya</span>
+            </div>
             <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-white transition">✕</button>
           </div>
           
-          <div className="flex-1 p-5 overflow-y-auto space-y-4">
+          <div className="flex-1 p-4 overflow-y-auto space-y-3.5">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`px-4 py-2.5 rounded-2xl text-[13px] max-w-[85%] ${m.role === 'user' ? 'bg-cyan-500 text-slate-950 font-medium' : 'bg-slate-900 text-slate-300 border border-slate-800'}`}>
+                <div className={`px-4 py-2.5 rounded-2xl text-[13px] leading-relaxed max-w-[85%] ${m.role === 'user' ? 'bg-cyan-500 text-slate-950 font-medium rounded-br-none' : 'bg-slate-900 text-slate-200 border border-slate-800 rounded-bl-none'}`}>
                   {m.content}
                 </div>
               </div>
             ))}
+            
             {messages.length === 1 && (
-              <div className="grid grid-cols-2 gap-2 mt-4">
+              <div className="grid grid-cols-1 gap-2 pt-2">
                 {iceBreakers.map((b, i) => (
-                  <button key={i} onClick={() => handleSend(b)} className="text-[11px] bg-slate-900 border border-slate-800 text-slate-400 p-3 rounded-xl hover:border-cyan-500 hover:text-cyan-400 transition cursor-pointer">
-                    {b}
+                  <button 
+                    key={i} 
+                    onClick={() => handleSend(b)} 
+                    className="text-left text-xs bg-slate-900/80 border border-slate-800 text-cyan-300 p-2.5 rounded-xl hover:border-cyan-500 hover:bg-slate-900 transition cursor-pointer"
+                  >
+                    ✨ {b}
                   </button>
                 ))}
               </div>
@@ -86,16 +96,19 @@ export default function AICustomerService() {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-4 border-t border-slate-900 bg-slate-950">
+          <div className="p-3 border-t border-slate-900 bg-slate-950">
             <div className="relative flex items-center">
               <input 
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend(input)}
-                placeholder="Tulis pesan..."
-                className="w-full bg-slate-900 border border-slate-800 rounded-full pl-5 pr-12 py-3 text-[13px] text-white focus:outline-none focus:ring-1 focus:ring-cyan-500/50 transition"
+                placeholder="Ketik pesan Anda di sini..."
+                className="w-full bg-slate-900 border border-slate-800 rounded-full pl-4 pr-12 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/50 transition"
               />
-              <button onClick={() => handleSend(input)} className="absolute right-2 p-1.5 bg-cyan-500 rounded-full hover:bg-cyan-400 transition cursor-pointer">
+              <button 
+                onClick={() => handleSend(input)} 
+                className="absolute right-1.5 p-2 bg-cyan-500 rounded-full hover:bg-cyan-400 transition cursor-pointer"
+              >
                 <span className="text-[10px] text-slate-950 font-bold">➤</span>
               </button>
             </div>
