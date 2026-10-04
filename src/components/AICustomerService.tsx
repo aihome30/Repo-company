@@ -9,11 +9,11 @@ interface Message {
 
 export default function AICustomerService() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] + useState<Message[]>([
+  const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: 'Halo! Saya asisten virtual PT. Indo Jaya Gram. Ceritakan sedikit tentang proyek atau kebutuhan Anda, dan saya akan bantu arahkan solusinya.' }
   ]);
   const [input, setInput] = useState('');
-  const [step, setStep] = useState(0); // 0: initial, 1: discussed project, 2: asked contact
+  const [step, setStep] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const iceBreakers = [
@@ -31,8 +31,8 @@ export default function AICustomerService() {
     if (!text || !text.trim()) return;
     
     const userText = text.trim();
-    const newMessages = [...messages, { role: 'user', content: userText }];
-    setMessages(newMessages);
+    const updatedMessages = [...messages, { role: 'user', content: userText }];
+    setMessages(updatedMessages);
     setInput('');
 
     setTimeout(() => {
@@ -48,7 +48,7 @@ export default function AICustomerService() {
         setStep(3);
       }
 
-      setMessages([...newMessages, { role: 'assistant', content: reply }]);
+      setMessages([...updatedMessages, { role: 'assistant', content: reply }]);
     }, 700);
   };
 
