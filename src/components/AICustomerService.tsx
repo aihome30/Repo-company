@@ -45,7 +45,21 @@ export default function AICustomerService() {
       const data = await res.json();
       
       if (data.success) {
-        setMessages([...newMessages, { role: 'assistant', content: data.reply }]);
+        const assistantMsg: Message = { role: 'assistant', content: data.reply };
+        setMessages([...newMessages, assistantMsg]);
+        try {
+          const newTicket = {
+            id: `TICK-${Date.now().toString().slice(-3)}`,
+            clientName: 'Konsultasi Chat AI',
+            service: 'Konsultasi AI',
+            message: userText,
+            status: 'New',
+            time: 'Baru saja'
+          };
+          const saved = localStorage.getItem('indojaya_tickets');
+          const tickets = saved ? JSON.parse(saved) : [];
+          localStorage.setItem('indojaya_tickets', JSON.stringify([newTicket, ...tickets]));
+        } catch { /* abaikan bila storage penuh */ }
       } else {
         setMessages([...newMessages, { role: 'assistant', content: 'Maaf, terjadi kendala koneksi. Silakan coba lagi.' }]);
       }

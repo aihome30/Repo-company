@@ -34,6 +34,19 @@ export default function ContactForm() {
         throw new Error('Gagal mengirim pesan. Silakan coba lagi.');
       }
 
+      // Save to localStorage for HRD/CS Portal
+      const newTicket = {
+        id: `TICK-${Date.now().toString().slice(-3)}`,
+        clientName: data.name,
+        service: data.service,
+        message: data.message,
+        status: 'New',
+        time: 'Baru saja'
+      };
+      const saved = localStorage.getItem('indojaya_tickets');
+      const tickets = saved ? JSON.parse(saved) : [];
+      localStorage.setItem('indojaya_tickets', JSON.stringify([newTicket, ...tickets]));
+
       setSuccess(true);
       reset();
       setTimeout(() => setSuccess(false), 5000);
