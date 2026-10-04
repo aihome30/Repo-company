@@ -11,6 +11,7 @@ export default function Navbar() {
     { href: '/services', label: 'Services' },
     { href: '/portfolio', label: 'Portfolio' },
     { href: '/pricing', label: 'Pricing' },
+    { href: '/order', label: 'Order' },
     { href: '/team', label: 'Team' },
     { href: '/about', label: 'About' },
   ];
@@ -32,13 +33,12 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-slate-300 hover:text-blue-600 transition font-medium"
+              className={`transition font-medium ${link.href === '/order' ? 'text-cyan-400 font-bold hover:text-cyan-300' : 'text-slate-300 hover:text-blue-600'}`}
             >
               {link.label}
             </Link>
           ))}
-          <Link href="/order" class="text-cyan-400 font-semibold">Order</a>
-            <a href="/contact" className="btn btn-primary">
+          <Link href="/contact" className="btn btn-primary">
             Contact
           </Link>
         </div>
@@ -73,14 +73,13 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-slate-300 hover:text-blue-600 font-medium"
+                className={`font-medium ${link.href === '/order' ? 'text-cyan-400 font-bold' : 'text-slate-300 hover:text-blue-600'}`}
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <Link href="/order" class="text-cyan-400 font-semibold">Order</a>
-            <a href="/contact" className="btn btn-primary">
+            <Link href="/contact" className="btn btn-primary" onClick={() => setIsOpen(false)}>
               Contact
             </Link>
           </div>
