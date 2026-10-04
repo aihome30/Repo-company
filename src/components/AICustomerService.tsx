@@ -10,75 +10,65 @@ interface Message {
 export default function AICustomerService() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'Halo! Saya asisten AI PT. Indo Jaya Gram. Ada yang bisa saya bantu hari ini?' }
+    { role: 'assistant', content: 'Halo! Saya asisten AI PT. Indo Jaya Gram. Apa yang ingin kita bangun hari ini?' }
   ]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const iceBreakers = [
-    'Saya mau bikin website baru',
-    'Ingin tanya soal otomatisasi AI',
-    'Kerjasama sistem pembayaran',
-    'Konsultasi infrastruktur cloud'
+    'Bikin website agency',
+    'Automasi AI Enterprise',
+    'Integrasi Payment Gateway',
+    'Setup Cloud Datacenter'
   ];
 
-  const scrollToBottom = () => {
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(scrollToBottom, [messages]);
+  }, [messages]);
 
   const handleSend = (text: string = input) => {
     if (!text.trim()) return;
-    const userMsg = text;
-    setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
+    setMessages(prev => [...prev, { role: 'user', content: text }]);
     setInput('');
 
     setTimeout(() => {
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: 'Menarik sekali! ' + userMsg + '. Saya akan bantu siapkan perencanaannya. Boleh saya tahu kontak WhatsApp atau email Anda agar tim kami bisa mengirimkan proposal ringkasnya?' 
+        content: 'Menarik! Mari kita buat rencananya. Boleh share WhatsApp atau email agar tim kita bisa segera follow-up?' 
       }]);
-    }, 800);
+    }, 600);
   };
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
-      {!isOpen && (
+      {!isOpen ? (
         <button 
           onClick={() => setIsOpen(true)}
-          className="p-4 bg-cyan-500 rounded-full shadow-2xl hover:scale-105 transition hover:bg-cyan-400 flex items-center space-x-2"
+          className="group flex items-center bg-slate-950 border border-slate-800 p-3 rounded-2xl shadow-2xl hover:border-cyan-500 transition-all"
         >
-          <span className="text-xl">💬</span>
-          <span className="text-slate-950 font-bold text-xs pr-1">Konsultasi AI</span>
+          <span className="text-xl mr-3">⚡</span>
+          <span className="text-slate-200 text-sm font-medium mr-3">Tanya AI</span>
+          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
         </button>
-      )}
-      
-      {isOpen && (
-        <div className="w-[350px] h-[520px] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
-          <div className="p-4 bg-slate-950 border-b border-slate-800 flex justify-between items-center">
-            <span className="font-bold text-sm text-cyan-400">Asisten AI Indo Jaya Gram</span>
-            <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-white">✕</button>
+      ) : (
+        <div className="w-[360px] h-[550px] bg-slate-950 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+          <div className="p-5 border-b border-slate-900 flex justify-between items-center bg-slate-900/50">
+            <h3 className="text-sm font-semibold text-white tracking-wide">Konsultasi Indo Jaya</h3>
+            <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-white transition">✕</button>
           </div>
           
-          <div className="flex-1 p-4 overflow-y-auto space-y-4">
+          <div className="flex-1 p-5 overflow-y-auto space-y-4">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${m.role === 'user' ? 'bg-cyan-600 text-white rounded-br-none' : 'bg-slate-800 text-slate-200 rounded-bl-none'}`}>
+                <div className={`px-4 py-2.5 rounded-2xl text-[13px] max-w-[80%] ${m.role === 'user' ? 'bg-cyan-500 text-slate-950 font-medium' : 'bg-slate-900 text-slate-300 border border-slate-800'}`}>
                   {m.content}
                 </div>
               </div>
             ))}
-            
-            {/* Ice Breaker Buttons */}
             {messages.length === 1 && (
-              <div className="grid grid-cols-1 gap-2 mt-4">
+              <div className="grid grid-cols-2 gap-2 mt-4">
                 {iceBreakers.map((b, i) => (
-                  <button 
-                    key={i} 
-                    onClick={() => handleSend(b)}
-                    className="text-left text-xs bg-slate-800 hover:bg-slate-700 text-cyan-300 p-3 rounded-xl border border-slate-700 transition"
-                  >
+                  <button key={i} onClick={() => handleSend(b)} className="text-[11px] bg-slate-900 border border-slate-800 text-slate-400 p-3 rounded-xl hover:border-cyan-500 hover:text-cyan-400 transition">
                     {b}
                   </button>
                 ))}
@@ -87,16 +77,18 @@ export default function AICustomerService() {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-4 bg-slate-950 border-t border-slate-800">
-            <div className="flex space-x-2">
+          <div className="p-4 border-t border-slate-900">
+            <div className="relative flex items-center">
               <input 
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="Atau tulis pesan sendiri..."
-                className="flex-1 bg-slate-900 border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500"
+                placeholder="Tulis pesan..."
+                className="w-full bg-slate-900 border border-slate-800 rounded-full pl-5 pr-12 py-3 text-[13px] text-white focus:outline-none focus:ring-1 focus:ring-cyan-500/50 transition"
               />
-              <button onClick={() => handleSend()} className="bg-cyan-500 text-slate-950 px-4 rounded-lg font-bold text-sm">Kirim</button>
+              <button onClick={() => handleSend()} className="absolute right-2 p-1.5 bg-cyan-500 rounded-full hover:bg-cyan-400 transition">
+                <span className="text-[10px] text-slate-950 font-bold">➤</span>
+              </button>
             </div>
           </div>
         </div>
