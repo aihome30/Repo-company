@@ -37,7 +37,8 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link href="/contact" className="btn btn-primary">
+          <Link href="/order" class="text-cyan-400 font-semibold">Order</a>
+            <a href="/contact" className="btn btn-primary">
             Contact
           </Link>
         </div>
@@ -78,7 +79,8 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link href="/contact" className="btn btn-primary">
+            <Link href="/order" class="text-cyan-400 font-semibold">Order</a>
+            <a href="/contact" className="btn btn-primary">
               Contact
             </Link>
           </div>
