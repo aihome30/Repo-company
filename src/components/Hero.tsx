@@ -2,63 +2,62 @@ import Link from 'next/link';
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white py-24 sm:py-32">
-      {/* Glassmorphism 2.0 — glowing orbs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/15 rounded-full blur-3xl pointer-events-none animate-float" />
-      <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative overflow-hidden bg-slate-950 text-slate-100 py-28 lg:py-36 border-b border-slate-900">
+      {/* Background Glow Mesh */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-cyan-500/15 blur-[140px] pointer-events-none rounded-full"></div>
+      <div className="absolute top-1/3 right-1/4 w-[400px] h-[300px] bg-blue-600/10 blur-[120px] pointer-events-none rounded-full"></div>
 
-      <div className="container relative z-10 max-w-5xl mx-auto text-center px-4">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-sm font-medium mb-8 backdrop-blur-xl shadow-[0_0_20px_rgba(6,182,212,0.15)] ">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-          Creative Tech & Modern UI/UX 2026 — Glassmorphism 2.0
+      <div className="max-w-6xl mx-auto px-4 relative z-10 text-center">
+        
+        {/* Top Badge */}
+        <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-cyan-400 text-xs font-semibold mb-8 shadow-inner">
+          <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span>PT. Indo Jaya Gram — Premier Digital Agency & SaaS Partner</span>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
-          Transforming Ideas Into{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-300 to-indigo-400">
-            Intelligent Software
+        {/* Main Headline */}
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">
+          Membangun Masa Depan <br className="hidden sm:inline" />
+          <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
+            Digital & AI Enterprise
           </span>
         </h1>
 
-        <p className="text-lg sm:text-xl text-slate-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-          Kami membangun solusi digital tingkat lanjut, arsitektur cloud tangguh, dan sistem cerdas berbasis AI untuk mengakselerasi pertumbuhan bisnis UMKM dan startup Anda.
+        {/* Subtitle */}
+        <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-400 mb-10 leading-relaxed">
+          Kami menggabungkan rekayasa perangkat lunak tingkat lanjut (Java, Go, Rust, Next.js) dengan otomatisasi agen AI cerdas untuk mempercepat pertumbuhan bisnis UMKM dan Startup kelas dunia.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Link
-            href="/contact"
-            className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold shadow-lg shadow-cyan-600/30 transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] active:scale-95 group flex items-center justify-center gap-2"
-          >
-            Mulai Konsultasi Gratis
-            <svg className="w-5 h-5 transition-transform duration-500 ease-in-out group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <Link href="/contact" className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold rounded-xl hover:opacity-95 transition shadow-lg shadow-cyan-500/20 text-center">
+            Konsultasi Proyek Gratis
           </Link>
-          <Link
-            href="/services"
-            className="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-800/60 hover:bg-slate-700/60 text-slate-200 border border-slate-700 hover:border-slate-600 font-semibold backdrop-blur-md transition-all duration-500 ease-in-out hover:scale-105 active:scale-95 flex justify-center"
-          >
-            Jelajahi Layanan
+          <Link href="/portfolio" className="w-full sm:w-auto px-8 py-4 bg-slate-900 border border-slate-800 text-slate-200 font-semibold rounded-xl hover:bg-slate-800/80 transition text-center">
+            Lihat Portofolio Klien
           </Link>
         </div>
 
-        {/* Micro-interaction stats — glass cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-20 pt-12 border-t border-slate-800/60 text-left">
-          {[
-            { value: '99.9%', label: 'Uptime Infrastructure', color: 'text-cyan-400' },
-            { value: '95+', label: 'Lighthouse Score', color: 'text-blue-400' },
-            { value: '100%', label: 'QA Sign-Off Passed', color: 'text-indigo-400' },
-            { value: '24/7', label: 'Autonomous Agents', color: 'text-emerald-400' },
-          ].map((stat) => (
-            <div
-              key={stat.label}
-              className="p-4 sm:p-5 rounded-2xl bg-slate-900/40 border border-slate-800 backdrop-blur-md hover:border-cyan-500/30 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)] transition-all duration-500 ease-in-out cursor-default"
-            >
-              <div className={`text-3xl font-bold ${stat.color} mb-1`}>{stat.value}</div>
-              <div className="text-sm text-slate-400">{stat.label}</div>
-            </div>
-          ))}
+        {/* Metrics Bar */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-10 border-t border-slate-900 max-w-4xl mx-auto text-center">
+          <div>
+            <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono">100%</div>
+            <div className="text-xs text-slate-500 uppercase mt-1 tracking-wider">Enterprise Security</div>
+          </div>
+          <div>
+            <div className="text-2xl sm:text-3xl font-extrabold text-cyan-400 font-mono">99.9%</div>
+            <div className="text-xs text-slate-500 uppercase mt-1 tracking-wider">Uptime SLA</div>
+          </div>
+          <div>
+            <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono">3-Agent</div>
+            <div className="text-xs text-slate-500 uppercase mt-1 tracking-wider">Autonomous AI</div>
+          </div>
+          <div>
+            <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono">Zero</div>
+            <div className="text-xs text-slate-500 uppercase mt-1 tracking-wider">Data Leaks (DLP)</div>
+          </div>
         </div>
+
       </div>
     </section>
   );
