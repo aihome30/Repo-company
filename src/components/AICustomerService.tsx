@@ -31,7 +31,7 @@ export default function AICustomerService() {
     if (!text || !text.trim()) return;
     
     const userText = text.trim();
-    const updatedMessages = [...messages, { role: 'user', content: userText }];
+    const updatedMessages: Message[] = [...messages, { role: 'user' as const, content: userText }];
     setMessages(updatedMessages);
     setInput('');
 
@@ -48,7 +48,7 @@ export default function AICustomerService() {
         setStep(3);
       }
 
-      setMessages([...updatedMessages, { role: 'assistant', content: reply }]);
+      setMessages([...updatedMessages, { role: 'assistant' as const, content: reply }]);
     }, 700);
   };
 
