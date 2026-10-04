@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 interface Ticket {
   id: string;
@@ -17,7 +15,6 @@ export default function CustomerServicePortal() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
   useEffect(() => {
-    // Load initial or live stored tickets
     const defaultTickets: Ticket[] = [
       { id: 'TICK-001', clientName: 'Budi Santoso', service: 'Custom Web Dev', message: 'Halo, saya ingin buat platform e-commerce skala enterprise.', status: 'New', time: '10 mins ago' },
       { id: 'TICK-002', clientName: 'Siti Rahma', service: 'Automasi AI', message: 'Apakah bisa integrasi agen AI untuk WhatsApp CS kami?', status: 'In Progress', time: '1 hour ago' },
@@ -58,10 +55,8 @@ export default function CustomerServicePortal() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col font-sans">
-      <Navbar />
-      
-      <main className="flex-1 max-w-7xl mx-auto px-6 py-16 w-full">
+    <div className="min-h-screen bg-slate-950 text-white flex flex-col font-sans pt-12 pb-20">
+      <div className="max-w-7xl mx-auto px-6 w-full">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
@@ -74,7 +69,7 @@ export default function CustomerServicePortal() {
           <div className="flex items-center gap-3">
             <button 
               onClick={addTestTicket}
-              className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-xl text-xs font-bold transition shadow-lg shadow-cyan-500/20"
+              className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-xl text-xs font-bold transition shadow-lg shadow-cyan-500/20 cursor-pointer"
             >
               + Simulasi Tiket Masuk
             </button>
@@ -110,7 +105,7 @@ export default function CustomerServicePortal() {
                 <select
                   value={t.status}
                   onChange={(e) => updateStatus(t.id, e.target.value as any)}
-                  className="bg-slate-950 border border-slate-700 text-xs text-white rounded-lg px-3 py-2 focus:outline-none focus:border-cyan-500"
+                  className="bg-slate-950 border border-slate-700 text-xs text-white rounded-lg px-3 py-2 focus:outline-none focus:border-cyan-500 cursor-pointer"
                 >
                   <option value="New">New</option>
                   <option value="In Progress">In Progress</option>
@@ -120,9 +115,7 @@ export default function CustomerServicePortal() {
             </div>
           ))}
         </div>
-      </main>
-
-      <Footer />
+      </div>
     </div>
   );
 }
