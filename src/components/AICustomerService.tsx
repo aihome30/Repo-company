@@ -10,46 +10,50 @@ interface Message {
 export default function AICustomerService() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'Halo! Saya asisten virtual PT. Indo Jaya Gram. Ceritakan sedikit tentang proyek atau kebutuhan Anda, dan saya akan bantu arahkan solusinya.' }
+    { role: 'assistant', content: 'Halo! Saya Maya, CS Executive PT. Indo Jaya Gram. Ada yang bisa saya bantu hari ini?' }
   ]);
   const [input, setInput] = useState('');
-  const [step, setStep] = useState(0);
+  const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const iceBreakers = [
-    'Pembuatan Website & Web App',
-    'Automasi AI & Agent Systems',
-    'Payment Gateway Integration',
-    'Infrastruktur Cloud & DevOps'
+    'Konsultasi pembuatan website',
+    'Automasi sistem & AI',
+    'Integrasi pembayaran Xendit',
+    'Tanya estimasi harga'
   ];
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSend = (text: string) => {
-    if (!text || !text.trim()) return;
+  const handleSend = async (text: string) => {
+    if (!text || !text.trim() || loading) return;
     
     const userText = text.trim();
-    const updatedMessages: Message[] = [...messages, { role: 'user' as const, content: userText }];
-    setMessages(updatedMessages);
+    const newMessages: Message[] = [...messages, { role: 'user', content: userText }];
+    setMessages(newMessages);
     setInput('');
+    setLoading(true);
 
-    setTimeout(() => {
-      let reply = "";
-      if (step === 0) {
-        reply = `Pilihan yang sangat tepat! Untuk ${userText}, tim expert kami di Indo Jaya Gram siap mengeksekusinya dengan standar performa tertinggi. Apakah ada skala timeline atau target khusus untuk proyek ini?`;
-        setStep(1);
-      } else if (step === 1) {
-        reply = "Baik, catatan untuk timeline sudah saya simpan. Agar tim senior kami bisa mengirimkan proposal teknis dan estimasi anggaran yang akurat, boleh saya minta nomor WhatsApp atau email Bapak/Ibu?";
-        setStep(2);
+    try {
+      const res = await fetch('/api/chat-agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userText, history: messages })
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        setMessages([...newMessages, { role: 'assistant', content: data.reply }]);
       } else {
-        reply = "Terima kasih banyak! Kontak Anda sudah kami terima dan masuk ke prioritas antrean. Tim kami akan segera menghubungi Anda dalam waktu kurang dari 1 jam. Ada hal lain yang ingin didiskusikan?";
-        setStep(3);
+        setMessages([...newMessages, { role: 'assistant', content: 'Maaf, terjadi kendala koneksi. Silakan coba lagi.' }]);
       }
-
-      setMessages([...updatedMessages, { role: 'assistant' as const, content: reply }]);
-    }, 700);
+    } catch {
+      setMessages([...newMessages, { role: 'assistant', content: 'Mohon maaf, sistem sedang sibuk. Silakan hubungi kami via halaman Contact.' }]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -59,16 +63,23 @@ export default function AICustomerService() {
           onClick={() => setIsOpen(true)}
           className="group flex items-center bg-slate-950 border border-slate-800 p-3.5 rounded-2xl shadow-2xl hover:border-cyan-500 transition-all cursor-pointer"
         >
-          <span className="text-xl mr-2.5">💬</span>
-          <span className="text-slate-200 text-sm font-medium mr-2.5">Konsultasi AI</span>
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span className="text-xl mr-2.5">👩‍💻</span>
+          <div className="text-left mr-2.5">
+            <div className="text-xs font-bold text-white">Maya (CS AI)</div>
+            <div className="text-[10px] text-emerald-400 flex items-center"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1"></span> Online 24/7</div>
+          </div>
         </button>
       ) : (
-        <div className="w-[380px] h-[560px] bg-slate-950 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+        <div className="w-[380px] h-[580px] bg-slate-950 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
           <div className="p-4 border-b border-slate-900 flex justify-between items-center bg-slate-900/40">
-            <div className="flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-              <span className="text-xs font-semibold text-white tracking-wide">Konsultan AI Indo Jaya Gram</span>
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold text-xs">
+                M
+              </div>
+              <div>
+                <div className="text-xs font-semibold text-white">Maya — CS Executive</div>
+                <div className="text-[10px] text-emerald-400">PT. Indo Jaya Gram AI Employee</div>
+              </div>
             </div>
             <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-white transition">✕</button>
           </div>
@@ -82,6 +93,14 @@ export default function AICustomerService() {
               </div>
             ))}
             
+            {loading && (
+              <div className="flex justify-start">
+                <div className="bg-slate-900 text-slate-400 border border-slate-800 px-4 py-2.5 rounded-2xl text-xs animate-pulse">
+                  Maya sedang mengetik...
+                </div>
+              </div>
+            )}
+
             {messages.length === 1 && (
               <div className="grid grid-cols-1 gap-2 pt-2">
                 {iceBreakers.map((b, i) => (
@@ -90,7 +109,7 @@ export default function AICustomerService() {
                     onClick={() => handleSend(b)} 
                     className="text-left text-xs bg-slate-900/90 border border-slate-800 text-cyan-300 p-3 rounded-xl hover:border-cyan-500 hover:bg-slate-900 transition cursor-pointer font-medium"
                   >
-                    ⚡ {b}
+                    💬 {b}
                   </button>
                 ))}
               </div>
@@ -104,12 +123,13 @@ export default function AICustomerService() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend(input)}
-                placeholder="Ketik balasan atau kebutuhan Anda..."
+                placeholder="Ketik pesan untuk Maya..."
                 className="w-full bg-slate-900 border border-slate-800 rounded-full pl-4 pr-12 py-3 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/50 transition"
               />
               <button 
                 onClick={() => handleSend(input)} 
-                className="absolute right-1.5 p-2 bg-cyan-500 rounded-full hover:bg-cyan-400 transition cursor-pointer"
+                disabled={loading}
+                className="absolute right-1.5 p-2 bg-cyan-500 rounded-full hover:bg-cyan-400 transition cursor-pointer disabled:opacity-50"
               >
                 <span className="text-[10px] text-slate-950 font-bold">➤</span>
               </button>
