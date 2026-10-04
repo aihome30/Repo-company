@@ -2,8 +2,6 @@ import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
-// In-memory cache for the latest pushed metrics (or store in a lightweight way)
-// For serverless, we can store it in global or a simple structure.
 let cachedData = {
   datacenterStatus: 'OPTIMAL',
   timestamp: new Date().toISOString(),
@@ -32,5 +30,8 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
-  return NextResponse.json(cachedData);
+  const response = NextResponse.json(cachedData);
+  // Add Cache-Control header to enable edge caching for 5 seconds (stale-while-revalidate)
+  response.headers.set('Cache-Control', 'public, s-maxage=5, stale-while-revalidate=10');
+  return response;
 }
