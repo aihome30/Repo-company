@@ -10,7 +10,7 @@ interface Message {
 export default function AICustomerService() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'Halo! Saya asisten AI PT. Indo Jaya Gram. Apa yang ingin kita bangun hari ini?' }
+    { role: 'assistant', content: 'Halo! Saya AI Konsultan Indo Jaya Gram. Ada yang ingin kita bangun atau otomasi hari ini?' }
   ]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -26,6 +26,14 @@ export default function AICustomerService() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  const getAssistantResponse = (userText: string) => {
+    const text = userText.toLowerCase();
+    if (text.includes('website')) return 'Web modern dengan performa tinggi? Siap, kami ahli di Next.js & AI-integration. Mari kita rencanakan. Boleh saya tahu email/WA Anda?';
+    if (text.includes('ai') || text.includes('otomasi')) return 'Otomasi AI adalah spesialisasi kami. Kami bisa buat sistem agen AI yang bekerja 24/7. Ada detail khusus yang ingin ditanyakan?';
+    if (text.includes('payment')) return 'Integrasi Payment Gateway (Xendit/Midtrans) akan kami buat aman & seamless. Mari kita bahas integrasinya lebih detail.';
+    return 'Terima kasih informasinya. Apakah ada detail lain, atau boleh saya minta kontak (email/WA) agar tim kami bisa mengirimkan draf rencana proyeknya?';
+  };
+
   const handleSend = useCallback((text: string) => {
     if (!text || text.trim() === '') return;
     
@@ -35,7 +43,7 @@ export default function AICustomerService() {
     setTimeout(() => {
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: 'Menarik! Mari kita buat rencananya. Boleh share WhatsApp atau email agar tim kita bisa segera follow-up?' 
+        content: getAssistantResponse(text)
       }]);
     }, 600);
   }, []);
@@ -61,7 +69,7 @@ export default function AICustomerService() {
           <div className="flex-1 p-5 overflow-y-auto space-y-4">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`px-4 py-2.5 rounded-2xl text-[13px] max-w-[80%] ${m.role === 'user' ? 'bg-cyan-500 text-slate-950 font-medium' : 'bg-slate-900 text-slate-300 border border-slate-800'}`}>
+                <div className={`px-4 py-2.5 rounded-2xl text-[13px] max-w-[85%] ${m.role === 'user' ? 'bg-cyan-500 text-slate-950 font-medium' : 'bg-slate-900 text-slate-300 border border-slate-800'}`}>
                   {m.content}
                 </div>
               </div>
