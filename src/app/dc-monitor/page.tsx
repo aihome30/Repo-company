@@ -16,7 +16,8 @@ export default function DatacenterMonitor() {
   const [loading, setLoading] = useState(true);
 
   const fetchMetrics = () => {
-    fetch('/api/datacenter-metrics')
+    // Update fetch endpoint to ingest-metrics which is already cached
+    fetch('/api/ingest-metrics')
       .then(res => res.json())
       .then(d => {
         setData(d);
@@ -27,7 +28,7 @@ export default function DatacenterMonitor() {
 
   useEffect(() => {
     fetchMetrics();
-    const interval = setInterval(fetchMetrics, 5000);
+    const interval = setInterval(fetchMetrics, 10000); // 10s is enough
     return () => clearInterval(interval);
   }, []);
 
@@ -42,7 +43,7 @@ export default function DatacenterMonitor() {
               <span className="h-3 w-3 rounded-full bg-cyan-400 animate-pulse"></span>
               <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">Datacenter Fleet Telemetry</h1>
             </div>
-            <p className="text-xs md:text-sm text-slate-400">Real-time multi-node and container monitoring across Proxmox via Prometheus.</p>
+            <p className="text-xs md:text-sm text-slate-400">Securely pushed telemetry from Proxmox Datacenter Local Prometheus.</p>
           </div>
           <div className="flex items-center space-x-3">
             <span className="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold rounded-lg">
@@ -54,26 +55,12 @@ export default function DatacenterMonitor() {
           </div>
         </div>
 
-        {/* Status Banner */}
-        <div className="bg-gradient-to-r from-slate-900 to-slate-900/80 border border-slate-800 rounded-2xl p-6 mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div>
-            <div className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-1">Datacenter Cluster Status</div>
-            <div className="text-xl font-bold text-emerald-400 flex items-center space-x-2">
-              <span>●</span>
-              <span>{data?.datacenterStatus || 'OPTIMAL'}</span>
-            </div>
-          </div>
-          <div className="text-right text-xs text-slate-400 font-mono">
-            Datasource: {data?.datasource || 'Prometheus'}
-          </div>
-        </div>
-
         {/* Servers Grid */}
         <div className="mb-6">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">All Datacenter Servers & Containers</h2>
+          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">Live Hardware & Container Health</h2>
           
           {loading ? (
-            <div className="p-12 text-center text-slate-500 font-mono">Querying Prometheus cluster nodes...</div>
+            <div className="p-12 text-center text-slate-500 font-mono">Synchronizing telemetry...</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {data?.servers?.map((s: ServerMetric, idx: number) => (
