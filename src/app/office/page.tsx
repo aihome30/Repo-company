@@ -48,8 +48,14 @@ export default function RealtimeAgentOffice() {
   ]);
   const [selectedAgent, setSelectedAgent] = useState<Agent>(INITIAL_AGENTS[0]);
 
+  const [currentTime, setCurrentTime] = useState('');
+
   // Dynamic status rotation to reflect real agent activities
   useEffect(() => {
+    const clockTimer = setInterval(() => {
+      setCurrentTime(new Date().toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' }));
+    }, 1000);
+
     const tasksPool = [
       { task: 'Meninjau log error & exception handling', activity: 'Debugging runtime' },
       { task: 'Sinkronisasi data transaksi Xendit & database', activity: 'API integration check' },
@@ -89,8 +95,14 @@ export default function RealtimeAgentOffice() {
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
           <span className="text-emerald-400 text-xs font-semibold">LIVE AGENT TELEMETRY STREAM</span>
         </div>
-        <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full font-mono">
-          <span>🟢 Realtime Active</span>
+        <div className="flex items-center gap-4 text-xs">
+          <div className="flex flex-col items-end leading-tight">
+            <span className="text-slate-400 font-mono text-[10px]">WAKTU OPERASIONAL (WIB)</span>
+            <span className="text-cyan-400 font-bold font-mono text-sm tracking-widest">{currentTime || '--:--:--'}</span>
+          </div>
+          <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full font-mono">
+            <span>🟢 Realtime Active</span>
+          </div>
         </div>
       </div>
 
