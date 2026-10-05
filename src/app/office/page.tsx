@@ -50,7 +50,7 @@ export default function RealtimeAgentOffice() {
 
   const [currentTime, setCurrentTime] = useState('');
 
-  // Dynamic status rotation to reflect real agent activities
+  // Dynamic status rotation to reflect real agent activities during operational hours (08:00 - 19:00 WIB)
   useEffect(() => {
     const clockTimer = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' }));
@@ -58,7 +58,7 @@ export default function RealtimeAgentOffice() {
 
     const tasksPool = [
       { task: 'Meninjau log error & exception handling', activity: 'Debugging runtime' },
-      { task: 'Sinkronisasi data transaksi Xendit & database', activity: 'API integration check' },
+      { task: 'Sinkronisasi data transaksi & database', activity: 'API integration check' },
       { task: 'Melakukan audit keamanan data (DLP Guardrails)', activity: 'Security scanning' },
       { task: 'Optimasi query PostgreSQL & indexing tabel', activity: 'DB tuning' },
       { task: 'Menyusun laporan kinerja mingguan untuk CEO', activity: 'Reporting to management' },
@@ -66,6 +66,22 @@ export default function RealtimeAgentOffice() {
     ];
 
     const timer = setInterval(() => {
+      const now = new Date();
+      const hour = parseInt(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta', hour: 'numeric', hour12: false }));
+      const isOperational = hour >= 8 && hour < 19;
+
+      if (!isOperational) {
+        // Outside operational hours: regular agents off duty, only SRE watcher active
+        setAgents((prev) =>
+          prev.map((ag) =>
+            ag.id === '4'
+              ? { ...ag, currentTask: 'SRE 24/7 Uptime Watcher (Active)', status: 'Standby 24/7', activity: 'Monitoring Infrastructure' }
+              : { ...ag, currentTask: 'Off Duty (Jam Kerja Selesai)', status: 'Off Duty', activity: 'Standby Besok Pagi' }
+          )
+        );
+        return;
+      }
+
       const timestamp = new Date().toLocaleTimeString();
       const randomAgentIndex = Math.floor(Math.random() * INITIAL_AGENTS.length);
       const chosenAgent = INITIAL_AGENTS[randomAgentIndex];
@@ -83,7 +99,10 @@ export default function RealtimeAgentOffice() {
       setLogs((p) => [logMsg, ...p.slice(0, 49)]);
     }, 3500);
 
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(clockTimer);
+      clearInterval(timer);
+    };
   }, []);
 
   return (
