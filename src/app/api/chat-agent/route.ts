@@ -14,21 +14,26 @@ export async function POST(request: Request) {
     let leadCaptured = false;
     let clientSummary = "";
 
-    if (lower.includes('website') || lower.includes('web') || lower.includes('buat')) {
-      reply = "PT. Indo Jaya Gram ahli dalam pembuatan Custom Web App & SaaS berstandar tinggi (menggunakan Next.js, React, TypeScript dengan estetika Stripe/Linear). Apakah Anda ingin membangun company profile, e-commerce, atau platform SaaS khusus?";
-      clientSummary = "Konsultasi pembuatan Custom Web / SaaS.";
-    } else if (lower.includes('ai') || lower.includes('otomasi') || lower.includes('agent')) {
-      reply = "Kami menyediakan solusi Automasi AI dan Multi-Agent System untuk efisiensi operasional perusahaan. Layanan ini dirancang aman, terenkripsi, dan menjaga kerahasiaan data Anda.";
-      clientSummary = "Konsultasi Automasi AI & Multi-Agent System.";
-    } else if (lower.includes('bayar') || lower.includes('payment') || lower.includes('xendit')) {
-      reply = "Untuk sistem pembayaran, kami terintegrasi resmi dengan Xendit dan Midtrans dengan standar keamanan perbankan (PCI-DSS compliant).";
-      clientSummary = "Konsultasi Integrasi Payment Gateway Xendit.";
-    } else if (lower.includes('harga') || lower.includes('biaya') || lower.includes('budget')) {
-      reply = "Estimasi investasi disesuaikan dengan kompleksitas dan skala proyek Anda. Agar kami dapat memberikan proposal penawaran transparan, boleh dibagikan nomor WhatsApp atau email Anda?";
-    } else if (lower.includes('@') || lower.includes('08') || lower.includes('+62') || lower.includes('wa') || lower.includes('nomor') || lower.includes('email') || lower.includes('gmail') || lower.includes('telp')) {
-      reply = "Terima kasih! Kontak Anda telah saya catat dengan aman sesuai protokol privasi perusahaan. Tim konsultan senior kami akan segera menghubungi Anda dalam waktu kurang dari 1 jam.";
+    // Knowledge base logic: Maya answers directly without asking for contact info
+    if (lower.includes('profil') || lower.includes('siapa') || lower.includes('pt. indo jaya gram')) {
+      reply = "PT. Indo Jaya Gram adalah agency digital yang berfokus pada teknologi mutakhir, automasi AI, dan solusi cloud. Kami membangun sistem dengan estetika Stripe/Linear yang modern, performa tinggi, dan fokus pada efisiensi operasional.";
+    } else if (lower.includes('website') || lower.includes('web')) {
+      reply = "Kami menyediakan layanan pembuatan website profesional (Next.js, TypeScript, Tailwind) dengan performa tinggi dan desain modern. Anda bisa memilih paket mulai dari Company Profile hingga SaaS Enterprise.";
+    } else if (lower.includes('ai') || lower.includes('otomasi')) {
+      reply = "Layanan AI kami mencakup integrasi AI Agent seperti saya (Maya) untuk kebutuhan CS, automasi workflow operasional, dan analisis data cerdas yang aman dan terenkripsi.";
+    } else if (lower.includes('bayar') || lower.includes('xendit')) {
+      reply = "Kami menggunakan integrasi Xendit untuk sistem pembayaran yang aman (PCI-DSS compliant), mendukung transfer bank, e-wallet, dan QRIS.";
+    } else if (lower.includes('kontak') || lower.includes('hubungi') || lower.includes('nomor') || lower.includes('email') || lower.includes('budget') || lower.includes('harga')) {
+      // Ask for contact info only for professional proposal/estimation
+      reply = "Untuk kebutuhan penawaran proposal resmi atau estimasi biaya proyek secara spesifik, boleh dibagikan nomor WhatsApp atau email Anda? Tim senior kami akan menyusun proposal transparan untuk Anda.";
+    }
+
+    // Lead detection logic
+    if ((lower.includes('@') || lower.includes('08') || lower.includes('+62')) && 
+        (lower.includes('wa') || lower.includes('email') || lower.includes('gmail'))) {
       leadCaptured = true;
-      clientSummary = `Prospek Klien baru via Chat AI (Kontak terlampir: ${message})`;
+      reply = "Terima kasih informasinya. Data telah kami catat dengan aman. Tim kami akan segera mengirimkan proposal penawaran kepada Anda.";
+      clientSummary = `Prospek Klien (Info: ${message})`;
     }
 
     return NextResponse.json({
