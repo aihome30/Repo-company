@@ -71,12 +71,12 @@ export default function RealtimeAgentOffice() {
       const isOperational = hour >= 8 && hour < 19;
 
       if (!isOperational) {
-        // Outside operational hours: regular agents off duty, only SRE watcher active
+        // Outside operational hours: regular agents sleep in lounge, only SRE watcher active
         setAgents((prev) =>
           prev.map((ag) =>
             ag.id === '4'
-              ? { ...ag, currentTask: 'SRE 24/7 Uptime Watcher (Active)', status: 'Standby 24/7', activity: 'Monitoring Infrastructure' }
-              : { ...ag, currentTask: 'Off Duty (Jam Kerja Selesai)', status: 'Off Duty', activity: 'Standby Besok Pagi' }
+              ? { ...ag, room: 'Server / Ops Room', currentTask: 'SRE 24/7 Uptime Watcher (Active)', status: 'Standby 24/7', activity: 'Monitoring Infrastructure' }
+              : { ...ag, room: 'Lounge (Sleep)', currentTask: 'Off Duty (Tidur)', status: 'Off Duty', activity: 'Standby Besok Pagi' }
           )
         );
         return;
@@ -90,7 +90,7 @@ export default function RealtimeAgentOffice() {
       setAgents((prev) =>
         prev.map((ag) =>
           ag.id === chosenAgent.id
-            ? { ...ag, currentTask: randomTaskObj.task, activity: randomTaskObj.activity, status: 'Active' }
+            ? { ...ag, room: chosenAgent.room, currentTask: randomTaskObj.task, activity: randomTaskObj.activity, status: 'Active' }
             : ag
         )
       );
@@ -247,13 +247,18 @@ export default function RealtimeAgentOffice() {
               </div>
             </div>
 
-            {/* 6. LOUNGE */}
-            <div className="absolute border-2 border-slate-600 bg-[#262a34]/90 rounded-sm p-2" style={{ left: 8, top: 408, width: 220, height: 224 }}>
-              <div className="text-[9px] font-bold text-slate-300">LOUNGE & BREAK</div>
-              <div className="flex gap-1.5 mt-4 justify-center">
-                <div className="w-16 h-10 bg-[#111] border border-slate-600 rounded-[3px] flex items-center justify-center text-[9px] text-slate-400">Coffee Break</div>
+            {/* 6. LOUNGE / REST & SLEEPING QUARTERS */}
+            <div className="absolute border-2 border-slate-600 bg-[#262a34]/90 rounded-sm p-2 flex flex-col justify-between" style={{ left: 8, top: 408, width: 220, height: 224 }}>
+              <div className="text-[9px] font-bold text-slate-300 flex justify-between">
+                <span>LOUNGE & BEDROOM</span>
+                <span className="text-indigo-400 text-[8px]">😴 Rest Area</span>
               </div>
-              <div className="mx-auto mt-6 text-[8px] text-slate-400 text-center">Team resting / standby</div>
+              <div className="flex flex-wrap gap-1.5 my-auto justify-center">
+                {agents.filter(a => a.room.includes('Lounge') || a.status === 'Off Duty').map(a => (
+                  <AvatarChip key={a.id} emoji="😴" label={`${a.name} (Off Duty)`} color="#64748b" />
+                ))}
+              </div>
+              <div className="text-[7px] text-slate-400 text-center">Ruang Istirahat / Rest Quarters</div>
             </div>
 
             {/* 7. KITCHEN */}
