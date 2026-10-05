@@ -153,11 +153,11 @@ export default function OrderPage() {
                     <span className="text-xl font-bold text-cyan-400">Rp {price.toLocaleString('id-ID')}</span>
                   </div>
                   <button
-                    type="submit"
-                    disabled={loading}
-                    className="px-6 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-sm rounded-xl hover:opacity-95 transition shadow-lg shadow-cyan-500/20 cursor-pointer disabled:opacity-50"
+                    type="button"
+                    disabled={true}
+                    className="px-6 py-3.5 bg-slate-800 text-slate-500 font-bold text-sm rounded-xl transition cursor-not-allowed"
                   >
-                    {loading ? 'Memproses...' : 'Bayar via Xendit ⚡'}
+                    Layanan Xendit Sementara Dihentikan
                   </button>
                 </div>
               </form>
