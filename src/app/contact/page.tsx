@@ -8,7 +8,7 @@ export default function ContactPage() {
         <div className="container">
           <h1 className="heading-md mb-4">Get in Touch</h1>
           <p className="text-xl text-slate-400 max-w-2xl">
-            Have a project in mind? Let's talk about how we can help.
+            Have a project in mind? Let&apos;s talk about how we can help.
           </p>
         </div>
       </section>

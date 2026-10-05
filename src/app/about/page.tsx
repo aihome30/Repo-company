@@ -8,7 +8,7 @@ export default function AboutPage() {
         <div className="container max-w-3xl">
           <h1 className="heading-md text-white mb-6">About wspend</h1>
           <p className="text-xl text-blue-100">
-            We're a team of passionate developers and designers dedicated to helping businesses
+            We&apos;re a team of passionate developers and designers dedicated to helping businesses
             succeed through technology and innovation.
           </p>
         </div>
@@ -23,7 +23,7 @@ export default function AboutPage() {
             and digital solutions accessible to businesses of all sizes.
           </p>
           <p className="text-slate-400 mb-4">
-            Starting as a small team of developers in Jakarta, we've grown to become a trusted
+            Starting as a small team of developers in Jakarta, we&apos;ve grown to become a trusted
             partner for startups, UMKMs, and enterprises across Indonesia. Our passion for
             technology and commitment to quality has helped hundreds of businesses transform
             their digital presence.
@@ -86,7 +86,7 @@ export default function AboutPage() {
         <div className="container max-w-2xl mx-auto text-center">
           <h2 className="heading-md text-white mb-4">Ready to Transform Your Business?</h2>
           <p className="text-blue-100 mb-6">
-            Let's discuss how we can help you achieve your digital goals.
+            Let&apos;s discuss how we can help you achieve your digital goals.
           </p>
           <Link href="/contact" className="btn bg-slate-950 text-white text-blue-600 hover:bg-slate-900 border-b border-slate-800">
             Start Your Journey
