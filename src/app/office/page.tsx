@@ -124,96 +124,72 @@ export default function RealAgentOffice() {
                 backgroundSize: '20px 20px',
               }}
             />
-            <div className="absolute border-2 border-slate-600 bg-[#262a34]/90 rounded-sm" style={{ left: 8, top: 8, width: 220, height: 150 }}>
-              <div className="text-[9px] font-bold text-slate-300 px-1.5 pt-1">BRIEFING ROOM A (ACTIVE)</div>
-              <div className="mx-2 mt-1 h-8 bg-[#e8e8e8] border-2 border-slate-500 rounded-[2px] flex items-center justify-center text-[8px] text-slate-500">LIVE SYNC MONITOR</div>
-              <div className="flex justify-center gap-3 mt-2">
-                <AvatarChip emoji="🥷" label="Itachi Active" color="#a78bfa" />
-                <AvatarChip emoji="💥" label="Deidara" color="#facc15" />
-                <AvatarChip emoji="📄" label="Konan" color="#34d399" />
-                <AvatarChip emoji="🎭" label="Sasori" color="#f472b6" />
+            {/* 1. BRIEFING ROOM A (Deidara - QA) */}
+            <div className="absolute border-2 border-slate-600 bg-[#262a34]/90 rounded-sm p-1.5 flex flex-col justify-between" style={{ left: 8, top: 8, width: 220, height: 150 }}>
+              <div className="text-[9px] font-bold text-slate-300">BRIEFING ROOM A</div>
+              <div className="h-6 bg-[#e8e8e8] border border-slate-500 rounded flex items-center justify-center text-[8px] text-slate-600 font-bold">PROJECTOR SCREEN</div>
+              <div className="flex justify-center gap-4 my-auto">
+                <AvatarChip emoji="💥" label="Deidara (QA)" color="#facc15" />
               </div>
-              <div className="flex justify-center gap-1.5 mt-1.5">
+              <div className="flex justify-center gap-1.5">
                 {[0, 1, 2, 3].map((i) => (
-                  <div key={i} className="w-6 h-3.5 bg-[#4a3220] border border-[#2c1e10] rounded-[2px]" />
+                  <div key={i} className="w-6 h-3 bg-[#4a3220] border border-[#2c1e10] rounded-[2px]" />
                 ))}
               </div>
             </div>
 
-            <div className="absolute border-2 border-slate-600 bg-[#262a34]/90 rounded-sm" style={{ left: 236, top: 8, width: 330, height: 150 }}>
-              <div className="flex justify-between px-1.5 pt-1">
-                <span className="text-[9px] font-bold text-slate-300">BOARDROOM — KAFKA & SRE PIPELINE</span>
+            {/* 2. BOARDROOM (Nagato - Product) */}
+            <div className="absolute border-2 border-slate-600 bg-[#262a34]/90 rounded-sm p-1.5" style={{ left: 236, top: 8, width: 330, height: 150 }}>
+              <div className="flex justify-between">
+                <span className="text-[9px] font-bold text-slate-300">BOARDROOM — PRODUCT & STRATEGY</span>
                 <span className="text-[9px]">🟢</span>
               </div>
-              <div className="mx-auto mt-1 w-56 h-9 bg-[#7a5230] border-2 border-[#4c3016] rounded flex items-center justify-center">
-                <div className="w-40 h-4 bg-[#9a6a3e] rounded-[2px] flex items-center justify-center text-[8px] text-white">SECURE INGESTION ACTIVE</div>
+              <div className="mx-auto mt-2 w-48 h-8 bg-[#7a5230] border-2 border-[#4c3016] rounded flex items-center justify-center relative">
+                <div className="absolute -top-3">
+                  <AvatarChip emoji="🟠" label="Nagato (Product)" color="#fb923c" />
+                </div>
               </div>
-              <div className="flex justify-center gap-1.5 mt-1">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="w-4 h-4 rounded-full bg-black border border-slate-500" />
+              <div className="flex justify-center gap-1 mt-4">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="w-3.5 h-3.5 rounded-full bg-black border border-slate-500" />
                 ))}
               </div>
-              <div className="flex justify-center gap-1.5 mt-1">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="w-4 h-4 rounded-full bg-black border border-slate-500" />
-                ))}
-              </div>
-              <div className="absolute top-8 left-2 flex flex-col gap-1">
-                <div className="w-8 h-5 bg-[#0ea5e9] border border-cyan-900 rounded-[2px]" />
-                <div className="w-8 h-5 bg-[#0ea5e9] border border-cyan-900 rounded-[2px]" />
-              </div>
             </div>
 
-            <div className="absolute border-2 border-slate-600 bg-[#262a34]/90 rounded-sm" style={{ left: 574, top: 8, width: 178, height: 150 }}>
-              <div className="text-[9px] font-bold text-slate-300 px-1.5 pt-1">PRIVATE OFFICE (CEO)</div>
-              <div className="mx-2 mt-1.5 w-24 h-10 bg-[#7a5230] border-2 border-[#4c3016] rounded-[2px] relative">
-                <div className="absolute -top-2 left-2 w-6 h-4 bg-[#0ea5e9] border border-cyan-900 rounded-[2px]" />
+            {/* 3. PRIVATE OFFICE (Konan - Docs & HRD) */}
+            <div className="absolute border-2 border-slate-600 bg-[#262a34]/90 rounded-sm p-1.5" style={{ left: 574, top: 8, width: 178, height: 150 }}>
+              <div className="text-[9px] font-bold text-slate-300">PRIVATE OFFICE (DOCS & HR)</div>
+              <div className="mt-2 flex justify-center">
+                <AvatarChip emoji="📄" label="Konan (Docs)" color="#34d399" />
               </div>
-              <div className="flex gap-1.5 px-2 mt-1.5">
-                <div className="w-4 h-4 rounded-full bg-black border border-slate-500" />
-                <div className="w-4 h-4 rounded-full bg-black border border-slate-500" />
-              </div>
-              <div className="absolute bottom-1 right-2 text-sm">🟢</div>
+              <div className="mx-auto mt-2 w-20 h-8 bg-[#7a5230] border border-[#4c3016] rounded-[2px]" />
+              <div className="absolute bottom-1 right-2 text-xs">🌱</div>
             </div>
 
-            <div className="absolute flex gap-4" style={{ left: 120, top: 168 }}>
-              <AvatarChip emoji="🟠" label="Nagato Live" color="#fb923c" />
-              <AvatarChip emoji="🥷" label="Itachi Live" color="#a78bfa" />
-              <AvatarChip emoji="🦈" label="Kisame Live" color="#60a5fa" />
-            </div>
-
+            {/* 4. OPEN WORKSPACE (Itachi & Sasori) */}
             <div className="absolute border-2 border-slate-600 bg-[#262a34]/90 rounded-sm p-2" style={{ left: 8, top: 210, width: 420, height: 190 }}>
-              <div className="text-[9px] font-bold text-slate-300">OPEN WORKSPACE (POSTGRESQL & XENDIT POOL)</div>
-              <div className="grid grid-cols-2 gap-x-6 gap-y-3 mt-2 px-2">
-                <DeskSet /><DeskSet /><DeskSet /><DeskSet />
+              <div className="text-[9px] font-bold text-slate-300">OPEN WORKSPACE (DEV & UI)</div>
+              <div className="grid grid-cols-2 gap-x-12 gap-y-2 mt-3 px-4">
+                <div className="flex flex-col items-center">
+                  <AvatarChip emoji="🥷" label="Itachi (Architect)" color="#a78bfa" />
+                  <div className="mt-1"><DeskSet /></div>
+                </div>
+                <div className="flex flex-col items-center">
+                  <AvatarChip emoji="🎭" label="Sasori (Frontend)" color="#f472b6" />
+                  <div className="mt-1"><DeskSet /></div>
+                </div>
               </div>
-              <div className="absolute bottom-1.5 left-2 text-[8px] text-slate-400">DB Pool: Healthy</div>
-              <div className="absolute bottom-1.5 right-2 text-sm">🟢</div>
+              <div className="absolute bottom-1.5 left-2 text-[8px] text-slate-400">Library & Docs</div>
             </div>
 
+            {/* 5. COMMAND CENTER (Satoru - Orchestrator) */}
             <div className="absolute border-[3px] border-purple-500 bg-[#1d2230]/95 rounded-sm p-2 shadow-[0_0_20px_#a855f766]" style={{ left: 436, top: 210, width: 316, height: 190 }}>
               <div className="text-[9px] font-bold text-purple-300">COMMAND CENTER (ORCHESTRATOR)</div>
-              <div className="mt-1 h-14 rounded-[3px] border border-cyan-800 bg-gradient-to-r from-[#062033] via-[#0a3a5c] to-[#062033] relative overflow-hidden flex">
-                <div className="flex-1 flex items-center justify-center text-lg">🗺️</div>
-                <div className="flex-1 border-l border-cyan-800/60 flex items-center justify-center gap-1 text-[10px]">📊📈📉</div>
-                <div className="flex-1 border-l border-cyan-800/60 flex items-center justify-center text-[10px]">🖥️🖥️🖥️</div>
+              <div className="mt-1 h-12 rounded-[3px] border border-cyan-800 bg-gradient-to-r from-[#062033] via-[#0a3a5c] to-[#062033] flex items-center justify-center text-[9px] text-cyan-300 font-bold">
+                MISSION CONTROL MONITOR
               </div>
-              <div className="flex justify-center gap-2 mt-1.5">
-                {[0, 1, 2].map((i) => (
-                  <div key={i} className="w-20 h-7 bg-[#0b1526] border border-cyan-800 rounded-[2px] flex items-center justify-center gap-0.5">
-                    {[0, 1, 2].map((j) => (
-                      <div key={j} className="w-4 h-3 bg-[#0ea5e9] border border-cyan-900 rounded-[1px]" />
-                    ))}
-                  </div>
-                ))}
-              </div>
-              <div className="absolute left-1 top-16 w-3 h-16 bg-black border border-cyan-800 rounded-[2px] flex flex-col items-center py-1 gap-1">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <div key={i} className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                ))}
-              </div>
-              <div className="absolute" style={{ left: 140, top: 118 }}>
-                <AvatarChip emoji="🧙" label="Satoru Lead" color="#22d3ee" />
+              <div className="flex justify-center mt-2">
+                <AvatarChip emoji="🧙" label="Satoru (Lead)" color="#22d3ee" />
               </div>
               <div className="absolute bottom-1 right-2 text-xs">🟢</div>
             </div>
