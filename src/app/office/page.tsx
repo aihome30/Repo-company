@@ -23,7 +23,7 @@ export default function PixelAgentOffice() {
   ]);
 
   const [logs, setLogs] = useState<string[]>([
-    'PS C:\Project-AI-MemoryCore\agents> node runtime.js --init',
+    'PS C:\\Project-AI-MemoryCore\\agents> node runtime.js --init',
     '[INFO] Initializing PT. Indo Jaya Gram Autonomous AI Office...',
     '[SUCCESS] 6 Agent nodes connected via secure IPC mesh.',
     '[MONITOR] SRE Agent: Uptime 100% at wspend.vercel.app',
@@ -183,7 +183,7 @@ export default function PixelAgentOffice() {
           </div>
           
           <div className="flex-1 bg-black/60 rounded-2xl p-4 border border-slate-900 overflow-y-auto space-y-2 text-[11px] text-cyan-400 shadow-inner">
-            <div className="text-slate-500">PS C:\Project-AI-MemoryCore\agents></div>
+            <div className="text-slate-500">PS C:\Project-AI-MemoryCore\agents&gt;</div>
             {logs.map((log, i) => (
               <div key={i} className="leading-relaxed">{log}</div>
             ))}
