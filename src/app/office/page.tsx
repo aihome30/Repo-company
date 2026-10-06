@@ -74,6 +74,7 @@ const ROTATION:{agentId:string;to:string;wsId:string;task:string;status:Agent['s
 
 function Worker({ agent, selected, onSelect }:{agent:Agent;selected:boolean;onSelect:()=>void}){
   const ref=useRef<THREE.Group>(null);
+  const isSleeping = agent.dept === 'Sleeping Quarters';
   useFrame((state,delta)=>{
     const g=ref.current; if(!g) return;
     const dx=agent.targetX-g.position.x, dz=agent.targetZ-g.position.z;
@@ -89,16 +90,23 @@ function Worker({ agent, selected, onSelect }:{agent:Agent;selected:boolean;onSe
   return (
     <group ref={ref} position={[agent.x,0,agent.z]}>
       <mesh position={[0,0.01,0]} rotation={[-Math.PI/2,0,0]}><circleGeometry args={[0.26,18]}/><meshBasicMaterial color="#000" transparent opacity={0.45}/></mesh>
-      <group position={[0,sitY,0]}>
-        <mesh position={[-0.06,0.19,0]}><cylinderGeometry args={[0.038,0.038,0.38,8]}/><meshStandardMaterial color="#111827" roughness={0.8}/></mesh>
-        <mesh position={[0.06,0.19,0]}><cylinderGeometry args={[0.038,0.038,0.38,8]}/><meshStandardMaterial color="#111827" roughness={0.8}/></mesh>
-        <mesh position={[0,0.55,0]} onClick={(e)=>{e.stopPropagation();onSelect();}} castShadow><boxGeometry args={[0.3,0.44,0.17]}/><meshStandardMaterial color={agent.color} roughness={0.5}/></mesh>
-        <mesh position={[0,0.57,0.095]}><boxGeometry args={[0.06,0.32,0.015]}/><meshStandardMaterial color="#f1f5f9"/></mesh>
-        <mesh position={[-0.18,0.55,0]}><boxGeometry args={[0.07,0.34,0.09]}/><meshStandardMaterial color={agent.color} roughness={0.6}/></mesh>
-        <mesh position={[0.18,0.55,0]}><boxGeometry args={[0.07,0.34,0.09]}/><meshStandardMaterial color={agent.color} roughness={0.6}/></mesh>
-        <mesh position={[0,0.94,0]} onClick={(e)=>{e.stopPropagation();onSelect();}} castShadow><sphereGeometry args={[0.135,18,18]}/><meshStandardMaterial color="#f2c89b" roughness={0.55}/></mesh>
-        <mesh position={[0,1.03,-0.015]}><sphereGeometry args={[0.115,12,12,0,Math.PI*2,0,Math.PI*0.55]}/><meshStandardMaterial color="#1f2937" roughness={0.9}/></mesh>
-      </group>
+      {isSleeping ? (
+        <group position={[0,0,0]} rotation={[0,0,Math.PI/2]}>
+          <mesh position={[0,0.2,0]}><boxGeometry args={[0.3,0.7,0.17]}/><meshStandardMaterial color={agent.color} roughness={0.5}/></mesh>
+          <mesh position={[0,0.6,0]}><sphereGeometry args={[0.135,18,18]}/><meshStandardMaterial color="#f2c89b" roughness={0.55}/></mesh>
+        </group>
+      ) : (
+        <group position={[0,sitY,0]}>
+          <mesh position={[-0.06,0.19,0]}><cylinderGeometry args={[0.038,0.038,0.38,8]}/><meshStandardMaterial color="#111827" roughness={0.8}/></mesh>
+          <mesh position={[0.06,0.19,0]}><cylinderGeometry args={[0.038,0.038,0.38,8]}/><meshStandardMaterial color="#111827" roughness={0.8}/></mesh>
+          <mesh position={[0,0.55,0]} onClick={(e)=>{e.stopPropagation();onSelect();}} castShadow><boxGeometry args={[0.3,0.44,0.17]}/><meshStandardMaterial color={agent.color} roughness={0.5}/></mesh>
+          <mesh position={[0,0.57,0.095]}><boxGeometry args={[0.06,0.32,0.015]}/><meshStandardMaterial color="#f1f5f9"/></mesh>
+          <mesh position={[-0.18,0.55,0]}><boxGeometry args={[0.07,0.34,0.09]}/><meshStandardMaterial color={agent.color} roughness={0.6}/></mesh>
+          <mesh position={[0.18,0.55,0]}><boxGeometry args={[0.07,0.34,0.09]}/><meshStandardMaterial color={agent.color} roughness={0.6}/></mesh>
+          <mesh position={[0,0.94,0]} onClick={(e)=>{e.stopPropagation();onSelect();}} castShadow><sphereGeometry args={[0.135,18,18]}/><meshStandardMaterial color="#f2c89b" roughness={0.55}/></mesh>
+          <mesh position={[0,1.03,-0.015]}><sphereGeometry args={[0.115,12,12,0,Math.PI*2,0,Math.PI*0.55]}/><meshStandardMaterial color="#1f2937" roughness={0.9}/></mesh>
+        </group>
+      )}
       {selected && (<mesh position={[0,0.02,0]} rotation={[-Math.PI/2,0,0]}><ringGeometry args={[0.34,0.45,26]}/><meshBasicMaterial color={agent.color} transparent opacity={0.95}/></mesh>)}
       <Html position={[0,1.44,0]} center distanceFactor={15} style={{pointerEvents:'none'}} zIndexRange={[20,0]}>
         <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2}}>
