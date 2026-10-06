@@ -447,10 +447,12 @@ export default function VirtualOfficePage(){
         const dayNum=Math.floor((jakartaDate.getTime()-startYear.getTime())/86400000);
         const NIGHT_CREW=['3','4','5','6'];
         const picker=NIGHT_CREW[dayNum%NIGHT_CREW.length];
-        const shiftName:{[k:string]:string}={'3':'Shift Malam I (19.00-01.00)','4':'Shift Malam II (01.00-07.00)','5':'Shift Malam III (rotasi)','6':'Shift Malam IV (rotasi)'};
+        const sleepPos=ROOM_POS['Sleeping Quarters'];
+        const mgrPos=ROOM_POS['Manager Room'];
         setAgents(prev=>prev.map(ag=>{
-          if(ag.id===picker){ const d=ROOM_POS['Command Center']; return {...ag,status:'Online' as const,task:'Jaga server bergantian',speech:'Shift jaga.',dept:'Command Center',targetX:d.x+1.7,targetZ:d.z+0.4,isMoving:true,sitting:false}; }
-          const d=ROOM_POS['Sleeping Quarters']; return {...ag,status:'Away' as const,task:'Istirahat di kamar',speech:'Tidur.',dept:'Sleeping Quarters',targetX:d.x+(Number(ag.id)%3)*1.1-1.1,targetZ:d.z+0.4,isMoving:true,sitting:false};
+          if(ag.id===picker){ const d=ROOM_POS['Command Center']; return {...ag,status:'Online' as const,task:'Jaga server bergantian',speech:'Shift jaga.',dept:'Command Center',targetX:d.x+1.7,targetZ:d.z+0.4,isMoving:false,sitting:false}; }
+          if(ag.id==='1'){ return {...ag,status:'Online' as const,task:'Review sprint & approve budget',speech:'Sprint Q4 disetujui.',dept:'Manager Room',targetX:mgrPos.x,targetZ:mgrPos.z,isMoving:false,sitting:true}; }
+          return {...ag,status:'Away' as const,task:'Istirahat di kamar',speech:'Tidur.',dept:'Sleeping Quarters',targetX:sleepPos.x+(Number(ag.id)%3)*1.1-1.1,targetZ:sleepPos.z+0.4,isMoving:false,sitting:false};
         }));
         return;
       }
