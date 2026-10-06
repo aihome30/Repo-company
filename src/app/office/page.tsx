@@ -1,25 +1,26 @@
 'use client';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Html } from '@react-three/drei';
+import { OrbitControls, Html, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface Agent { id:string; name:string; role:string; dept:string; status:'Online'|'Busy'|'Meeting'|'Away'|'Offline'; task:string; avatar:string; color:string; x:number; z:number; targetX:number; targetZ:number; isMoving:boolean; speech:string; sitting:boolean; }
 interface Dept { id:string; name:string; label:string; x:number; z:number; w:number; d:number; floor:string; }
 interface WS { id:string; x:number; z:number; rot:number; room:string; agentId:string; glow:string; on:boolean; }
 
+// 10 zona fisik sesuai spec: Lobby, Open, Command, IT, HR, Manager, Meeting A/B, Pantry, Lounge, Server
 const DEPARTMENTS: Dept[] = [
-  { id:'lobby', name:'Lobby / Reception', label:'LOBBY', x:0, z:-8.2, w:22, d:3.6, floor:'#23262c' },
-  { id:'open', name:'Open Office', label:'OPEN OFFICE', x:-7.5, z:-3.8, w:8, d:5.2, floor:'#1e2229' },
-  { id:'command', name:'Command Center', label:'COMMAND CENTER', x:1.5, z:-3.8, w:9, d:5.2, floor:'#161b26' },
-  { id:'it', name:'IT / Development', label:'IT / DEVELOPMENT', x:9, z:-3.8, w:6, d:5.2, floor:'#17251f' },
-  { id:'meetingA', name:'Meeting Room A', label:'MEETING ROOM A', x:-7.5, z:1.6, w:8, d:4.4, floor:'#211d33' },
-  { id:'manager', name:'Manager Room', label:'MANAGER', x:-0.5, z:1.6, w:5, d:4.4, floor:'#2a2118' },
-  { id:'meetingB', name:'Meeting Room B', label:'MEETING ROOM B', x:4.5, z:1.6, w:5, d:4.4, floor:'#211d33' },
-  { id:'hr', name:'HR Room', label:'HR', x:9.5, z:1.6, w:5, d:4.4, floor:'#1c2440' },
-  { id:'pantry', name:'Pantry', label:'PANTRY', x:-7.5, z:6.2, w:8, d:4.4, floor:'#2a1f1a' },
-  { id:'lounge', name:'Lounge', label:'LOUNGE', x:0, z:6.2, w:7, d:4.4, floor:'#16283a' },
-  { id:'server', name:'Server Room', label:'SERVER ROOM', x:7.5, z:6.2, w:9, d:4.4, floor:'#122824' },
+  { id:'lobby', name:'Lobby / Reception', label:'LOBBY', x:0, z:-8.2, w:22, d:3.6, floor:'#26292f' },
+  { id:'open', name:'Open Office', label:'OPEN OFFICE', x:-7.5, z:-3.8, w:8, d:5.2, floor:'#20242c' },
+  { id:'command', name:'Command Center', label:'COMMAND CENTER', x:1.5, z:-3.8, w:9, d:5.2, floor:'#141a28' },
+  { id:'it', name:'IT / Development', label:'IT / DEVELOPMENT', x:9, z:-3.8, w:6, d:5.2, floor:'#18241f' },
+  { id:'meetingA', name:'Meeting Room A', label:'MEETING ROOM A', x:-7.5, z:1.6, w:8, d:4.4, floor:'#232036' },
+  { id:'manager', name:'Manager Room', label:'MANAGER', x:-0.5, z:1.6, w:5, d:4.4, floor:'#2c2318' },
+  { id:'meetingB', name:'Meeting Room B', label:'MEETING ROOM B', x:4.5, z:1.6, w:5, d:4.4, floor:'#232036' },
+  { id:'hr', name:'HR Room', label:'HR', x:9.5, z:1.6, w:5, d:4.4, floor:'#1d2545' },
+  { id:'pantry', name:'Pantry', label:'PANTRY', x:-7.5, z:6.2, w:8, d:4.4, floor:'#2c211b' },
+  { id:'lounge', name:'Lounge', label:'LOUNGE', x:0, z:6.2, w:7, d:4.4, floor:'#17293c' },
+  { id:'server', name:'Server Room', label:'SERVER ROOM', x:7.5, z:6.2, w:9, d:4.4, floor:'#132825' },
 ];
 const ROOM_POS: Record<string,{x:number;z:number}> = {};
 DEPARTMENTS.forEach(d=>{ ROOM_POS[d.name]={x:d.x,z:d.z}; });
@@ -75,33 +76,33 @@ function Worker({ agent, selected, onSelect }:{agent:Agent;selected:boolean;onSe
     const g=ref.current; if(!g) return;
     const dx=agent.targetX-g.position.x, dz=agent.targetZ-g.position.z;
     const dist=Math.hypot(dx,dz);
-    const k=Math.min(1,delta*2.4);
+    const k=Math.min(1,delta*2.2);
     g.position.x+=dx*k; g.position.z+=dz*k;
     const walking=dist>0.15;
-    g.position.y=walking?Math.abs(Math.sin(state.clock.elapsedTime*11))*0.09:0;
+    g.position.y=walking?Math.abs(Math.sin(state.clock.elapsedTime*10))*0.09:0;
     if(walking) g.rotation.y=Math.atan2(dx,dz);
   });
   const statusColor=agent.status==='Online'?'#10b981':agent.status==='Busy'?'#f59e0b':agent.status==='Meeting'?'#5e6ad2':agent.status==='Away'?'#94a3b8':'#52525b';
   const sitY = agent.sitting && !agent.isMoving ? -0.18 : 0;
   return (
     <group ref={ref} position={[agent.x,0,agent.z]}>
-      <mesh position={[0,0.01,0]} rotation={[-Math.PI/2,0,0]}><circleGeometry args={[0.26,18]}/><meshBasicMaterial color="#000" transparent opacity={0.5}/></mesh>
+      <mesh position={[0,0.01,0]} rotation={[-Math.PI/2,0,0]}><circleGeometry args={[0.26,18]}/><meshBasicMaterial color="#000" transparent opacity={0.45}/></mesh>
       <group position={[0,sitY,0]}>
         <mesh position={[-0.06,0.19,0]}><cylinderGeometry args={[0.038,0.038,0.38,8]}/><meshStandardMaterial color="#111827" roughness={0.8}/></mesh>
         <mesh position={[0.06,0.19,0]}><cylinderGeometry args={[0.038,0.038,0.38,8]}/><meshStandardMaterial color="#111827" roughness={0.8}/></mesh>
-        <mesh position={[0,0.55,0]} onClick={(e)=>{e.stopPropagation();onSelect();}} castShadow><boxGeometry args={[0.3,0.44,0.17]}/><meshStandardMaterial color={agent.color} roughness={0.55}/></mesh>
+        <mesh position={[0,0.55,0]} onClick={(e)=>{e.stopPropagation();onSelect();}} castShadow><boxGeometry args={[0.3,0.44,0.17]}/><meshStandardMaterial color={agent.color} roughness={0.5}/></mesh>
         <mesh position={[0,0.57,0.095]}><boxGeometry args={[0.06,0.32,0.015]}/><meshStandardMaterial color="#f1f5f9"/></mesh>
         <mesh position={[-0.18,0.55,0]}><boxGeometry args={[0.07,0.34,0.09]}/><meshStandardMaterial color={agent.color} roughness={0.6}/></mesh>
         <mesh position={[0.18,0.55,0]}><boxGeometry args={[0.07,0.34,0.09]}/><meshStandardMaterial color={agent.color} roughness={0.6}/></mesh>
-        <mesh position={[0,0.94,0]} onClick={(e)=>{e.stopPropagation();onSelect();}} castShadow><sphereGeometry args={[0.135,18,18]}/><meshStandardMaterial color="#f2c89b" roughness={0.6}/></mesh>
+        <mesh position={[0,0.94,0]} onClick={(e)=>{e.stopPropagation();onSelect();}} castShadow><sphereGeometry args={[0.135,18,18]}/><meshStandardMaterial color="#f2c89b" roughness={0.55}/></mesh>
         <mesh position={[0,1.03,-0.015]}><sphereGeometry args={[0.115,12,12,0,Math.PI*2,0,Math.PI*0.55]}/><meshStandardMaterial color="#1f2937" roughness={0.9}/></mesh>
       </group>
       {selected && (<mesh position={[0,0.02,0]} rotation={[-Math.PI/2,0,0]}><ringGeometry args={[0.34,0.45,26]}/><meshBasicMaterial color={agent.color} transparent opacity={0.95}/></mesh>)}
-      <Html position={[0,1.42,0]} center distanceFactor={15} style={{pointerEvents:'none'}} zIndexRange={[20,0]}>
+      <Html position={[0,1.44,0]} center distanceFactor={15} style={{pointerEvents:'none'}} zIndexRange={[20,0]}>
         <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2}}>
           <div style={{background:'rgba(5,7,10,0.92)',border:'1px solid rgba(255,255,255,0.16)',borderRadius:5,padding:'1px 6px',fontSize:9,fontWeight:800,color:'#fff',whiteSpace:'nowrap',letterSpacing:0.4,lineHeight:1.5}}>{agent.name} <span style={{fontWeight:400,opacity:0.7}}>{agent.role}</span></div>
           <div style={{display:'flex',alignItems:'center',gap:3,background:'rgba(5,7,10,0.85)',borderRadius:5,padding:'1px 6px',fontSize:8.5,color:'#e2e8f0',whiteSpace:'nowrap'}}><span style={{width:6,height:6,borderRadius:99,background:statusColor,display:'inline-block'}}/>{agent.isMoving?'Walking':agent.status}</div>
-          {agent.speech && !agent.isMoving && (<div style={{background:'#f8fafc',color:'#0f172a',borderRadius:5,padding:'1px 7px',fontSize:9,whiteSpace:'nowrap',fontWeight:600,maxWidth:160,overflow:'hidden',textOverflow:'ellipsis'}}>{agent.speech}</div>)}
+          {agent.speech && !agent.isMoving && (<div style={{background:'#f8fafc',color:'#0f172a',borderRadius:5,padding:'1px 7px',fontSize:9,whiteSpace:'nowrap',fontWeight:600,maxWidth:170,overflow:'hidden',textOverflow:'ellipsis'}}>{agent.speech}</div>)}
         </div>
       </Html>
     </group>
@@ -111,16 +112,16 @@ function Worker({ agent, selected, onSelect }:{agent:Agent;selected:boolean;onSe
 function Workstation({ ws, assigned, selected, onSelect }:{ws:WS;assigned?:Agent;selected:boolean;onSelect:()=>void}){
   return (
     <group position={[ws.x,0,ws.z]} rotation={[0,ws.rot,0]}>
-      <mesh position={[0,0.38,0]} castShadow receiveShadow onClick={(e)=>{e.stopPropagation();onSelect();}}><boxGeometry args={[1.35,0.06,0.65]}/><meshStandardMaterial color={selected?'#5e6ad2':'#3a3d44'} roughness={0.35} metalness={0.35}/></mesh>
-      <mesh position={[-0.55,0.18,0]}><boxGeometry args={[0.06,0.36,0.55]}/><meshStandardMaterial color="#23252b"/></mesh>
-      <mesh position={[0.55,0.18,0]}><boxGeometry args={[0.06,0.36,0.55]}/><meshStandardMaterial color="#23252b"/></mesh>
-      <mesh position={[0,0.7,-0.16]}><boxGeometry args={[0.68,0.42,0.035]}/><meshStandardMaterial color="#05070b" emissive={ws.on?ws.glow:'#1f2937'} emissiveIntensity={ws.on?0.85:0.1}/></mesh>
+      <mesh position={[0,0.38,0]} castShadow receiveShadow onClick={(e)=>{e.stopPropagation();onSelect();}}><boxGeometry args={[1.35,0.06,0.65]}/><meshStandardMaterial color={selected?'#5e6ad2':'#43464e'} roughness={0.3} metalness={0.4}/></mesh>
+      <mesh position={[-0.55,0.18,0]}><boxGeometry args={[0.06,0.36,0.55]}/><meshStandardMaterial color="#23252b" metalness={0.4} roughness={0.5}/></mesh>
+      <mesh position={[0.55,0.18,0]}><boxGeometry args={[0.06,0.36,0.55]}/><meshStandardMaterial color="#23252b" metalness={0.4} roughness={0.5}/></mesh>
+      <mesh position={[0,0.7,-0.16]}><boxGeometry args={[0.68,0.42,0.035]}/><meshStandardMaterial color="#05070b" emissive={ws.on?ws.glow:'#1f2937'} emissiveIntensity={ws.on?0.9:0.1}/></mesh>
       <mesh position={[0,0.44,-0.16]}><boxGeometry args={[0.05,0.12,0.05]}/><meshStandardMaterial color="#14161a"/></mesh>
       <mesh position={[0,0.425,0.1]}><boxGeometry args={[0.44,0.025,0.16]}/><meshStandardMaterial color="#14161a"/></mesh>
       <mesh position={[0.36,0.43,0.1]}><boxGeometry args={[0.08,0.035,0.11]}/><meshStandardMaterial color="#14161a"/></mesh>
-      <mesh position={[0,0.26,0.7]}><boxGeometry args={[0.4,0.06,0.4]}/><meshStandardMaterial color="#17181d"/></mesh>
-      <mesh position={[0,0.5,0.88]}><boxGeometry args={[0.4,0.44,0.06]}/><meshStandardMaterial color="#23252b"/></mesh>
-      <mesh position={[0,0.13,0.7]}><cylinderGeometry args={[0.035,0.035,0.24,8]}/><meshStandardMaterial color="#4b4e56" metalness={0.6}/></mesh>
+      <mesh position={[0,0.26,0.7]}><boxGeometry args={[0.4,0.06,0.4]}/><meshStandardMaterial color="#17181d" roughness={0.6}/></mesh>
+      <mesh position={[0,0.5,0.88]}><boxGeometry args={[0.4,0.44,0.06]}/><meshStandardMaterial color="#23252b" roughness={0.7}/></mesh>
+      <mesh position={[0,0.13,0.7]}><cylinderGeometry args={[0.035,0.035,0.24,8]}/><meshStandardMaterial color="#5b5e66" metalness={0.7} roughness={0.3}/></mesh>
       <mesh position={[0,0.72,-0.33]}><boxGeometry args={[1.35,0.42,0.03]}/><meshStandardMaterial color="#23252b" roughness={0.9}/></mesh>
       {selected && (<mesh position={[0,0.03,0.2]} rotation={[-Math.PI/2,0,0]}><ringGeometry args={[0.8,0.9,30]}/><meshBasicMaterial color="#5e6ad2" transparent opacity={0.8}/></mesh>)}
       {assigned && (
@@ -137,18 +138,60 @@ function ServerRack({x,z,seed=0}:{x:number;z:number;seed?:number}){
   useFrame((s)=>{ if(ref.current){ const m=ref.current.material as THREE.MeshStandardMaterial; m.emissiveIntensity=0.55+Math.sin(s.clock.elapsedTime*2.6+seed)*0.3; } });
   return (
     <group position={[x,0,z]}>
-      <mesh position={[0,0.95,0]} castShadow><boxGeometry args={[0.65,1.9,0.55]}/><meshStandardMaterial color="#10181a" roughness={0.4} metalness={0.5}/></mesh>
+      <mesh position={[0,0.95,0]} castShadow><boxGeometry args={[0.65,1.9,0.55]}/><meshStandardMaterial color="#10181a" roughness={0.35} metalness={0.55}/></mesh>
       <mesh position={[0,0.95,0.29]} ref={ref}><boxGeometry args={[0.5,1.6,0.02]}/><meshStandardMaterial color="#020617" emissive="#10b981" emissiveIntensity={0.6}/></mesh>
       {[0.4,0.7,1.0,1.3].map((y,i)=>(<mesh key={i} position={[-0.15+i*0.1, y, 0.3]}><boxGeometry args={[0.06,0.06,0.02]}/><meshStandardMaterial color="#000" emissive={i%2?'#38bdf8':'#f59e0b'} emissiveIntensity={1}/></mesh>))}
     </group>
   );
 }
 
+// Dinding rendah 1.2m: interior selalu terlihat dari kamera isometric
 function LowWall({x,z,w,d,glass=false}:{x:number;z:number;w:number;d:number;glass?:boolean}){
   return (
     <group position={[x,0,z]}>
-      <mesh position={[0,0.6,0]} castShadow><boxGeometry args={[w,1.2,d]}/><meshStandardMaterial color={glass?'#9fb3c8':'#2b2e35'} transparent={glass} opacity={glass?0.28:1} roughness={glass?0.08:0.85} metalness={glass?0.1:0.05}/></mesh>
+      <mesh position={[0,0.6,0]} castShadow receiveShadow><boxGeometry args={[w,1.2,d]}/><meshStandardMaterial color={glass?'#9fb3c8':'#2e3138'} transparent={glass} opacity={glass?0.26:1} roughness={glass?0.06:0.85} metalness={glass?0.15:0.05}/></mesh>
       <mesh position={[0,1.22,0]}><boxGeometry args={[w+0.04,0.05,d+0.04]}/><meshStandardMaterial color="#0b0d11" emissive={glass?'#38bdf8':'#5e6ad2'} emissiveIntensity={glass?0.7:0.35}/></mesh>
+    </group>
+  );
+}
+
+// Pintu terbuka: kusen + daun pintu + ambang
+function Doorway({x,z,w=1.2,rot=0}:{x:number;z:number;w?:number;rot?:number}){
+  return (
+    <group position={[x,0,z]} rotation={[0,rot,0]}>
+      <mesh position={[-w/2,0.6,0]}><boxGeometry args={[0.12,1.2,0.16]}/><meshStandardMaterial color="#3a3d44"/></mesh>
+      <mesh position={[w/2,0.6,0]}><boxGeometry args={[0.12,1.2,0.16]}/><meshStandardMaterial color="#3a3d44"/></mesh>
+      <mesh position={[0,1.24,0]}><boxGeometry args={[w+0.24,0.08,0.16]}/><meshStandardMaterial color="#0b0d11" emissive="#fbbf24" emissiveIntensity={0.4}/></mesh>
+      <mesh position={[-w/2+0.35,0.55,0.45]} rotation={[0,0.7,0]}><boxGeometry args={[0.6,1.1,0.05]}/><meshStandardMaterial color="#4a3b28" roughness={0.5}/></mesh>
+      <mesh position={[0,0.015,0]} rotation={[-Math.PI/2,0,0]}><planeGeometry args={[w,0.7]}/><meshStandardMaterial color="#3f3f46" roughness={0.9}/></mesh>
+    </group>
+  );
+}
+
+function Plant({x,z,s=1}:{x:number;z:number;s?:number}){
+  return (
+    <group position={[x,0,z]} scale={s}>
+      <mesh position={[0,0.25,0]} castShadow><cylinderGeometry args={[0.2,0.16,0.5,10]}/><meshStandardMaterial color="#57534e" roughness={0.8}/></mesh>
+      <mesh position={[0,0.75,0]} castShadow><sphereGeometry args={[0.38,10,10]}/><meshStandardMaterial color="#15803d" roughness={0.9}/></mesh>
+      <mesh position={[0.15,0.6,0.1]}><sphereGeometry args={[0.22,8,8]}/><meshStandardMaterial color="#16a34a" roughness={0.9}/></mesh>
+    </group>
+  );
+}
+
+function Cabinet({x,z,rot=0}:{x:number;z:number;rot?:number}){
+  return (
+    <group position={[x,0,z]} rotation={[0,rot,0]}>
+      <mesh position={[0,0.9,0]} castShadow><boxGeometry args={[0.6,1.8,1.2]}/><meshStandardMaterial color="#3f3f46" roughness={0.6} metalness={0.3}/></mesh>
+      {[0.4,0.9,1.4].map((y,i)=>(<mesh key={i} position={[0,y,0.61]}><boxGeometry args={[0.44,0.03,0.02]}/><meshStandardMaterial color="#71717a" metalness={0.7}/></mesh>))}
+    </group>
+  );
+}
+
+function CeilingLamp({x,z}:{x:number;z:number}){
+  return (
+    <group position={[x,2.6,z]}>
+      <mesh><boxGeometry args={[1.4,0.08,0.4]}/><meshStandardMaterial color="#0b0d11" emissive="#ffd9a0" emissiveIntensity={1.15}/></mesh>
+      <mesh position={[0,0.6,0]}><cylinderGeometry args={[0.02,0.02,1.2,6]}/><meshStandardMaterial color="#0b0d11"/></mesh>
     </group>
   );
 }
@@ -157,23 +200,30 @@ function Building({ agents, selectedRoomId, selectedWsId, onRoom, onWs }:{agents
   const wsOf = (id:string)=>agents.find(a=>a.id===id);
   return (
     <group>
-      <mesh position={[0,-0.12,0]} receiveShadow><boxGeometry args={[26,0.24,21]}/><meshStandardMaterial color="#0c0e12" roughness={0.95}/></mesh>
-      <mesh position={[0,-0.24,0]}><boxGeometry args={[27.5,0.12,22.5]}/><meshStandardMaterial color="#05060a" roughness={1}/></mesh>
+      {/* pelat gedung + refleksi */}
+      <mesh position={[0,-0.12,0]} receiveShadow><boxGeometry args={[26,0.24,21]}/><meshStandardMaterial color="#0b0d12" roughness={0.7} metalness={0.25}/></mesh>
+      <mesh position={[0,-0.26,0]}><boxGeometry args={[27.5,0.12,22.5]}/><meshStandardMaterial color="#04050a" roughness={1}/></mesh>
       {DEPARTMENTS.map(d=>(
         <group key={d.id}>
           <mesh position={[d.x,0.005,d.z]} rotation={[-Math.PI/2,0,0]} onClick={(e)=>{e.stopPropagation();onRoom(d);}}>
             <planeGeometry args={[d.w,d.d]}/>
-            <meshStandardMaterial color={selectedRoomId===d.id?'#2b3350':d.floor} roughness={0.92}/>
+            <meshStandardMaterial color={selectedRoomId===d.id?'#2c3552':d.floor} roughness={0.85} metalness={0.08}/>
           </mesh>
           {selectedRoomId===d.id && (<mesh position={[d.x,0.02,d.z]} rotation={[-Math.PI/2,0,0]}><planeGeometry args={[d.w+0.25,d.d+0.25]}/><meshBasicMaterial color="#5e6ad2" transparent opacity={0.22}/></mesh>)}
         </group>
       ))}
-      {/* eslint-disable-next-line react/jsx-no-undef */}
-      <gridHelper args={[26,26,'#262a32','#171a20']} position={[0,0.012,0]} />
-      <LowWall x={0} z={-10.1} w={22.4} d={0.18} />
-      <LowWall x={-11.1} z={0} w={0.18} d={20.6} />
-      <LowWall x={11.1} z={0} w={0.18} d={20.6} />
-      <LowWall x={0} z={8.5} w={22.4} d={0.18} />
+      <gridHelper args={[26,26,'#262a32','#16181d']} position={[0,0.012,0]} />
+
+      {/* dinding luar + jendela kaca */}
+      <LowWall x={-6} z={-10.1} w={10} d={0.18} />
+      <LowWall x={6} z={-10.1} w={10} d={0.18} glass />
+      <LowWall x={-11.1} z={-3} w={0.18} d={8} />
+      <LowWall x={-11.1} z={4} w={0.18} d={6} glass />
+      <LowWall x={11.1} z={-3} w={0.18} d={8} glass />
+      <LowWall x={11.1} z={4} w={0.18} d={6} />
+      <LowWall x={-6} z={8.5} w={10} d={0.18} />
+      <LowWall x={6} z={8.5} w={10} d={0.18} />
+      {/* sekat dalam */}
       <LowWall x={0} z={-6.35} w={22} d={0.14} />
       <LowWall x={-3.4} z={-3.8} w={0.14} d={5.2} />
       <LowWall x={6} z={-3.8} w={0.14} d={5.2} glass />
@@ -184,11 +234,25 @@ function Building({ agents, selectedRoomId, selectedWsId, onRoom, onWs }:{agents
       <LowWall x={0} z={3.85} w={22} d={0.14} />
       <LowWall x={-3.5} z={6.2} w={0.14} d={4.4} />
       <LowWall x={3.5} z={6.2} w={0.14} d={4.4} />
+      {/* pintu tiap ruangan */}
+      <Doorway x={0} z={-6.35} />
+      <Doorway x={1.5} z={-1.05} />
+      <Doorway x={-7.5} z={-1.05} />
+      <Doorway x={9} z={-1.05} />
+      <Doorway x={-7.5} z={3.85} />
+      <Doorway x={-0.5} z={3.85} />
+      <Doorway x={4.5} z={3.85} />
+      <Doorway x={9.5} z={3.85} />
+      <Doorway x={0} z={-10.1} w={1.6} />
+      <Doorway x={-7.5} z={8.5} />
+      <Doorway x={7.5} z={8.5} />
+
+      {/* LOBBY */}
       <group position={[0,0,-8.2]}>
-        <mesh position={[2.5,0.5,0.4]} castShadow><boxGeometry args={[3.6,1,0.85]}/><meshStandardMaterial color="#6b4423" roughness={0.35}/></mesh>
-        <mesh position={[2.5,1.03,0.4]}><boxGeometry args={[3.7,0.07,0.95]}/><meshStandardMaterial color="#1c1917" roughness={0.2} metalness={0.3}/></mesh>
+        <mesh position={[2.5,0.5,0.4]} castShadow receiveShadow><boxGeometry args={[3.6,1,0.85]}/><meshStandardMaterial color="#6b4423" roughness={0.3}/></mesh>
+        <mesh position={[2.5,1.03,0.4]}><boxGeometry args={[3.7,0.07,0.95]}/><meshStandardMaterial color="#1c1917" roughness={0.15} metalness={0.4}/></mesh>
         <mesh position={[2.5,1.15,0.2]}><boxGeometry args={[0.5,0.28,0.04]}/><meshStandardMaterial color="#020617" emissive="#38bdf8" emissiveIntensity={0.8}/></mesh>
-        <mesh position={[2.5,1.85,-1.55]}><boxGeometry args={[5.5,0.9,0.1]}/><meshStandardMaterial color="#111318"/></mesh>
+        <mesh position={[2.5,1.85,-1.55]}><boxGeometry args={[5.5,0.9,0.1]}/><meshStandardMaterial color="#111318" roughness={0.7}/></mesh>
         {[-4.5,-2.8].map((sx,i)=>(
           <group key={i} position={[sx,0,0.5]}>
             <mesh position={[0,0.24,0]} castShadow><boxGeometry args={[1.5,0.34,0.75]}/><meshStandardMaterial color="#1d4ed8" roughness={0.75}/></mesh>
@@ -197,26 +261,35 @@ function Building({ agents, selectedRoomId, selectedWsId, onRoom, onWs }:{agents
           </group>
         ))}
         <mesh position={[6.5,0.06,0.3]} rotation={[-Math.PI/2,0,0]}><planeGeometry args={[2.6,1.4]}/><meshStandardMaterial color="#7c2d12" roughness={0.9}/></mesh>
-        {[-7.5,7.5].map((tx,i)=>(
-          <group key={i} position={[tx,0,0.4]}>
-            <mesh position={[0,0.3,0]}><cylinderGeometry args={[0.22,0.18,0.6,10]}/><meshStandardMaterial color="#57534e"/></mesh>
-            <mesh position={[0,0.9,0]}><sphereGeometry args={[0.42,10,10]}/><meshStandardMaterial color="#15803d" roughness={0.9}/></mesh>
-          </group>
-        ))}
+        <Plant x={-7.5} z={0.4} />
+        <Plant x={7.5} z={0.4} />
+        <Cabinet x={-9.5} z={-0.8} rot={Math.PI/2} />
         <mesh position={[0,0.6,-1.72]}><boxGeometry args={[2.2,1.2,0.06]}/><meshStandardMaterial color="#0ea5e9" transparent opacity={0.3} roughness={0.05}/></mesh>
       </group>
+
+      {/* WORKSTATIONS */}
       {WORKSTATIONS.map(ws=>(<Workstation key={ws.id} ws={ws} assigned={ws.agentId?wsOf(ws.agentId):undefined} selected={selectedWsId===ws.id} onSelect={()=>onWs(ws)} />))}
+
+      {/* COMMAND CENTER — NOC / Mission Control */}
       <group position={[1.5,0,-6.1]}>
-        <mesh position={[0,1.1,0]} castShadow><boxGeometry args={[8.6,2.1,0.25]}/><meshStandardMaterial color="#0a0d14" roughness={0.6}/></mesh>
+        <mesh position={[0,1.1,0]} castShadow><boxGeometry args={[8.6,2.1,0.25]}/><meshStandardMaterial color="#0a0d14" roughness={0.55}/></mesh>
         {[[-3.2,'#0ea5e9'],[-1.6,'#10b981'],[0,'#5e6ad2'],[1.6,'#f59e0b'],[3.2,'#38bdf8']].map(([ox,c],i)=>(<mesh key={i} position={[ox as number,1.25,0.15]}><boxGeometry args={[1.45,0.85,0.04]}/><meshStandardMaterial color="#020617" emissive={c as string} emissiveIntensity={0.75}/></mesh>))}
         {[-0.3,-0.1,0.1,0.3].map((ox,i)=>(<mesh key={i} position={[ox,1.25,0.18]}><boxGeometry args={[0.08,0.08,0.02]}/><meshBasicMaterial color="#fff"/></mesh>))}
-        <mesh position={[0,0.35,0.9]} castShadow><boxGeometry args={[6.5,0.1,1.1]}/><meshStandardMaterial color="#151923" roughness={0.35} metalness={0.3}/></mesh>
-        {[[-2],[-0.7],[0.7],[2]].map(([ox],i)=>(<mesh key={i} position={[ox,0.62,0.9]}><boxGeometry args={[0.9,0.4,0.03]}/><meshStandardMaterial color="#020617" emissive="#22d3ee" emissiveIntensity={0.7}/></mesh>))}
+        {[-0.2,0,0.2].map((ox,i)=>(<mesh key={i} position={[ox,-3.55-(-6.1)+0.35,0]} />))}
+        <mesh position={[0,0.35,0.9]} castShadow><boxGeometry args={[6.5,0.1,1.1]}/><meshStandardMaterial color="#151923" roughness={0.3} metalness={0.35}/></mesh>
+        {[-2,-0.7,0.7,2].map((ox,i)=>(<mesh key={i} position={[ox,0.62,0.9]}><boxGeometry args={[0.9,0.4,0.03]}/><meshStandardMaterial color="#020617" emissive="#22d3ee" emissiveIntensity={0.7}/></mesh>))}
+        {/* central command desk */}
+        <mesh position={[0,0.3,2.2]} castShadow><boxGeometry args={[2.4,0.08,1]}/><meshStandardMaterial color="#1e2430" roughness={0.3} metalness={0.3}/></mesh>
+        <mesh position={[0,0.62,2.0]}><boxGeometry args={[1.1,0.4,0.04]}/><meshStandardMaterial color="#020617" emissive="#5e6ad2" emissiveIntensity={0.8}/></mesh>
       </group>
+      {/* whiteboard IT */}
       <mesh position={[9,1.15,-1.35]}><boxGeometry args={[3.4,1.3,0.06]}/><meshStandardMaterial color="#f1f5f9" roughness={0.85}/></mesh>
       <mesh position={[8.2,1.15,-1.3]}><boxGeometry args={[1.2,0.5,0.03]}/><meshStandardMaterial color="#1d4ed8" roughness={0.8}/></mesh>
+      <mesh position={[9.6,1.05,-1.3]}><boxGeometry args={[0.7,0.35,0.03]}/><meshStandardMaterial color="#0ea5e9" roughness={0.8}/></mesh>
+
+      {/* MEETING A */}
       <group position={[-7.5,0,1.6]}>
-        <mesh position={[0,0.4,0]} castShadow><boxGeometry args={[4.6,0.09,1.9]}/><meshStandardMaterial color="#14161c" roughness={0.3} metalness={0.2}/></mesh>
+        <mesh position={[0,0.4,0]} castShadow receiveShadow><boxGeometry args={[4.6,0.09,1.9]}/><meshStandardMaterial color="#14161c" roughness={0.25} metalness={0.25}/></mesh>
         {[-1.6,-0.55,0.55,1.6].map((cx,i)=>(
           <group key={'a'+i} position={[cx,0,-1.25]}>
             <mesh position={[0,0.28,0]}><boxGeometry args={[0.44,0.07,0.44]}/><meshStandardMaterial color="#26282f"/></mesh>
@@ -233,73 +306,84 @@ function Building({ agents, selectedRoomId, selectedWsId, onRoom, onWs }:{agents
         <mesh position={[-3.3,1.4,0.4]} rotation={[0,Math.PI/2,0]}><boxGeometry args={[2.4,1.2,0.05]}/><meshStandardMaterial color="#e2e8f0" roughness={0.9}/></mesh>
         <mesh position={[2,0.15,1.2]}><boxGeometry args={[0.3,0.3,0.3]}/><meshStandardMaterial color="#0f172a"/></mesh>
       </group>
+      {/* MEETING B */}
       <group position={[4.5,0,1.6]}>
-        <mesh position={[0,0.4,0]} castShadow><boxGeometry args={[3.2,0.09,1.6]}/><meshStandardMaterial color="#14161c" roughness={0.3} metalness={0.2}/></mesh>
-        {[[-1],[0],[1]].map((cx,i)=>(
-          <group key={i} position={[(cx as number[] as unknown as number),0,-1.05]}>
+        <mesh position={[0,0.4,0]} castShadow><boxGeometry args={[3.2,0.09,1.6]}/><meshStandardMaterial color="#14161c" roughness={0.25} metalness={0.25}/></mesh>
+        {[-1,0,1].map((cx,i)=>(
+          <group key={i} position={[cx,0,-1.05]}>
             <mesh position={[0,0.28,0]}><boxGeometry args={[0.42,0.07,0.42]}/><meshStandardMaterial color="#26282f"/></mesh>
             <mesh position={[0,0.55,-0.17]}><boxGeometry args={[0.42,0.44,0.07]}/><meshStandardMaterial color="#3a3d44"/></mesh>
           </group>
         ))}
+        {[-1,0,1].map((cx,i)=>(
+          <group key={'r'+i} position={[cx,0,1.05]}>
+            <mesh position={[0,0.28,0]}><boxGeometry args={[0.42,0.07,0.42]}/><meshStandardMaterial color="#26282f"/></mesh>
+            <mesh position={[0,0.55,0.17]}><boxGeometry args={[0.42,0.44,0.07]}/><meshStandardMaterial color="#3a3d44"/></mesh>
+          </group>
+        ))}
         <mesh position={[0,1.6,-2]}><boxGeometry args={[2.2,1,0.07]}/><meshStandardMaterial color="#020617" emissive="#a78bfa" emissiveIntensity={0.6}/></mesh>
       </group>
+      {/* MANAGER */}
       <group position={[-0.5,0,1.6]}>
-        <mesh position={[0,0.4,-1]} castShadow><boxGeometry args={[2.6,0.09,1.15]}/><meshStandardMaterial color="#4a2c12" roughness={0.3}/></mesh>
+        <mesh position={[0,0.4,-1]} castShadow><boxGeometry args={[2.6,0.09,1.15]}/><meshStandardMaterial color="#4a2c12" roughness={0.25}/></mesh>
         <mesh position={[0,0.78,-1.35]}><boxGeometry args={[1.1,0.55,0.05]}/><meshStandardMaterial color="#020617" emissive="#fbbf24" emissiveIntensity={0.55}/></mesh>
         <mesh position={[0,0.38,0.75]}><boxGeometry args={[0.55,0.09,0.55]}/><meshStandardMaterial color="#15171c"/></mesh>
         <mesh position={[0,0.72,1]}><boxGeometry args={[0.55,0.55,0.09]}/><meshStandardMaterial color="#15171c"/></mesh>
         <mesh position={[1.6,0.32,0.6]}><boxGeometry args={[1.1,0.45,0.55]}/><meshStandardMaterial color="#6b4423" roughness={0.7}/></mesh>
-        <mesh position={[-1.6,0.3,0.6]}><cylinderGeometry args={[0.2,0.16,0.6,10]}/><meshStandardMaterial color="#57534e"/></mesh>
-        <mesh position={[-1.6,0.8,0.6]}><sphereGeometry args={[0.34,10,10]}/><meshStandardMaterial color="#15803d" roughness={0.9}/></mesh>
+        <Plant x={-1.6} z={0.6} s={0.8} />
+        <Cabinet x={-2} z={-1.4} />
       </group>
+      {/* HR */}
       <group position={[9.5,0,1.6]}>
-        <mesh position={[0.8,1,2]} castShadow><boxGeometry args={[0.6,2,1.4]}/><meshStandardMaterial color="#3f3f46" roughness={0.7}/></mesh>
-        <mesh position={[1.8,1,2]} castShadow><boxGeometry args={[0.6,2,1.4]}/><meshStandardMaterial color="#3f3f46" roughness={0.7}/></mesh>
+        <Cabinet x={0.8} z={2} />
+        <Cabinet x={1.8} z={2} />
         <mesh position={[-1,0.4,-1.2]}><boxGeometry args={[2,0.08,1]}/><meshStandardMaterial color="#2e3138" roughness={0.5}/></mesh>
         <mesh position={[-1.5,0.28,-1.2]}><boxGeometry args={[0.4,0.07,0.4]}/><meshStandardMaterial color="#26282f"/></mesh>
         <mesh position={[-0.5,0.28,-1.2]}><boxGeometry args={[0.4,0.07,0.4]}/><meshStandardMaterial color="#26282f"/></mesh>
+        <Plant x={-1.9} z={1.6} s={0.75} />
       </group>
+      {/* PANTRY */}
       <group position={[-7.5,0,6.2]}>
-        <mesh position={[-1.5,0.45,-1.2]} castShadow><boxGeometry args={[3.4,0.9,0.7]}/><meshStandardMaterial color="#d6d3d1" roughness={0.4}/></mesh>
+        <mesh position={[-1.5,0.45,-1.2]} castShadow><boxGeometry args={[3.4,0.9,0.7]}/><meshStandardMaterial color="#d6d3d1" roughness={0.35}/></mesh>
         <mesh position={[0.6,1.05,-1.3]}><boxGeometry args={[0.5,0.4,0.5]}/><meshStandardMaterial color="#14161a"/></mesh>
         <mesh position={[-1.8,1.1,-1.3]}><boxGeometry args={[0.65,0.7,0.35]}/><meshStandardMaterial color="#e7e5e4" metalness={0.5} roughness={0.3}/></mesh>
         <mesh position={[-2.7,0.95,-1.3]}><boxGeometry args={[0.4,0.35,0.35]}/><meshStandardMaterial color="#78350f" roughness={0.6}/></mesh>
-        <mesh position={[0.5,0.4,0.8]} castShadow><boxGeometry args={[2.6,0.07,1.1]}/><meshStandardMaterial color="#8a5a2b" roughness={0.35}/></mesh>
+        <mesh position={[0.5,0.4,0.8]} castShadow><boxGeometry args={[2.6,0.07,1.1]}/><meshStandardMaterial color="#8a5a2b" roughness={0.3}/></mesh>
         {[-0.4,0.5,1.4].map((cx,i)=>(<mesh key={i} position={[cx,0.24,1.5]}><cylinderGeometry args={[0.19,0.19,0.48,10]}/><meshStandardMaterial color="#3a3d44"/></mesh>))}
+        <mesh position={[2.8,1.6,-1.4]}><boxGeometry args={[1.4,0.9,0.08]}/><meshStandardMaterial color="#f1f5f9" roughness={0.85}/></mesh>
       </group>
+      {/* LOUNGE */}
       <group position={[0,0,6.2]}>
         <mesh position={[-1.5,0.28,-0.8]} castShadow><boxGeometry args={[2.1,0.4,0.9]}/><meshStandardMaterial color="#0c4a6e" roughness={0.8}/></mesh>
         <mesh position={[-1.5,0.55,-1.2]}><boxGeometry args={[2.1,0.5,0.18]}/><meshStandardMaterial color="#082f49" roughness={0.8}/></mesh>
         <mesh position={[1.5,0.28,0.8]} castShadow><boxGeometry args={[2.1,0.4,0.9]}/><meshStandardMaterial color="#0c4a6e" roughness={0.8}/></mesh>
         <mesh position={[1.5,0.55,1.2]}><boxGeometry args={[2.1,0.5,0.18]}/><meshStandardMaterial color="#082f49" roughness={0.8}/></mesh>
         <mesh position={[0,0.24,0]}><boxGeometry args={[1,0.32,0.6]}/><meshStandardMaterial color="#57340f" roughness={0.5}/></mesh>
-        <mesh position={[2.9,0.65,-1.2]}><sphereGeometry args={[0.4,10,10]}/><meshStandardMaterial color="#15803d" roughness={0.9}/></mesh>
-        <mesh position={[0,0.06,0]} rotation={[-Math.PI/2,0,0]}><circleGeometry args={[1.6,24]}/><meshStandardMaterial color="#1f2937" roughness={0.95}/></mesh>
+        <Plant x={2.9} z={-1.2} />
+        <mesh position={[0,0.06,0]} rotation={[-Math.PI/2,0,0]}><circleGeometry args={[1.6,24]}/><meshStandardMaterial color="#20262e" roughness={0.95}/></mesh>
       </group>
+      {/* SERVER */}
       <ServerRack x={5} z={6.4} seed={0} />
       <ServerRack x={6} z={6.4} seed={1.4} />
       <ServerRack x={7} z={6.4} seed={2.8} />
       <ServerRack x={8} z={6.4} seed={4.2} />
       <ServerRack x={9.5} z={6.4} seed={5.6} />
       <group position={[7,0,7.6]}>
-        <mesh position={[0,0.4,0]}><boxGeometry args={[3.4,0.8,0.5]}/><meshStandardMaterial color="#1c1e24"/></mesh>
+        <mesh position={[0,0.4,0]}><boxGeometry args={[3.4,0.8,0.5]}/><meshStandardMaterial color="#1c1e24" roughness={0.5}/></mesh>
         <mesh position={[-1,0.85,0]}><boxGeometry args={[0.5,0.3,0.4]}/><meshStandardMaterial color="#020617" emissive="#38bdf8" emissiveIntensity={0.8}/></mesh>
         <mesh position={[1,0.5,0.05]}><boxGeometry args={[1,0.15,0.06]}/><meshStandardMaterial color="#000" emissive="#f59e0b" emissiveIntensity={0.7}/></mesh>
       </group>
-      {DEPARTMENTS.map(d=>(
-        <group key={'lamp'+d.id} position={[d.x,2.6,d.z]}>
-          <mesh><boxGeometry args={[1.4,0.08,0.4]}/><meshStandardMaterial color="#0b0d11" emissive="#ffd9a0" emissiveIntensity={1.1}/></mesh>
-          <mesh position={[0,0.6,0]}><cylinderGeometry args={[0.02,0.02,1.2,6]}/><meshStandardMaterial color="#0b0d11"/></mesh>
-        </group>
-      ))}
+      {/* lampu + label */}
+      {DEPARTMENTS.map(d=>(<CeilingLamp key={'lamp'+d.id} x={d.x} z={d.z} />))}
       {DEPARTMENTS.map(d=>(
         <Html key={d.id} position={[d.x,2.15,d.z]} center distanceFactor={30} style={{pointerEvents:'none'}} zIndexRange={[15,0]}>
-          <div style={{background:'rgba(4,6,10,0.82)',border:'1px solid rgba(255,255,255,0.14)',borderRadius:5,padding:'1px 8px',fontSize:9.5,fontWeight:800,color:'#f1f5f9',whiteSpace:'nowrap',letterSpacing:1}}>{d.label}</div>
+          <div style={{background:'rgba(4,6,10,0.8)',border:'1px solid rgba(255,255,255,0.13)',borderRadius:5,padding:'1px 8px',fontSize:9.5,fontWeight:800,color:'#e8edf4',whiteSpace:'nowrap',letterSpacing:1}}>{d.label}</div>
         </Html>
       ))}
       <Html position={[2.5,2.3,-9.8]} center distanceFactor={26} style={{pointerEvents:'none'}} zIndexRange={[15,0]}>
         <div style={{fontSize:12,fontWeight:900,color:'#fbbf24',letterSpacing:1.5,whiteSpace:'nowrap',textShadow:'0 2px 10px #000'}}>PT. INDO JAYA GRAM</div>
       </Html>
+      <ContactShadows position={[0,0.02,0]} opacity={0.55} scale={30} blur={2.4} far={4} color="#000000" />
     </group>
   );
 }
@@ -318,13 +402,14 @@ function Scene({ agents, selectedId, selectedRoomId, selectedWsId, focus, topVie
   });
   return (
     <>
-      <ambientLight intensity={0.55} />
-      <hemisphereLight args={['#fef3c7','#1c1917',0.5]} />
-      <directionalLight position={[14,22,10]} intensity={1.5} castShadow shadow-mapSize={[2048,2048]} shadow-camera-left={-16} shadow-camera-right={16} shadow-camera-top={16} shadow-camera-bottom={-16} />
-      <pointLight position={[1.5,3,-3.8]} intensity={22} color="#bfe9ff" distance={14} />
-      <pointLight position={[-7.5,3,1.6]} intensity={14} color="#ffe4b5" distance={12} />
-      <pointLight position={[0,3,6.2]} intensity={12} color="#ffd9a0" distance={12} />
-      <pointLight position={[7.5,3,6.2]} intensity={10} color="#a7f3d0" distance={10} />
+      <ambientLight intensity={0.5} />
+      <hemisphereLight args={['#fef3c7','#141210',0.55]} />
+      <directionalLight position={[14,22,10]} intensity={1.55} castShadow shadow-mapSize={[2048,2048]} shadow-camera-left={-16} shadow-camera-right={16} shadow-camera-top={16} shadow-camera-bottom={-16} />
+      <pointLight position={[1.5,3,-3.8]} intensity={24} color="#bfe9ff" distance={15} />
+      <pointLight position={[-7.5,3,1.6]} intensity={15} color="#ffe4b5" distance={12} />
+      <pointLight position={[0,3,6.2]} intensity={13} color="#ffd9a0" distance={12} />
+      <pointLight position={[7.5,3,6.2]} intensity={11} color="#a7f3d0" distance={10} />
+      <pointLight position={[9,2.5,-3.8]} intensity={9} color="#a5f3c8" distance={9} />
       <Building agents={agents} selectedRoomId={selectedRoomId} selectedWsId={selectedWsId} onRoom={onRoom} onWs={onWs} />
       {agents.map(a=>(<Worker key={a.id} agent={a} selected={selectedId===a.id} onSelect={()=>onAgent(a)} />))}
       {topView
@@ -425,7 +510,7 @@ export default function VirtualOfficePage(){
         <main className="bg-[#060709] p-2.5 flex items-center justify-center min-h-[560px]">
           <div className="relative rounded-xl border border-white/10 overflow-hidden w-full h-full min-h-[620px]" style={{background:'#07090d'}}>
             {mounted ? (
-              <Canvas shadows camera={{position: topView?[0,30,0.01]:[0,21,13.5], fov:34}} dpr={[1,2]}>
+              <Canvas shadows camera={{position:[0,21,13.5], fov:34}} dpr={[1,2]}>
                 <Scene agents={agents} selectedId={selected.id} selectedRoomId={selectedRoom?.id||null} selectedWsId={selectedWs?.id||null} focus={focus} topView={topView} onAgent={pickAgent} onRoom={pickRoom} onWs={pickWs} />
               </Canvas>
             ) : (<div className="w-full h-full flex items-center justify-center text-xs font-mono text-slate-400">Memuat Mission Control 3D…</div>)}
