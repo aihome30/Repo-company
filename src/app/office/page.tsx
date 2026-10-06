@@ -20,7 +20,9 @@ const DEPARTMENTS: Dept[] = [
   { id:'hr', name:'HR Room', label:'HR', x:9.5, z:1.6, w:5, d:4.4, floor:'#1d2545' },
   { id:'pantry', name:'Pantry', label:'PANTRY', x:-7.5, z:6.2, w:8, d:4.4, floor:'#2c211b' },
   { id:'lounge', name:'Lounge', label:'LOUNGE', x:0, z:6.2, w:7, d:4.4, floor:'#17293c' },
-  { id:'server', name:'Server Room', label:'SERVER ROOM', x:7.5, z:6.2, w:9, d:4.4, floor:'#132825' },
+  // Tambahkan zona kamar
+  { id:'sleeping', name:'Sleeping Quarters', label:'SLEEPING', x:-4.5, z:6.2, w:6, d:4.4, floor:'#12141a' },
+
 ];
 const ROOM_POS: Record<string,{x:number;z:number}> = {};
 DEPARTMENTS.forEach(d=>{ ROOM_POS[d.name]={x:d.x,z:d.z}; });
@@ -247,20 +249,12 @@ function Building({ agents, selectedRoomId, selectedWsId, onRoom, onWs }:{agents
       <Doorway x={-7.5} z={8.5} />
       <Doorway x={7.5} z={8.5} />
 
-      {/* LOBBY */}
+        {/* LOBBY */}
       <group position={[0,0,-8.2]}>
         <mesh position={[2.5,0.5,0.4]} castShadow receiveShadow><boxGeometry args={[3.6,1,0.85]}/><meshStandardMaterial color="#6b4423" roughness={0.3}/></mesh>
         <mesh position={[2.5,1.03,0.4]}><boxGeometry args={[3.7,0.07,0.95]}/><meshStandardMaterial color="#1c1917" roughness={0.15} metalness={0.4}/></mesh>
         <mesh position={[2.5,1.15,0.2]}><boxGeometry args={[0.5,0.28,0.04]}/><meshStandardMaterial color="#020617" emissive="#38bdf8" emissiveIntensity={0.8}/></mesh>
         <mesh position={[2.5,1.85,-1.55]}><boxGeometry args={[5.5,0.9,0.1]}/><meshStandardMaterial color="#111318" roughness={0.7}/></mesh>
-        {[-4.5,-2.8].map((sx,i)=>(
-          <group key={i} position={[sx,0,0.5]}>
-            <mesh position={[0,0.24,0]} castShadow><boxGeometry args={[1.5,0.34,0.75]}/><meshStandardMaterial color="#1d4ed8" roughness={0.75}/></mesh>
-            <mesh position={[0,0.5,-0.32]}><boxGeometry args={[1.5,0.5,0.14]}/><meshStandardMaterial color="#1e3a8a" roughness={0.75}/></mesh>
-            <mesh position={[0,0.24,0.9]}><boxGeometry args={[0.7,0.3,0.5]}/><meshStandardMaterial color="#3f3f46" roughness={0.5}/></mesh>
-          </group>
-        ))}
-        <mesh position={[6.5,0.06,0.3]} rotation={[-Math.PI/2,0,0]}><planeGeometry args={[2.6,1.4]}/><meshStandardMaterial color="#7c2d12" roughness={0.9}/></mesh>
         <Plant x={-7.5} z={0.4} />
         <Plant x={7.5} z={0.4} />
         <Cabinet x={-9.5} z={-0.8} rot={Math.PI/2} />
@@ -447,8 +441,8 @@ export default function VirtualOfficePage(){
         const picker=NIGHT_CREW[dayNum%NIGHT_CREW.length];
         const shiftName:{[k:string]:string}={'3':'Shift Malam I (19.00-01.00)','4':'Shift Malam II (01.00-07.00)','5':'Shift Malam III (rotasi)','6':'Shift Malam IV (rotasi)'};
         setAgents(prev=>prev.map(ag=>{
-          if(ag.id===picker){ const d=ROOM_POS['Command Center']; return {...ag,status:'Online' as const,task:'Jaga server bergantian — '+(shiftName[ag.id]||'shift malam'),speech:'Shift jaga aktif.',dept:'Command Center',targetX:d.x+1.7,targetZ:d.z+0.4,isMoving:true,sitting:false}; }
-          const d=ROOM_POS['Lounge']; return {...ag,status:'Away' as const,task:'Istirahat malam di Lounge',speech:'Istirahat.',dept:'Lounge',targetX:d.x+(Number(ag.id)%3)*1.1-1.1,targetZ:d.z+0.4,isMoving:true,sitting:false};
+          if(ag.id===picker){ const d=ROOM_POS['Command Center']; return {...ag,status:'Online' as const,task:'Jaga server bergantian',speech:'Shift jaga.',dept:'Command Center',targetX:d.x+1.7,targetZ:d.z+0.4,isMoving:true,sitting:false}; }
+          const d=ROOM_POS['Sleeping Quarters']; return {...ag,status:'Away' as const,task:'Istirahat di kamar',speech:'Tidur.',dept:'Sleeping Quarters',targetX:d.x+(Number(ag.id)%3)*1.1-1.1,targetZ:d.z+0.4,isMoving:true,sitting:false};
         }));
         return;
       }
