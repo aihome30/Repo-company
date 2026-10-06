@@ -41,13 +41,13 @@ const WORKSTATIONS: WS[] = [
 ];
 
 const INITIAL_AGENTS: Agent[] = [
-  { id:'1', name:'SATORU', role:'Manager', dept:'Manager Room', status:'Online', task:'Review sprint & approve budget', avatar:'👔', color:'#5e6ad2', x:-0.5, z:2.2, targetX:-0.5, targetZ:2.2, isMoving:false, speech:'Sprint Q4 disetujui.', sitting:true },
-  { id:'2', name:'NAGATO', role:'Product', dept:'Command Center', status:'Online', task:'Monitoring dashboard command', avatar:'📊', color:'#fb923c', x:-0.8, z:-3.4, targetX:-0.8, targetZ:-3.4, isMoving:false, speech:'Semua metrik hijau.', sitting:true },
-  { id:'3', name:'ITACHI', role:'Architect', dept:'IT / Development', status:'Busy', task:'Coding arsitektur backend', avatar:'💻', color:'#a78bfa', x:8.2, z:-3.2, targetX:8.2, targetZ:-3.2, isMoving:false, speech:'Refactor auth module.', sitting:true },
-  { id:'4', name:'KISAME', role:'SRE / Ops', dept:'Command Center', status:'Online', task:'Jaga NOC — uptime watcher', avatar:'🖥️', color:'#60a5fa', x:3.2, z:-3.4, targetX:3.2, targetZ:-3.4, isMoving:false, speech:'Uptime 100%.', sitting:true },
-  { id:'5', name:'SASORI', role:'Developer', dept:'Open Office', status:'Busy', task:'Membangun UI design system', avatar:'🎨', color:'#f472b6', x:-8.8, z:-3.2, targetX:-8.8, targetZ:-3.2, isMoving:false, speech:'Polish komponen.', sitting:true },
-  { id:'6', name:'DEIDARA', role:'QA', dept:'Open Office', status:'Online', task:'Automated testing suite', avatar:'🧪', color:'#facc15', x:-6.2, z:-3.2, targetX:-6.2, targetZ:-3.2, isMoving:false, speech:'Test suite hijau.', sitting:true },
-  { id:'7', name:'KONAN', role:'HRD', dept:'HR Room', status:'Online', task:'Rekrutmen & administrasi', avatar:'📋', color:'#34d399', x:9.5, z:2.2, targetX:9.5, targetZ:2.2, isMoving:false, speech:'Absensi sesuai UU.', sitting:true },
+  { id:'1', name:'SATORU', role:'Manager', dept:'Manager Room', status:'Online', task:'Review sprint & approve budget', avatar:'👔', color:'#5e6ad2', x:-0.5, z:1.2, targetX:-0.5, targetZ:1.2, isMoving:false, speech:'Sprint Q4 disetujui.', sitting:true },
+  { id:'2', name:'NAGATO', role:'Product', dept:'Command Center', status:'Online', task:'Monitoring dashboard command', avatar:'📊', color:'#fb923c', x:-0.8, z:-4.4, targetX:-0.8, targetZ:-4.4, isMoving:false, speech:'Semua metrik hijau.', sitting:true },
+  { id:'3', name:'ITACHI', role:'Architect', dept:'IT / Development', status:'Busy', task:'Coding arsitektur backend', avatar:'💻', color:'#a78bfa', x:8.2, z:-4.2, targetX:8.2, targetZ:-4.2, isMoving:false, speech:'Refactor auth module.', sitting:true },
+  { id:'4', name:'KISAME', role:'SRE / Ops', dept:'Command Center', status:'Online', task:'Jaga NOC — uptime watcher', avatar:'🖥️', color:'#60a5fa', x:3.2, z:-4.4, targetX:3.2, targetZ:-4.4, isMoving:false, speech:'Uptime 100%.', sitting:true },
+  { id:'5', name:'SASORI', role:'Developer', dept:'Open Office', status:'Busy', task:'Membangun UI design system', avatar:'🎨', color:'#f472b6', x:-8.8, z:-4.2, targetX:-8.8, targetZ:-4.2, isMoving:false, speech:'Polish komponen.', sitting:true },
+  { id:'6', name:'DEIDARA', role:'QA', dept:'Open Office', status:'Online', task:'Automated testing suite', avatar:'🧪', color:'#facc15', x:-6.2, z:-4.2, targetX:-6.2, targetZ:-4.2, isMoving:false, speech:'Test suite hijau.', sitting:true },
+  { id:'7', name:'KONAN', role:'HRD', dept:'HR Room', status:'Online', task:'Rekrutmen & administrasi', avatar:'📋', color:'#34d399', x:9.5, z:1.2, targetX:9.5, targetZ:1.2, isMoving:false, speech:'Absensi sesuai UU.', sitting:true },
 ];
 
 const ROTATION:{agentId:string;to:string;wsId:string;task:string;status:Agent['status'];speech:string}[]=[
