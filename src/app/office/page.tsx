@@ -22,7 +22,6 @@ interface Agent {
   speech?: string;
 }
 
-// POSISI RUANGAN DI KANTOR 3D NYATA (Gedung Perusahaan Korporat)
 const ROOM_POS: Record<string, { x: number; z: number }> = {
   'Boardroom Utama': { x: 0, z: -6 },
   'Command Center': { x: 6, z: -2 },
@@ -193,11 +192,6 @@ function RealOfficeBuilding() {
           <boxGeometry args={[3.2, 1.6, 0.1]} />
           <meshStandardMaterial color="#000" emissive="#38bdf8" emissiveIntensity={0.4} />
         </mesh>
-        <Html position={[0, 1.8, -0.98]} center distanceFactor={10} style={{ pointerEvents: 'none' }}>
-          <div style={{ fontSize: 9, fontWeight: 'bold', color: '#38bdf8', background: 'rgba(0,0,0,0.8)', padding: '2px 6px', borderRadius: 4 }}>
-            BOARDROOM SCREEN
-          </div>
-        </Html>
       </group>
 
       {/* Arsitek & Dev */}
@@ -222,11 +216,6 @@ function RealOfficeBuilding() {
           <boxGeometry args={[4.5, 2.2, 0.2]} />
           <meshStandardMaterial color="#020617" emissive="#22d3ee" emissiveIntensity={0.35} />
         </mesh>
-        <Html position={[0, 1.5, -1.35]} center distanceFactor={10} style={{ pointerEvents: 'none' }}>
-          <div style={{ fontSize: 10, fontFamily: 'monospace', fontWeight: 'bold', color: '#22d3ee', background: 'rgba(0,0,0,0.85)', padding: '4px 10px', borderRadius: 6, border: '1px solid #22d3ee' }}>
-            COMMAND CENTER — TELEMETRY
-          </div>
-        </Html>
       </group>
 
       {/* Lab QA & Security */}
@@ -249,11 +238,6 @@ function RealOfficeBuilding() {
             <meshStandardMaterial color="#022c22" emissive="#10b981" emissiveIntensity={0.45} />
           </mesh>
         ))}
-        <Html position={[0, 2.3, 0]} center distanceFactor={12} style={{ pointerEvents: 'none' }}>
-          <div style={{ fontSize: 9, fontFamily: 'monospace', fontWeight: 'bold', color: '#10b981', background: 'rgba(0,0,0,0.85)', padding: '2px 8px', borderRadius: 4 }}>
-            SERVER RACK ACTIVE
-          </div>
-        </Html>
       </group>
 
       {/* Pantry & Lounge */}
@@ -276,20 +260,7 @@ function RealOfficeBuilding() {
             <meshStandardMaterial color="#334155" roughness={0.8} />
           </mesh>
         ))}
-        <Html position={[0, 1.2, -1]} center distanceFactor={12} style={{ pointerEvents: 'none' }}>
-          <div style={{ fontSize: 9, fontWeight: 'bold', color: '#94a3b8', background: 'rgba(0,0,0,0.8)', padding: '2px 8px', borderRadius: 4 }}>
-            SLEEPING QUARTERS
-          </div>
-        </Html>
       </group>
-
-      {Object.entries(ROOM_POS).map(([name, pos]) => (
-        <Html key={name} position={[pos.x, 0.05, pos.z - 1.8]} center distanceFactor={16} style={{ pointerEvents: 'none' }}>
-          <div style={{ fontSize: 11, fontWeight: 900, letterSpacing: '1px', color: '#cbd5e1', background: 'rgba(15, 23, 42, 0.85)', padding: '3px 10px', borderRadius: 6, border: '1px solid #475569', whiteSpace: 'nowrap' }}>
-            📍 {name.toUpperCase()}
-          </div>
-        </Html>
-      ))}
     </group>
   );
 }
