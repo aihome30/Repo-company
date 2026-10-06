@@ -252,7 +252,10 @@ export default function VirtualOfficePage(){
       const h=parseInt(now.toLocaleString('en-US',{timeZone:'Asia/Jakarta',hour:'numeric',hour12:false}));
       const ops=h>=8&&h<19;
       if(!ops){
-        setAgents(prev=>prev.map(ag=>({...ag,status:'Offline' as const,task:'Off-duty — di luar jam kerja',speech:'Offline.',isMoving:false})));
+        setAgents(prev=>prev.map(ag=>{
+          if(ag.id==='4'){ const dest=ROOM_POS['Server Room']; return {...ag,status:'Online' as const,task:'Jaga malam — monitoring server 24/7',speech:'Jaga malam aktif.',dept:'Server Room',targetX:dest.x,targetZ:dest.z,isMoving:true}; }
+          const dest=ROOM_POS['Lounge']; return {...ag,status:'Away' as const,task:'Istirahat malam di Lounge',speech:'Istirahat.',dept:'Lounge',targetX:dest.x+(Number(ag.id)%3)*0.8-0.8,targetZ:dest.z+0.5,isMoving:true};
+        }));
         return;
       }
       const ev=ROTATION[idx.current%ROTATION.length]; idx.current+=1;
