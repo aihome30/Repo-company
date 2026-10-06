@@ -74,7 +74,7 @@ const ROTATION:{agentId:string;to:string;wsId:string;task:string;status:Agent['s
 
 function Worker({ agent, selected, onSelect }:{agent:Agent;selected:boolean;onSelect:()=>void}){
   const ref=useRef<THREE.Group>(null);
-  const isSleeping = agent.dept === 'Sleeping Quarters';
+  const isSleeping = agent.dept === 'Sleeping Quarters' && !agent.isMoving;
   useFrame((state,delta)=>{
     const g=ref.current; if(!g) return;
     const dx=agent.targetX-g.position.x, dz=agent.targetZ-g.position.z;
