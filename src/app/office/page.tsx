@@ -464,6 +464,14 @@ export default function VirtualOfficePage(){
   const filtered=useMemo(()=>agents.filter(a=>(a.name+a.role+a.dept).toLowerCase().includes(query.toLowerCase())),[agents,query]);
   const roomAgents = useMemo(()=>selectedRoom?agents.filter(a=>a.dept===selectedRoom.name):[],[agents,selectedRoom]);
 
+  // SYNC: selected selalu ikut state live agen (fix mismatch 3D vs panel bawah)
+  useEffect(()=>{
+    setSelected(prev=>{
+      const live=agents.find(a=>a.id===prev.id);
+      return live?live:prev;
+    });
+  },[agents]);
+
   const pickAgent=(a:Agent)=>{ setSelected(a); setSelectedWs(null); const d=DEPARTMENTS.find(x=>x.name===a.dept); if(d) setSelectedRoom(d); setFocus({x:a.targetX,z:a.targetZ}); };
   const pickRoom=(d:Dept)=>{ setSelectedRoom(d); setSelectedWs(null); setFocus({x:d.x,z:d.z}); };
   const pickWs=(w:WS)=>{ setSelectedWs(w); const d=DEPARTMENTS.find(x=>x.name===w.room); if(d){ setSelectedRoom(d); setFocus({x:w.x,z:w.z}); } };
