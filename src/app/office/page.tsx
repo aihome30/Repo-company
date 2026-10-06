@@ -440,8 +440,14 @@ export default function VirtualOfficePage(){
       const h=parseInt(now.toLocaleString('en-US',{timeZone:'Asia/Jakarta',hour:'numeric',hour12:false}));
       const ops=h>=8&&h<19;
       if(!ops){
+        const jakartaDate=new Date(now.toLocaleString('en-US',{timeZone:'Asia/Jakarta'}));
+        const startYear=new Date(jakartaDate.getFullYear(),0,0);
+        const dayNum=Math.floor((jakartaDate.getTime()-startYear.getTime())/86400000);
+        const NIGHT_CREW=['3','4','5','6'];
+        const picker=NIGHT_CREW[dayNum%NIGHT_CREW.length];
+        const shiftName:{[k:string]:string}={'3':'Shift Malam I (19.00-01.00)','4':'Shift Malam II (01.00-07.00)','5':'Shift Malam III (rotasi)','6':'Shift Malam IV (rotasi)'};
         setAgents(prev=>prev.map(ag=>{
-          if(ag.id==='4'){ const d=ROOM_POS['Command Center']; return {...ag,status:'Online' as const,task:'Jaga malam NOC — monitoring 24/7',speech:'Jaga malam aktif.',dept:'Command Center',targetX:d.x+1.7,targetZ:d.z+0.4,isMoving:true,sitting:false}; }
+          if(ag.id===picker){ const d=ROOM_POS['Command Center']; return {...ag,status:'Online' as const,task:'Jaga server bergantian — '+(shiftName[ag.id]||'shift malam'),speech:'Shift jaga aktif.',dept:'Command Center',targetX:d.x+1.7,targetZ:d.z+0.4,isMoving:true,sitting:false}; }
           const d=ROOM_POS['Lounge']; return {...ag,status:'Away' as const,task:'Istirahat malam di Lounge',speech:'Istirahat.',dept:'Lounge',targetX:d.x+(Number(ag.id)%3)*1.1-1.1,targetZ:d.z+0.4,isMoving:true,sitting:false};
         }));
         return;
