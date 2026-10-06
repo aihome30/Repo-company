@@ -482,7 +482,7 @@ export default function VirtualOfficePage(){
   useEffect(()=>{
     setSelected(prev=>{
       const live=agents.find(a=>a.id===prev.id);
-      return live?live:prev;
+      return live?{...live}:prev;
     });
   },[agents]);
 
