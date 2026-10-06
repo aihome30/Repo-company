@@ -22,26 +22,25 @@ interface Agent {
   speech?: string;
 }
 
+// POSISI RUANGAN DI KANTOR 3D NYATA (Gedung Perusahaan Korporat)
 const ROOM_POS: Record<string, { x: number; z: number }> = {
-  'Briefing Room A': { x: -8, z: -5.5 },
-  'Boardroom': { x: -0.5, z: -5.5 },
-  'Private Office': { x: 7.5, z: -5.5 },
-  'Workspace Desk 1': { x: -7, z: 0.5 },
-  'Workspace Desk 2': { x: -3, z: 0.5 },
-  'Command Center': { x: 5.5, z: 0.5 },
-  'Lounge & Bedroom': { x: -8, z: 5.5 },
-  'Kitchen / Pantry': { x: -0.5, z: 5.5 },
-  'Server / Ops Room': { x: 7.5, z: 5.5 },
+  'Boardroom Utama': { x: 0, z: -6 },
+  'Command Center': { x: 6, z: -2 },
+  'Ruang Arsitek & Dev': { x: -6, z: -2 },
+  'Lab QA & Security': { x: -6, z: 4 },
+  'Ruang Server SRE': { x: 6, z: 4 },
+  'Pantry & Lounge': { x: 0, z: 7 },
+  'Kamar Tidur Off-Duty': { x: 0, z: 10 },
 };
 
 const INITIAL_AGENTS: Agent[] = [
-  { id: '1', name: 'Satoru', role: 'Orchestrator', status: 'Active', currentTask: 'Mengkoordinasikan sprint tim', avatar: '🧙', color: '#22d3ee', room: 'Command Center', activity: 'Monitoring workflow', x: 5.5, z: 0.5, targetX: 5.5, targetZ: 0.5, isMoving: false, speech: 'Semua sistem operasional normal.' },
-  { id: '2', name: 'Nagato', role: 'Product Strategy', status: 'Active', currentTask: 'Menganalisis roadmap produk', avatar: '🟠', color: '#fb923c', room: 'Boardroom', activity: 'Review metrics', x: -0.5, z: -5.5, targetX: -0.5, targetZ: -5.5, isMoving: false, speech: 'Roadmap Q4 diselaraskan.' },
-  { id: '3', name: 'Itachi', role: 'System Architect', status: 'Coding', currentTask: 'Refactoring modul backend', avatar: '🥷', color: '#a78bfa', room: 'Workspace Desk 1', activity: 'Code review', x: -7, z: 0.5, targetX: -7, targetZ: 0.5, isMoving: false, speech: 'Commit terverifikasi.' },
-  { id: '4', name: 'Kisame', role: 'Backend & SRE', status: 'Monitoring', currentTask: 'Memantau uptime server utama', avatar: '🦈', color: '#60a5fa', room: 'Server / Ops Room', activity: 'Infrastruktur watch', x: 7.5, z: 5.5, targetX: 7.5, targetZ: 5.5, isMoving: false, speech: 'Latency stabil, zero leak terjaga.' },
-  { id: '5', name: 'Sasori', role: 'Frontend UI/UX', status: 'Coding', currentTask: 'Menyempurnakan UI glassmorphic', avatar: '🎭', color: '#f472b6', room: 'Workspace Desk 2', activity: 'Styling polish', x: -3, z: 0.5, targetX: -3, targetZ: 0.5, isMoving: false, speech: '100% responsif.' },
-  { id: '6', name: 'Deidara', role: 'QA & Security', status: 'Testing', currentTask: 'Automated test & audit DLP', avatar: '💥', color: '#facc15', room: 'Briefing Room A', activity: 'Stress test', x: -8, z: -5.5, targetX: -8, targetZ: -5.5, isMoving: false, speech: '0 build error di pipeline.' },
-  { id: '7', name: 'Konan', role: 'Documentation & HR', status: 'Syncing', currentTask: 'Dokumen SOP & laporan HRD', avatar: '📄', color: '#34d399', room: 'Private Office', activity: 'Compliance report', x: 7.5, z: -5.5, targetX: 7.5, targetZ: -5.5, isMoving: false, speech: 'Shift patuh regulasi.' },
+  { id: '1', name: 'Satoru', role: 'Orchestrator', status: 'Active', currentTask: 'Memimpin briefing harian tim', avatar: '🧙', color: '#22d3ee', room: 'Boardroom Utama', activity: 'Executive Briefing', x: 0, z: -6, targetX: 0, targetZ: -6, isMoving: false, speech: 'Mari kita mulai sprint hari ini.' },
+  { id: '2', name: 'Nagato', role: 'Product Strategy', status: 'Active', currentTask: 'Analisis roadmap & kebutuhan klien', avatar: '🟠', color: '#fb923c', room: 'Boardroom Utama', activity: 'Strategy Planning', x: 1, z: -6, targetX: 1, targetZ: -6, isMoving: false, speech: 'Roadmap Q4 sesuai target.' },
+  { id: '3', name: 'Itachi', role: 'System Architect', status: 'Coding', currentTask: 'Refactoring arsitektur NestJS backend', avatar: '🥷', color: '#a78bfa', room: 'Ruang Arsitek & Dev', activity: 'Backend Core', x: -6, z: -2, targetX: -6, targetZ: -2, isMoving: false, speech: 'Clean architecture diterapkan.' },
+  { id: '4', name: 'Kisame', role: 'Backend & SRE', status: 'Monitoring', currentTask: 'Memantau telemetry server 24/7', avatar: '🦈', color: '#60a5fa', room: 'Ruang Server SRE', activity: 'Uptime Sentinel', x: 6, z: 4, targetX: 6, targetZ: 4, isMoving: false, speech: 'Uptime 100% stabil.' },
+  { id: '5', name: 'Sasori', role: 'Frontend UI/UX', status: 'Coding', currentTask: 'Desain UI glassmorphic agency', avatar: '🎭', color: '#f472b6', room: 'Ruang Arsitek & Dev', activity: 'UI/UX Design', x: -5, z: -2, targetX: -5, targetZ: -2, isMoving: false, speech: 'Animasi Tailwind halus.' },
+  { id: '6', name: 'Deidara', role: 'QA & Security', status: 'Testing', currentTask: 'Menjalankan automated test suite', avatar: '💥', color: '#facc15', room: 'Lab QA & Security', activity: 'Stress Testing', x: -6, z: 4, targetX: -6, targetZ: 4, isMoving: false, speech: 'Zero bug terdeteksi.' },
+  { id: '7', name: 'Konan', role: 'Documentation & HR', status: 'Syncing', currentTask: 'Menyusun laporan HRD & SOP', avatar: '📄', color: '#34d399', room: 'Boardroom Utama', activity: 'HR Compliance', x: -1, z: -6, targetX: -1, targetZ: -6, isMoving: false, speech: 'Absensi & shift sesuai UU.' },
 ];
 
 interface ActivityEvent {
@@ -54,26 +53,26 @@ interface ActivityEvent {
 }
 
 const ACTIVITY_POOL: ActivityEvent[] = [
-  { agentId: '3', targetRoom: 'Command Center', task: 'Diskusi arsitektur layanan dengan Satoru', activity: 'Arsitektur Sync', status: 'Moving', speech: 'Koordinasi pembaruan API.' },
-  { agentId: '3', targetRoom: 'Server / Ops Room', task: 'Inspeksi koneksi database & cache', activity: 'DB Inspection', status: 'Moving', speech: 'Cek connection pool.' },
-  { agentId: '3', targetRoom: 'Workspace Desk 1', task: 'Coding modul pembayaran & audit DLP', activity: 'Core Development', status: 'Coding', speech: 'Menulis endpoint aman.' },
-  { agentId: '5', targetRoom: 'Briefing Room A', task: 'Review visual & animasi dengan Deidara', activity: 'Design QA', status: 'Moving', speech: 'Validasi animasi real-time.' },
-  { agentId: '5', targetRoom: 'Kitchen / Pantry', task: 'Coffee break singkat di pantry', activity: 'Pantry Break', status: 'Resting', speech: 'Ambil kopi dulu.' },
-  { agentId: '5', targetRoom: 'Workspace Desk 2', task: 'Optimasi rendering komponen & motion', activity: 'Frontend Polish', status: 'Coding', speech: 'Smooth transition.' },
-  { agentId: '6', targetRoom: 'Server / Ops Room', task: 'Vulnerability scan & probe keamanan', activity: 'Security Probe', status: 'Moving', speech: 'Cek firewall & port.' },
-  { agentId: '6', targetRoom: 'Command Center', task: 'Lapor hasil QA 0-fail ke Satoru', activity: 'QA Reporting', status: 'Moving', speech: 'Build 100% hijau.' },
-  { agentId: '6', targetRoom: 'Briefing Room A', task: 'Automated test suite ribuan kasus', activity: 'Automated Testing', status: 'Testing', speech: 'Semua test passed.' },
-  { agentId: '2', targetRoom: 'Command Center', task: 'Sinkronisasi strategi produk & SLA', activity: 'Executive Sync', status: 'Moving', speech: 'Review kepuasan klien.' },
-  { agentId: '2', targetRoom: 'Kitchen / Pantry', task: 'Diskusi informal di pantry', activity: 'Coffee Discussion', status: 'Resting', speech: 'Diskusi strategi.' },
-  { agentId: '2', targetRoom: 'Boardroom', task: 'Pimpin review roadmap & layanan', activity: 'Strategy Meeting', status: 'Active', speech: 'Roadmap disetujui.' },
-  { agentId: '7', targetRoom: 'Boardroom', task: 'Presentasi audit absensi HRD', activity: 'HR Presentation', status: 'Moving', speech: 'Laporan regulasi.' },
-  { agentId: '7', targetRoom: 'Private Office', task: 'Arsip kontrak & dokumentasi', activity: 'Docs Archival', status: 'Active', speech: 'Dokumen terarsip rapi.' },
-  { agentId: '1', targetRoom: 'Server / Ops Room', task: 'Inspeksi performa worker & balancer', activity: 'Ops Inspection', status: 'Moving', speech: 'Load server optimal.' },
-  { agentId: '1', targetRoom: 'Command Center', task: 'Orkestrasi 7 agen otonom', activity: 'Master Orchestration', status: 'Active', speech: 'Semua agen sesuai standar.' },
-  { agentId: '4', targetRoom: 'Server / Ops Room', task: 'SRE 24/7 uptime watcher aktif', activity: '24/7 Sentinel', status: 'Monitoring', speech: 'Monitoring 24/7 aktif.' },
+  { agentId: '3', targetRoom: 'Command Center', task: 'Diskusi arsitektur cloud dengan Satoru', activity: 'System Sync', status: 'Moving', speech: 'Koordinasi deployment.' },
+  { agentId: '3', targetRoom: 'Ruang Server SRE', task: 'Audit koneksi database PostgreSQL', activity: 'DB Audit', status: 'Moving', speech: 'Memeriksa index query.' },
+  { agentId: '3', targetRoom: 'Ruang Arsitek & Dev', task: 'Coding backend API & enkripsi data', activity: 'Coding', status: 'Coding', speech: 'Menulis secure endpoint.' },
+  { agentId: '5', targetRoom: 'Boardroom Utama', task: 'Presentasi mockup UI ke Product Manager', activity: 'Design Review', status: 'Moving', speech: 'Memaparkan layout baru.' },
+  { agentId: '5', targetRoom: 'Pantry & Lounge', task: 'Istirahat minum kopi di pantry', activity: 'Coffee Break', status: 'Resting', speech: 'Ngopi sebentar ☕' },
+  { agentId: '5', targetRoom: 'Ruang Arsitek & Dev', task: 'Implementasi komponen React', activity: 'Frontend Dev', status: 'Coding', speech: 'Polish styling component.' },
+  { agentId: '6', targetRoom: 'Ruang Server SRE', task: 'Uji penetrasi & firewall security check', activity: 'Security Audit', status: 'Moving', speech: 'Scan port & firewall.' },
+  { agentId: '6', targetRoom: 'Command Center', task: 'Laporan hasil QA build 0-fail', activity: 'QA Reporting', status: 'Moving', speech: 'Build 100% lulus.' },
+  { agentId: '6', targetRoom: 'Lab QA & Security', task: 'Menjalankan automated test cases', activity: 'Testing', status: 'Testing', speech: 'Semua test suite hijau.' },
+  { agentId: '2', targetRoom: 'Command Center', task: 'Evaluasi metrik performa & klien', activity: 'Metric Review', status: 'Moving', speech: 'Analisis trafik Vercel.' },
+  { agentId: '2', targetRoom: 'Pantry & Lounge', task: 'Diskusi santai di lounge kantor', activity: 'Discussion', status: 'Resting', speech: 'Diskusi santai.' },
+  { agentId: '2', targetRoom: 'Boardroom Utama', task: 'Memimpin rapat strategi bulanan', activity: 'Board Meeting', status: 'Active', speech: 'Menyusun target Q4.' },
+  { agentId: '7', targetRoom: 'Command Center', task: 'Verifikasi laporan absensi shift', activity: 'HR Check', status: 'Moving', speech: 'Pengecekan presensi.' },
+  { agentId: '7', targetRoom: 'Boardroom Utama', task: 'Pengarsipan dokumen legal perusahaan', activity: 'Archiving', status: 'Active', speech: 'SOP & kontrak tersimpan.' },
+  { agentId: '1', targetRoom: 'Ruang Server SRE', task: 'Inspeksi resource klaster Proxmox', activity: 'Infra Check', status: 'Moving', speech: 'Kapasitas server optimal.' },
+  { agentId: '1', targetRoom: 'Boardroom Utama', task: 'Memimpin rapat koordinasi harian', activity: 'Orchestration', status: 'Active', speech: 'Semua divisi berjalan lancar.' },
+  { agentId: '4', targetRoom: 'Ruang Server SRE', task: 'SRE 24/7 Uptime Watcher aktif', activity: 'Sentinel', status: 'Monitoring', speech: 'Menjaga server tetap aman.' },
 ];
 
-function AgentMesh({ agent, isSelected, onSelect }: { agent: Agent; isSelected: boolean; onSelect: () => void }) {
+function DetailedAgentMesh({ agent, isSelected, onSelect }: { agent: Agent; isSelected: boolean; onSelect: () => void }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const group = useRef<any>(null);
 
@@ -83,46 +82,57 @@ function AgentMesh({ agent, isSelected, onSelect }: { agent: Agent; isSelected: 
     const dx = agent.targetX - g.position.x;
     const dz = agent.targetZ - g.position.z;
     const dist = Math.hypot(dx, dz);
-    const speed = Math.min(1, delta * 1.8);
+    const speed = Math.min(1, delta * 2.2);
     g.position.x += dx * speed;
     g.position.z += dz * speed;
-    const walking = dist > 0.2;
-    g.position.y = walking ? Math.abs(Math.sin(state.clock.elapsedTime * 9)) * 0.28 : Math.sin(state.clock.elapsedTime * 2 + Number(agent.id)) * 0.04;
-    if (walking) g.rotation.y = Math.atan2(dx, dz);
+
+    const walking = dist > 0.15;
+    g.position.y = walking ? Math.abs(Math.sin(state.clock.elapsedTime * 12)) * 0.15 : 0;
+    if (walking) {
+      g.rotation.y = Math.atan2(dx, dz);
+    }
   });
 
   return (
     <group ref={group} position={[agent.x, 0, agent.z]}>
-      <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[0.42, 24]} />
-        <meshBasicMaterial color="#000000" transparent opacity={0.35} />
+      <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[0.35, 24]} />
+        <meshBasicMaterial color="#000000" transparent opacity={0.4} />
       </mesh>
-      <mesh position={[0, 0.55, 0]} onClick={onSelect}>
-        <cylinderGeometry args={[0.28, 0.34, 0.85, 20]} />
-        <meshStandardMaterial color={agent.color} roughness={0.5} />
+      <mesh position={[-0.1, 0.25, 0]}>
+        <cylinderGeometry args={[0.06, 0.06, 0.5, 12]} />
+        <meshStandardMaterial color="#1e293b" roughness={0.8} />
       </mesh>
-      <mesh position={[0, 1.2, 0]} onClick={onSelect}>
-        <sphereGeometry args={[0.3, 24, 24]} />
-        <meshStandardMaterial color="#f1f5f9" roughness={0.4} />
+      <mesh position={[0.1, 0.25, 0]}>
+        <cylinderGeometry args={[0.06, 0.06, 0.5, 12]} />
+        <meshStandardMaterial color="#1e293b" roughness={0.8} />
+      </mesh>
+      <mesh position={[0, 0.7, 0]} onClick={onSelect} castShadow>
+        <boxGeometry args={[0.38, 0.6, 0.22]} />
+        <meshStandardMaterial color={agent.color} roughness={0.4} />
+      </mesh>
+      <mesh position={[0, 1.15, 0]} onClick={onSelect} castShadow>
+        <sphereGeometry args={[0.2, 24, 24]} />
+        <meshStandardMaterial color="#fde047" roughness={0.5} />
       </mesh>
       {isSelected && (
-        <mesh position={[0, 0.05, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[0.5, 0.65, 32]} />
+        <mesh position={[0, 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[0.45, 0.58, 32]} />
           <meshBasicMaterial color={agent.color} transparent opacity={0.9} />
         </mesh>
       )}
-      <Html position={[0, 1.85, 0]} center distanceFactor={12} style={{ pointerEvents: 'none' }}>
+      <Html position={[0, 1.65, 0]} center distanceFactor={14} style={{ pointerEvents: 'none' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
           {agent.speech && (
-            <div style={{ background: 'rgba(0,0,0,0.88)', border: '1px solid #334155', borderRadius: 6, padding: '2px 6px', fontSize: 9, color: '#a5f3fc', whiteSpace: 'nowrap', fontFamily: 'monospace' }}>
-              {agent.isMoving ? 'Berjalan ' : ''}{agent.speech}
+            <div style={{ background: 'rgba(15, 23, 42, 0.95)', border: '1px solid #334155', borderRadius: 6, padding: '3px 8px', fontSize: 10, color: '#38bdf8', whiteSpace: 'nowrap', fontFamily: 'monospace', boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>
+              {agent.isMoving ? '🚶 ' : '💬 '}{agent.speech}
             </div>
           )}
-          <div style={{ background: 'rgba(0,0,0,0.9)', border: `2px solid ${agent.color}`, borderRadius: 999, width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>
+          <div style={{ background: '#0f172a', border: `2px solid ${agent.color}`, borderRadius: 999, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, boxShadow: '0 4px 10px rgba(0,0,0,0.6)' }}>
             {agent.status === 'Off Duty' ? '😴' : agent.avatar}
           </div>
-          <div style={{ background: 'rgba(0,0,0,0.9)', border: '1px solid #475569', borderRadius: 4, padding: '0 5px', fontSize: 9, fontWeight: 700, color: agent.color, whiteSpace: 'nowrap' }}>
-            {agent.name}{agent.isMoving ? ' ...' : ''}
+          <div style={{ background: '#0f172a', border: '1px solid #475569', borderRadius: 4, padding: '1px 6px', fontSize: 9, fontWeight: 700, color: '#f8fafc', whiteSpace: 'nowrap' }}>
+            {agent.name} <span style={{ color: agent.color }}>({agent.role})</span>
           </div>
         </div>
       </Html>
@@ -130,79 +140,156 @@ function AgentMesh({ agent, isSelected, onSelect }: { agent: Agent; isSelected: 
   );
 }
 
-function RoomPlate({ x, z, w, d, color, label }: { x: number; z: number; w: number; d: number; color: string; label: string }) {
-  return (
-    <group position={[x, 0, z]}>
-      <mesh position={[0, -0.06, 0]} receiveShadow>
-        <boxGeometry args={[w, 0.12, d]} />
-        <meshStandardMaterial color={color} roughness={0.9} />
-      </mesh>
-      <Html position={[0, 0.05, -d / 2 + 0.35]} center distanceFactor={14} style={{ pointerEvents: 'none' }}>
-        <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1, color: '#e2e8f0', background: 'rgba(0,0,0,0.55)', padding: '2px 8px', borderRadius: 4, whiteSpace: 'nowrap' }}>{label}</div>
-      </Html>
-    </group>
-  );
-}
-
-function Furniture() {
+function RealOfficeBuilding() {
   return (
     <group>
-      <mesh position={[-0.5, 0.3, -5.5]}>
-        <boxGeometry args={[3.4, 0.6, 1.2]} />
-        <meshStandardMaterial color="#3b4256" roughness={0.6} />
+      <mesh position={[0, -0.1, 0]} receiveShadow>
+        <boxGeometry args={[24, 0.2, 24]} />
+        <meshStandardMaterial color="#0f172a" roughness={0.9} />
       </mesh>
-      <mesh position={[-7, 0.3, 0.5]}>
-        <boxGeometry args={[2.2, 0.6, 1.1]} />
-        <meshStandardMaterial color="#1f2937" roughness={0.6} />
+      <gridHelper args={[24, 24, '#334155', '#1e293b']} position={[0, 0, 0]} />
+
+      <mesh position={[0, 1.5, -11.9]}>
+        <boxGeometry args={[24, 3, 0.2]} />
+        <meshStandardMaterial color="#1e293b" roughness={0.7} />
       </mesh>
-      <mesh position={[-3, 0.3, 0.5]}>
-        <boxGeometry args={[2.2, 0.6, 1.1]} />
-        <meshStandardMaterial color="#1f2937" roughness={0.6} />
+      <mesh position={[-11.9, 1.5, 0]}>
+        <boxGeometry args={[0.2, 3, 24]} />
+        <meshStandardMaterial color="#1e293b" roughness={0.7} />
       </mesh>
-      <mesh position={[5.5, 0.9, -0.6]}>
-        <boxGeometry args={[3, 1.6, 0.25]} />
-        <meshStandardMaterial color="#0a0d14" emissive="#22d3ee" emissiveIntensity={0.25} />
+      <mesh position={[11.9, 1.5, 0]}>
+        <boxGeometry args={[0.2, 3, 24]} />
+        <meshStandardMaterial color="#1e293b" roughness={0.7} />
       </mesh>
-      {[[-8.9, 5.2], [-7.9, 5.2], [-8.9, 6.2]].map(([bx, bz], i) => (
-        <mesh key={i} position={[bx, 0.2, bz]}>
-          <boxGeometry args={[0.9, 0.4, 1.4]} />
-          <meshStandardMaterial color="#475569" roughness={0.8} />
+
+      <mesh position={[-4, 1.5, -2]}>
+        <boxGeometry args={[6, 3, 0.15]} />
+        <meshStandardMaterial color="#334155" roughness={0.8} />
+      </mesh>
+      <mesh position={[4, 1.5, -2]}>
+        <boxGeometry args={[6, 3, 0.15]} />
+        <meshStandardMaterial color="#334155" roughness={0.8} />
+      </mesh>
+      <mesh position={[-4, 1.5, 2]}>
+        <boxGeometry args={[6, 3, 0.15]} />
+        <meshStandardMaterial color="#334155" roughness={0.8} />
+      </mesh>
+      <mesh position={[4, 1.5, 2]}>
+        <boxGeometry args={[6, 3, 0.15]} />
+        <meshStandardMaterial color="#334155" roughness={0.8} />
+      </mesh>
+
+      {/* Boardroom */}
+      <group position={[0, 0, -6]}>
+        <mesh position={[0, 0.4, 0]} castShadow>
+          <boxGeometry args={[4.5, 0.08, 2.2]} />
+          <meshStandardMaterial color="#334155" roughness={0.3} />
         </mesh>
-      ))}
-      <mesh position={[-7.2, 0.25, 6.1]}>
-        <boxGeometry args={[1.6, 0.5, 0.7]} />
-        <meshStandardMaterial color="#6366f1" roughness={0.8} />
-      </mesh>
-      <mesh position={[-0.5, 0.35, 5.9]}>
-        <boxGeometry args={[2.6, 0.7, 0.8]} />
-        <meshStandardMaterial color="#78350f" roughness={0.7} />
-      </mesh>
-      {[6.6, 7.5, 8.4].map((rx, i) => (
-        <mesh key={i} position={[rx, 0.7, 6.3]}>
-          <boxGeometry args={[0.8, 1.4, 0.6]} />
-          <meshStandardMaterial color="#052e16" emissive="#10b981" emissiveIntensity={0.35} />
+        <mesh position={[0, 0.2, 0]}>
+          <cylinderGeometry args={[0.4, 0.4, 0.4, 16]} />
+          <meshStandardMaterial color="#0f172a" />
         </mesh>
+        <mesh position={[0, 1.8, -1.05]}>
+          <boxGeometry args={[3.2, 1.6, 0.1]} />
+          <meshStandardMaterial color="#000" emissive="#38bdf8" emissiveIntensity={0.4} />
+        </mesh>
+        <Html position={[0, 1.8, -0.98]} center distanceFactor={10} style={{ pointerEvents: 'none' }}>
+          <div style={{ fontSize: 9, fontWeight: 'bold', color: '#38bdf8', background: 'rgba(0,0,0,0.8)', padding: '2px 6px', borderRadius: 4 }}>
+            BOARDROOM SCREEN
+          </div>
+        </Html>
+      </group>
+
+      {/* Arsitek & Dev */}
+      <group position={[-6, 0, -2]}>
+        <mesh position={[0, 0.38, 0]} castShadow>
+          <boxGeometry args={[3.5, 0.06, 1.8]} />
+          <meshStandardMaterial color="#1e293b" roughness={0.5} />
+        </mesh>
+        <mesh position={[-0.8, 0.9, -0.5]}>
+          <boxGeometry args={[1.1, 0.7, 0.08]} />
+          <meshStandardMaterial color="#000" emissive="#a855f7" emissiveIntensity={0.5} />
+        </mesh>
+        <mesh position={[0.8, 0.9, -0.5]}>
+          <boxGeometry args={[1.1, 0.7, 0.08]} />
+          <meshStandardMaterial color="#000" emissive="#38bdf8" emissiveIntensity={0.5} />
+        </mesh>
+      </group>
+
+      {/* Command Center */}
+      <group position={[6, 0, -2]}>
+        <mesh position={[0, 1.2, -1.5]}>
+          <boxGeometry args={[4.5, 2.2, 0.2]} />
+          <meshStandardMaterial color="#020617" emissive="#22d3ee" emissiveIntensity={0.35} />
+        </mesh>
+        <Html position={[0, 1.5, -1.35]} center distanceFactor={10} style={{ pointerEvents: 'none' }}>
+          <div style={{ fontSize: 10, fontFamily: 'monospace', fontWeight: 'bold', color: '#22d3ee', background: 'rgba(0,0,0,0.85)', padding: '4px 10px', borderRadius: 6, border: '1px solid #22d3ee' }}>
+            COMMAND CENTER — TELEMETRY
+          </div>
+        </Html>
+      </group>
+
+      {/* Lab QA & Security */}
+      <group position={[-6, 0, 4]}>
+        <mesh position={[0, 0.38, 0]} castShadow>
+          <boxGeometry args={[3.2, 0.06, 1.6]} />
+          <meshStandardMaterial color="#292524" roughness={0.6} />
+        </mesh>
+        <mesh position={[0, 0.85, 0]}>
+          <boxGeometry args={[1.8, 0.8, 0.8]} />
+          <meshStandardMaterial color="#000" emissive="#facc15" emissiveIntensity={0.3} />
+        </mesh>
+      </group>
+
+      {/* Ruang Server SRE */}
+      <group position={[6, 0, 4]}>
+        {[-1.2, 0, 1.2].map((rx, i) => (
+          <mesh key={i} position={[rx, 1, 0]} castShadow>
+            <boxGeometry args={[0.9, 2, 0.8]} />
+            <meshStandardMaterial color="#022c22" emissive="#10b981" emissiveIntensity={0.45} />
+          </mesh>
+        ))}
+        <Html position={[0, 2.3, 0]} center distanceFactor={12} style={{ pointerEvents: 'none' }}>
+          <div style={{ fontSize: 9, fontFamily: 'monospace', fontWeight: 'bold', color: '#10b981', background: 'rgba(0,0,0,0.85)', padding: '2px 8px', borderRadius: 4 }}>
+            SERVER RACK ACTIVE
+          </div>
+        </Html>
+      </group>
+
+      {/* Pantry & Lounge */}
+      <group position={[0, 0, 7]}>
+        <mesh position={[-2, 0.4, 0]} castShadow>
+          <boxGeometry args={[2, 0.8, 1]} />
+          <meshStandardMaterial color="#78350f" roughness={0.6} />
+        </mesh>
+        <mesh position={[2, 0.3, 0]} castShadow>
+          <boxGeometry args={[2.5, 0.6, 1.2]} />
+          <meshStandardMaterial color="#475569" roughness={0.7} />
+        </mesh>
+      </group>
+
+      {/* Kamar Tidur Off-Duty */}
+      <group position={[0, 0, 10]}>
+        {[-1.5, 0, 1.5].map((bx, i) => (
+          <mesh key={i} position={[bx, 0.25, 0]} castShadow>
+            <boxGeometry args={[1.2, 0.5, 2]} />
+            <meshStandardMaterial color="#334155" roughness={0.8} />
+          </mesh>
+        ))}
+        <Html position={[0, 1.2, -1]} center distanceFactor={12} style={{ pointerEvents: 'none' }}>
+          <div style={{ fontSize: 9, fontWeight: 'bold', color: '#94a3b8', background: 'rgba(0,0,0,0.8)', padding: '2px 8px', borderRadius: 4 }}>
+            SLEEPING QUARTERS
+          </div>
+        </Html>
+      </group>
+
+      {Object.entries(ROOM_POS).map(([name, pos]) => (
+        <Html key={name} position={[pos.x, 0.05, pos.z - 1.8]} center distanceFactor={16} style={{ pointerEvents: 'none' }}>
+          <div style={{ fontSize: 11, fontWeight: 900, letterSpacing: '1px', color: '#cbd5e1', background: 'rgba(15, 23, 42, 0.85)', padding: '3px 10px', borderRadius: 6, border: '1px solid #475569', whiteSpace: 'nowrap' }}>
+            📍 {name.toUpperCase()}
+          </div>
+        </Html>
       ))}
-      <mesh position={[-8, 0.35, -4.6]}>
-        <boxGeometry args={[2.4, 0.7, 0.8]} />
-        <meshStandardMaterial color="#451a03" roughness={0.7} />
-      </mesh>
-      <mesh position={[7.5, 0.35, -5.5]}>
-        <boxGeometry args={[1.8, 0.7, 1]} />
-        <meshStandardMaterial color="#134e4a" roughness={0.7} />
-      </mesh>
-      <mesh position={[0, 0.6, -3.4]}>
-        <boxGeometry args={[20, 1.2, 0.15]} />
-        <meshStandardMaterial color="#2b3245" roughness={0.9} transparent opacity={0.85} />
-      </mesh>
-      <mesh position={[0, 0.6, 2.9]}>
-        <boxGeometry args={[20, 1.2, 0.15]} />
-        <meshStandardMaterial color="#2b3245" roughness={0.9} transparent opacity={0.85} />
-      </mesh>
-      <mesh position={[2.6, 0.6, 0]}>
-        <boxGeometry args={[0.15, 1.2, 12]} />
-        <meshStandardMaterial color="#2b3245" roughness={0.9} transparent opacity={0.85} />
-      </mesh>
     </group>
   );
 }
@@ -210,37 +297,27 @@ function Furniture() {
 function OfficeScene({ agents, selectedId, onSelect }: { agents: Agent[]; selectedId: string; onSelect: (a: Agent) => void }) {
   return (
     <>
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[8, 12, 6]} intensity={1.1} />
-      <pointLight position={[5.5, 4, 0.5]} intensity={12} color="#a855f7" distance={12} />
-      <pointLight position={[7.5, 4, 5.5]} intensity={10} color="#10b981" distance={10} />
-      <mesh position={[0, -0.15, 0]} receiveShadow>
-        <boxGeometry args={[21, 0.15, 15]} />
-        <meshStandardMaterial color="#171b25" roughness={1} />
-      </mesh>
-      <gridHelper args={[21, 21, '#334155', '#232a3b']} position={[0, -0.06, 0]} />
-      <RoomPlate x={-8} z={-5.5} w={4.6} d={3.6} color="#2a2417" label="BRIEFING ROOM A" />
-      <RoomPlate x={-0.5} z={-5.5} w={6.4} d={3.6} color="#262a34" label="BOARDROOM" />
-      <RoomPlate x={7.5} z={-5.5} w={4.4} d={3.6} color="#1d2b26" label="PRIVATE OFFICE" />
-      <RoomPlate x={-5} z={0.5} w={8.6} d={4.2} color="#232838" label="OPEN WORKSPACE" />
-      <RoomPlate x={5.5} z={0.5} w={6.4} d={4.2} color="#241f38" label="COMMAND CENTER" />
-      <RoomPlate x={-8} z={5.5} w={4.6} d={3.8} color="#232540" label="LOUNGE & BEDROOM" />
-      <RoomPlate x={-0.5} z={5.5} w={6.4} d={3.8} color="#2e2517" label="KITCHEN / PANTRY" />
-      <RoomPlate x={7.5} z={5.5} w={4.4} d={3.8} color="#14291f" label="SERVER / OPS ROOM" />
-      <Furniture />
+      <ambientLight intensity={0.85} />
+      <directionalLight position={[10, 20, 10]} intensity={1.2} castShadow shadow-mapSize={[2048, 2048]} />
+      <pointLight position={[0, 8, 0]} intensity={25} color="#38bdf8" distance={20} />
+      <pointLight position={[6, 6, 4]} intensity={15} color="#10b981" distance={15} />
+
+      <RealOfficeBuilding />
+
       {agents.map((a) => (
-        <AgentMesh key={a.id} agent={a} isSelected={selectedId === a.id} onSelect={() => onSelect(a)} />
+        <DetailedAgentMesh key={a.id} agent={a} isSelected={selectedId === a.id} onSelect={() => onSelect(a)} />
       ))}
-      <OrbitControls enablePan={true} maxPolarAngle={Math.PI / 2.15} minDistance={6} maxDistance={30} target={[0, 0, 0]} />
+
+      <OrbitControls enablePan={true} maxPolarAngle={Math.PI / 2.2} minDistance={8} maxDistance={35} target={[0, 0, 0]} />
     </>
   );
 }
 
-export default function Office3DPage() {
+export default function Office3DRealPage() {
   const [agents, setAgents] = useState<Agent[]>(INITIAL_AGENTS);
   const [logs, setLogs] = useState<string[]>([
-    'PT. Indo Jaya Gram — 3D Office Engine Initialized',
-    'Realtime walking telemetry aktif [koordinat & aktivitas sinkron]',
+    'PT. Indo Jaya Gram — Professional 3D Corporate Office HQ Initialized',
+    'Realtime Corporate Activity & Walking Engine Active',
   ]);
   const [selectedAgent, setSelectedAgent] = useState<Agent>(INITIAL_AGENTS[0]);
   const [currentTime, setCurrentTime] = useState('');
@@ -262,12 +339,13 @@ export default function Office3DPage() {
         setAgents((prev) =>
           prev.map((ag, idx) => {
             if (ag.id === '4') {
-              const p = ROOM_POS['Server / Ops Room'];
-              return { ...ag, room: 'Server / Ops Room', targetX: p.x, targetZ: p.z, currentTask: 'SRE 24/7 Uptime Watcher aktif', status: 'Monitoring', activity: 'Infrastructure Sentinel', isMoving: true, speech: 'Menjaga server saat tim istirahat.' };
+              const p = ROOM_POS['Ruang Server SRE'];
+              return { ...ag, room: 'Ruang Server SRE', targetX: p.x, targetZ: p.z, currentTask: 'SRE 24/7 Uptime Watcher aktif', status: 'Monitoring', activity: 'Sentinel Watch', isMoving: true, speech: 'Menjaga server saat malam.' };
             }
-            const bx = -8.9 + (idx % 2) * 1.1;
-            const bz = 5.1 + Math.floor(idx / 2) * 0.7;
-            return { ...ag, room: 'Lounge & Bedroom', targetX: bx, targetZ: bz, currentTask: 'Off Duty (Tidur & Istirahat)', status: 'Off Duty', activity: 'Standby Shift Besok', isMoving: true, speech: 'Istirahat di kamar tidur.' };
+            const bedPos = ROOM_POS['Kamar Tidur Off-Duty'];
+            const bx = bedPos.x - 1.2 + (idx % 3) * 1.2;
+            const bz = bedPos.z + (idx > 3 ? 0.6 : -0.6);
+            return { ...ag, room: 'Kamar Tidur Off-Duty', targetX: bx, targetZ: bz, currentTask: 'Off Duty (Tidur & Istirahat)', status: 'Off Duty', activity: 'Resting', isMoving: true, speech: 'Sedang tidur di kamar istirahat.' };
           })
         );
         return;
@@ -276,26 +354,27 @@ export default function Office3DPage() {
       const event = ACTIVITY_POOL[activityIndexRef.current % ACTIVITY_POOL.length];
       activityIndexRef.current += 1;
       const dest = ROOM_POS[event.targetRoom];
-      const jitterX = (Number(event.agentId) % 3) * 0.55;
+      const jitterX = (Number(event.agentId) % 3) * 0.4 - 0.4;
+      const jitterZ = (Number(event.agentId) % 2) * 0.4 - 0.2;
 
       setAgents((prev) =>
         prev.map((ag) =>
           ag.id === event.agentId
-            ? { ...ag, room: event.targetRoom, targetX: dest.x + jitterX, targetZ: dest.z, currentTask: `Menuju ${event.targetRoom}: ${event.task}`, activity: event.activity, status: 'Moving', isMoving: true, speech: event.speech }
+            ? { ...ag, room: event.targetRoom, targetX: dest.x + jitterX, targetZ: dest.z + jitterZ, currentTask: `Menuju ${event.targetRoom}: ${event.task}`, activity: event.activity, status: 'Moving', isMoving: true, speech: event.speech }
             : ag
         )
       );
 
       const timestamp = new Date().toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });
       const chosen = INITIAL_AGENTS.find((a) => a.id === event.agentId);
-      if (chosen) setLogs((p) => [`[${timestamp}] ${chosen.name} berjalan ke ${event.targetRoom} — ${event.task}`, ...p.slice(0, 49)]);
+      if (chosen) setLogs((p) => [`[${timestamp}] 🚶 ${chosen.name} berjalan ke ${event.targetRoom} — ${event.task}`, ...p.slice(0, 49)]);
 
       setTimeout(() => {
         setAgents((prev) =>
           prev.map((ag) => (ag.id === event.agentId ? { ...ag, isMoving: false, status: event.status === 'Moving' ? 'Active' : event.status, currentTask: event.task } : ag))
         );
-      }, 2200);
-    }, 4000);
+      }, 2500);
+    }, 4500);
 
     return () => {
       clearInterval(clockTimer);
@@ -307,9 +386,9 @@ export default function Office3DPage() {
     <div className="min-h-screen bg-[#0b0d12] text-slate-100 flex flex-col font-sans select-none">
       <div className="h-12 border-b border-slate-800 bg-[#12151d] px-4 flex items-center justify-between">
         <div className="flex items-center gap-3 text-sm">
-          <span className="font-bold">Agent Office HQ — 3D Realtime Walk</span>
+          <span className="font-bold">PT. Indo Jaya Gram — Professional 3D Corporate Office HQ</span>
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-          <span className="text-emerald-400 text-xs font-semibold">LIVE 3D WALKING TELEMETRY</span>
+          <span className="text-emerald-400 text-xs font-semibold">LIVE CORPORATE 3D TELEMETRY</span>
         </div>
         <div className="flex items-center gap-4 text-xs">
           <div className="flex flex-col items-end leading-tight">
@@ -317,7 +396,7 @@ export default function Office3DPage() {
             <span className="text-cyan-400 font-bold font-mono text-sm tracking-widest">{currentTime || '--:--:--'}</span>
           </div>
           <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full font-mono">
-            <span>3D Realtime Active</span>
+            <span>3D Corporate Building Active</span>
           </div>
         </div>
       </div>
@@ -325,8 +404,8 @@ export default function Office3DPage() {
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-[280px_1fr_360px] min-h-[calc(100vh-3rem)]">
         <div className="border-r border-slate-800 bg-[#10131a] p-3 space-y-2.5 overflow-y-auto max-h-[calc(100vh-3rem)]">
           <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-1 pb-1 flex justify-between items-center">
-            <span>Live Agent Directory</span>
-            <span className="text-[10px] text-cyan-400 font-mono">7 Agen • 3D</span>
+            <span>Corporate Agent Directory</span>
+            <span className="text-[10px] text-cyan-400 font-mono">7 Agen Aktif</span>
           </div>
           {agents.map((a) => (
             <div
@@ -351,30 +430,30 @@ export default function Office3DPage() {
               <div className="mt-2 text-[10px] text-cyan-300 bg-black/40 p-1.5 rounded border border-cyan-900/40 font-mono truncate">⚡ {a.currentTask}</div>
             </div>
           ))}
-          <div className="text-[10px] text-slate-500 pt-2 px-1 text-center">PT. Indo Jaya Gram • 3D Motion Engine</div>
+          <div className="text-[10px] text-slate-500 pt-2 px-1 text-center">PT. Indo Jaya Gram • Professional HQ</div>
         </div>
 
         <div className="bg-[#14161c] p-4 overflow-auto flex items-center justify-center">
-          <div className="relative rounded-xl border-2 border-slate-700 overflow-hidden shadow-2xl shrink-0 w-full" style={{ height: 640, background: '#0d1017' }}>
+          <div className="relative rounded-xl border-2 border-slate-700 overflow-hidden shadow-2xl shrink-0 w-full" style={{ height: 640, background: '#090d16' }}>
             {mounted ? (
-              <Canvas shadows camera={{ position: [0, 14, 14], fov: 48 }} dpr={[1, 2]}>
+              <Canvas shadows camera={{ position: [0, 16, 16], fov: 50 }} dpr={[1, 2]}>
                 <OfficeScene agents={agents} selectedId={selectedAgent.id} onSelect={setSelectedAgent} />
               </Canvas>
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-slate-400 font-mono text-sm">Memuat 3D office…</div>
+              <div className="w-full h-full flex items-center justify-center text-slate-400 font-mono text-sm">Memuat Gedung Kantor 3D…</div>
             )}
             <div className="absolute top-2 left-2 text-[10px] font-mono bg-black/70 border border-slate-700 rounded px-2 py-1 text-slate-300 pointer-events-none">
-              Drag: putar • Scroll: zoom • Klik avatar: detail agen
+              Drag: Putar Kamera • Scroll: Zoom • Klik Karakter: Detail Agen
             </div>
             <div className="absolute bottom-2 left-2 right-2 text-[10px] font-mono bg-black/70 border border-cyan-900/50 rounded px-2 py-1 text-cyan-200 truncate pointer-events-none">
-              🎯 {selectedAgent.name} ({selectedAgent.role}) — 📍 {selectedAgent.room} — ⚡ {selectedAgent.currentTask}
+              🏢 {selectedAgent.name} ({selectedAgent.role}) di {selectedAgent.room} — ⚡ {selectedAgent.currentTask}
             </div>
           </div>
         </div>
 
         <div className="border-l border-slate-800 bg-[#0d1017] p-3 flex flex-col font-mono text-xs">
           <div className="text-[11px] font-bold text-emerald-400 pb-2 border-b border-slate-800 flex items-center justify-between">
-            <span>LIVE 3D MOTION TELEMETRY</span>
+            <span>CORPORATE TELEMETRY STREAM</span>
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
           </div>
           <div className="flex-1 mt-2 bg-black rounded-lg p-3 border border-slate-800 overflow-y-auto space-y-1.5 text-[11px] leading-relaxed min-h-[480px]">
