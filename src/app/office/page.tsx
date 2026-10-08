@@ -438,28 +438,7 @@ export default function VirtualOfficePage(){
     setMounted(true);
     const c=setInterval(()=>setTime(new Date().toLocaleTimeString('id-ID',{timeZone:'Asia/Jakarta'})),1000);
     const m=setInterval(()=>{
-      const now=new Date();
-      const h=parseInt(now.toLocaleString('en-US',{timeZone:'Asia/Jakarta',hour:'numeric',hour12:false}));
-      const ops=h>=8&&h<19;
-      if(!ops){
-        const jakartaDate=new Date(now.toLocaleString('en-US',{timeZone:'Asia/Jakarta'}));
-        const startYear=new Date(jakartaDate.getFullYear(),0,0);
-        const dayNum=Math.floor((jakartaDate.getTime()-startYear.getTime())/86400000);
-        const NIGHT_CREW=['3','4','5','6'];
-        const picker=NIGHT_CREW[dayNum%NIGHT_CREW.length];
-        const sleepPos=ROOM_POS['Sleeping Quarters'];
-        const devPos=ROOM_POS['IT / Development'];
-        const hrPos=ROOM_POS['HR Room'];
-        const mgrPos=ROOM_POS['Manager Room'];
-        setAgents(prev=>prev.map(ag=>{
-          if(ag.id===picker){ const d=ROOM_POS['Command Center']; return {...ag,status:'Online' as const,task:'Jaga server bergantian (Lembur)',speech:'Shift jaga.',dept:'Command Center',targetX:d.x+1.7,targetZ:d.z+0.4,isMoving:false,sitting:false}; }
-          if(ag.id==='1'){ return {...ag,status:'Online' as const,task:'Review sprint & approve budget (Lembur)',speech:'Sprint Q4.',dept:'Manager Room',targetX:mgrPos.x,targetZ:mgrPos.z,isMoving:false,sitting:true}; }
-          if(ag.id==='3'){ return {...ag,status:'Busy' as const,task:'Coding arsitektur backend (Lembur)',speech:'Bugfixing.',dept:'IT / Development',targetX:devPos.x,targetZ:devPos.z,isMoving:false,sitting:true}; }
-          if(ag.id==='7'){ return {...ag,status:'Online' as const,task:'Rekrutmen & administrasi (Lembur)',speech:'Evaluasi.',dept:'HR Room',targetX:hrPos.x,targetZ:hrPos.z,isMoving:false,sitting:true}; }
-          return {...ag,status:'Away' as const,task:'Istirahat di kamar',speech:'Tidur.',dept:'Sleeping Quarters',targetX:sleepPos.x+(Number(ag.id)%3)*1.1-1.1,targetZ:sleepPos.z+0.4,isMoving:false,sitting:false};
-        }));
-        return;
-      }
+      // Setiap interval tetap jalankan rotasi dinamis agar aktivitas selalu aktif dan realtime
       const ev=ROTATION[idx.current%ROTATION.length]; idx.current+=1;
       const dest=ROOM_POS[ev.to]||{x:0,z:0};
       let tx=dest.x, tz=dest.z;
@@ -470,7 +449,7 @@ export default function VirtualOfficePage(){
       const who=INITIAL_AGENTS.find(a=>a.id===ev.agentId);
       if(who) setLogs(p=>['['+new Date().toLocaleTimeString('id-ID',{timeZone:'Asia/Jakarta'})+'] '+who.name+' -> '+ev.to+': '+ev.task,...p.slice(0,60)]);
       setTimeout(()=>{ setAgents(prev=>prev.map(ag=>ag.id===ev.agentId?{...ag,isMoving:false,x:ag.targetX,z:ag.targetZ,sitting}:ag)); },2600);
-    },5200);
+    },5000);
     return ()=>{ clearInterval(c); clearInterval(m); };
   },[]);
 
