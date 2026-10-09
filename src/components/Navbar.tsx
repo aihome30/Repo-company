@@ -12,6 +12,7 @@ export default function Navbar() {
     { href: '/portfolio', label: 'Portfolio' },
     { href: '/pricing', label: 'Pricing' },
     { href: '/office', label: 'Office' },
+    { href: '/attendance', label: 'Absensi' },
     { href: '/order', label: 'Order' },
     { href: '/team', label: 'Team' },
     { href: '/about', label: 'About' },

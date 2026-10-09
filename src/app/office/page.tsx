@@ -424,8 +424,8 @@ function Scene({ agents, selectedId, selectedRoomId, selectedWsId, focus, topVie
 export default function VirtualOfficePage(){
   const [agents,setAgents]=useState<Agent[]>(INITIAL_AGENTS);
   const [logs,setLogs]=useState<string[]>(['Mission Control dimuat — 11 zona kantor aktif, kamera isometric terkunci']);
-  const [selected,setSelected]=useState<Agent>(INITIAL_AGENTS[0]);
-  const [selectedRoom,setSelectedRoom]=useState<Dept|null>(DEPARTMENTS.find(d=>d.id==='command')||null);
+  const [selectedId,setSelectedId]=useState<string>('1');
+  const [selectedRoomId,setSelectedRoomId]=useState<string|null>('command');
   const [selectedWs,setSelectedWs]=useState<WS|null>(null);
   const [focus,setFocus]=useState<{x:number;z:number}|null>(null);
   const [time,setTime]=useState('');
@@ -433,6 +433,20 @@ export default function VirtualOfficePage(){
   const [query,setQuery]=useState('');
   const [topView,setTopView]=useState(false);
   const idx=useRef(0);
+
+  // Fungsi absen (simulasi)
+  const handleAbsen = async (status: 'Check-In' | 'Check-Out') => {
+    // Memanggil API internal/skrip absensi
+    const response = await fetch('/api/absensi', {
+      method: 'POST',
+      body: JSON.stringify({ agentId: selectedId, status })
+    });
+    const result = await response.json();
+    setLogs(prev => [...prev, `${status} sukses untuk ${selected?.name}: ${result.message}`]);
+  };
+
+  const selected = useMemo(()=>agents.find(a=>a.id===selectedId)||agents[0],[agents,selectedId]);
+  const selectedRoom = useMemo(()=>DEPARTMENTS.find(d=>d.id===selectedRoomId)||null,[selectedRoomId]);
 
   useEffect(()=>{
     setMounted(true);
@@ -457,17 +471,9 @@ export default function VirtualOfficePage(){
   const filtered=useMemo(()=>agents.filter(a=>(a.name+a.role+a.dept).toLowerCase().includes(query.toLowerCase())),[agents,query]);
   const roomAgents = useMemo(()=>selectedRoom?agents.filter(a=>a.dept===selectedRoom.name):[],[agents,selectedRoom]);
 
-  // SYNC: selected selalu ikut state live agen (fix mismatch 3D vs panel bawah)
-  useEffect(()=>{
-    setSelected(prev=>{
-      const live=agents.find(a=>a.id===prev.id);
-      return live?{...live}:prev;
-    });
-  },[agents]);
-
-  const pickAgent=(a:Agent)=>{ setSelected(a); setSelectedWs(null); const d=DEPARTMENTS.find(x=>x.name===a.dept); if(d) setSelectedRoom(d); setFocus({x:a.targetX,z:a.targetZ}); };
-  const pickRoom=(d:Dept)=>{ setSelectedRoom(d); setSelectedWs(null); setFocus({x:d.x,z:d.z}); };
-  const pickWs=(w:WS)=>{ setSelectedWs(w); const d=DEPARTMENTS.find(x=>x.name===w.room); if(d){ setSelectedRoom(d); setFocus({x:w.x,z:w.z}); } };
+  const pickAgent=(a:Agent)=>{ setSelectedId(a.id); setSelectedWs(null); const d=DEPARTMENTS.find(x=>x.name===a.dept); if(d) setSelectedRoomId(d.id); setFocus({x:a.targetX,z:a.targetZ}); };
+  const pickRoom=(d:Dept)=>{ setSelectedRoomId(d.id); setSelectedWs(null); setFocus({x:d.x,z:d.z}); };
+  const pickWs=(w:WS)=>{ setSelectedWs(w); const d=DEPARTMENTS.find(x=>x.name===w.room); if(d){ setSelectedRoomId(d.id); setFocus({x:w.x,z:w.z}); } };
 
   return (
     <div className="min-h-screen bg-[#060709] text-[#f1f5f9] flex flex-col select-none" style={{fontFamily:"'Inter',sans-serif"}}>
@@ -500,7 +506,7 @@ export default function VirtualOfficePage(){
             </div>
           ))}
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1 pt-2">Rooms — klik untuk fokus</p>
-          <button onClick={()=>{setSelectedRoom(null);setFocus(null);}} className="w-full text-left text-[11px] px-2 py-1.5 rounded-md border border-white/10 bg-white/[0.02] hover:border-[#5e6ad2]">Seluruh Gedung</button>
+          <button onClick={()=>{setSelectedRoomId(null);setFocus(null);}} className="w-full text-left text-[11px] px-2 py-1.5 rounded-md border border-white/10 bg-white/[0.02] hover:border-[#5e6ad2]">Seluruh Gedung</button>
           {DEPARTMENTS.map(d=>(
             <button key={d.id} onClick={()=>pickRoom(d)} className={'w-full text-left text-[11px] px-2 py-1.5 rounded-md border transition '+(selectedRoom?.id===d.id?'border-[#5e6ad2] bg-[#5e6ad2]/10':'border-white/10 bg-white/[0.02] hover:border-white/25')}>
               {d.name}
@@ -544,6 +550,10 @@ export default function VirtualOfficePage(){
           <div className="flex items-center justify-between py-2">
             <span className="font-bold text-emerald-300 uppercase tracking-widest text-[10px]">Live Activity</span>
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+          </div>
+          <div className="flex gap-2 mb-2">
+            <button onClick={()=>handleAbsen('Check-In')} className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-[10px]">Check-In</button>
+            <button onClick={()=>handleAbsen('Check-Out')} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-[10px]">Check-Out</button>
           </div>
           <div className="flex-1 bg-[#060709] border border-white/10 rounded-lg p-2.5 overflow-y-auto space-y-1.5 text-[11px] leading-relaxed min-h-[200px]">
             {logs.map((l,i)=>(<div key={i} className="text-slate-300 border-b border-white/5 pb-1">{l}</div>))}
